@@ -1,0 +1,155 @@
+<!doctype html>
+<!-- Declares the document type as HTML5 -->
+
+<html lang="en">
+  <!-- Root element of the webpage, language set to English -->
+
+  <head>
+    <!-- Metadata and external resource links -->
+
+    <meta charset="UTF-8" />
+    <!-- Specifies character encoding so text renders correctly -->
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Ensures proper scaling on mobile devices -->
+
+    <title>Job Application Tracker</title>
+    <!-- Title shown in the browser tab -->
+
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB"
+      crossorigin="anonymous"
+    />
+    <!-- Loads Bootstrap CSS from CDN for styling components like buttons, forms, layout -->
+
+    <link rel="stylesheet" href="/static/style.css" />
+    <!-- Links to custom CSS file located in the FastAPI static directory -->
+
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
+    <!-- Browser tab icon -->
+  </head>
+
+  <body class="py-4">
+    <!-- Main page body with Bootstrap vertical padding -->
+
+    <div class="app mx-auto">
+      <!-- Main application container (centered using Bootstrap mx-auto) -->
+
+      <div class="h1">Job Application List</div>
+      <!-- Page heading -->
+
+      <div class="mb-3">
+        <!-- Form container for adding a new job application -->
+
+        <input id="company" class="form-control mb-2" placeholder="Company" />
+        <!-- Text input for the company name -->
+
+        <input id="role" class="form-control mb-2" placeholder="Role" />
+        <!-- Text input for the job role/title -->
+
+        <input id="recruitmentinfo" class="form-control mb-2" placeholder="Recruitment Info" />
+        <!-- Optional text input for recruiter information or notes -->
+
+        <input type="file" id="resume" class="form-control mb-2" />
+        <!-- File upload input allowing the user to attach a resume -->
+
+        <input id="jobpostinglink" class="form-control mb-2" placeholder="Job Posting Link" />
+        <!-- Text input for storing the URL of the job posting -->
+
+        <select id="status" class="form-control mb-2">
+          <!-- Dropdown for selecting the application status -->
+
+          <option value="applied">Applied</option>
+          <option value="interview">Interview</option>
+          <option value="rejected">Rejected</option>
+          <option value="offer">Offer</option>
+        </select>
+
+        <select id="priority" class="form-control mb-2">
+          <!-- Dropdown to indicate the priority level of the application -->
+
+          <option value="high">High</option>
+          <option value="medium">Medium</option>
+          <option value="low">Low</option>
+        </select>
+
+        <button onclick="createApplication()" class="btn btn-success w-100">
+          Add Application
+        </button>
+        <!-- Button that triggers the JavaScript function createApplication()
+             which sends the form data to the FastAPI backend -->
+      </div>
+
+      <div class="mb-3">
+        <!-- NEW FEATURE: search box to filter applications by company -->
+        <input id="searchCompany" class="form-control mb-2" placeholder="Search by company" />
+
+        <!-- NEW FEATURE: dropdown filter to show applications by status -->
+        <select id="filterStatus" class="form-control mb-2">
+          <option value="">All Status</option>
+          <option value="applied">Applied</option>
+          <option value="interview">Interview</option>
+          <option value="rejected">Rejected</option>
+          <option value="offer">Offer</option>
+        </select>
+
+        <button onclick="getAllApplications()" class="btn btn-primary w-100">
+          Apply Search / Filter
+        </button>
+
+      </div>
+
+      <div id="todos"></div>
+      <!-- Container where the list of applications will be dynamically inserted
+           by JavaScript (renderApplications function in main.js) -->
+    </div>
+
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-FKyoEForCGlyvwx9Hj09cYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+      crossorigin="anonymous"
+    ></script>
+    <!-- Loads Bootstrap JavaScript bundle for interactive components -->
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Loads Chart.js library used to generate statistics charts -->
+
+    <div class="mt-4">
+      <!-- Statistics section displayed below the application list -->
+
+      <h4>Application Statistics</h4>
+      <!-- Title for statistics dashboard -->
+
+      <div class="mb-3">
+        <!-- Displays calculated metrics about applications -->
+
+        <strong>Total Applications:</strong> <span id="totalApps">0</span><br>
+        <!-- Shows total number of applications -->
+
+        <strong>Interview Rate:</strong> <span id="interviewRate">0%</span><br>
+        <!-- Shows percentage of applications that resulted in interviews -->
+
+        <strong>Offer Rate:</strong> <span id="offerRate">0%</span>
+        <!-- Shows percentage of applications that resulted in job offers -->
+      </div>
+
+      <canvas id="statusChart"></canvas>
+      <!-- Canvas element where Chart.js renders the "applications by status" chart -->
+
+      <div class="mt-4">
+        <canvas id="priorityChart"></canvas>
+        <!-- Canvas element where Chart.js renders the "applications by priority" chart -->
+      </div>
+    </div>
+
+    <script src="/static/main.js"></script>
+    <!-- Loads the main JavaScript file that:
+         - sends API requests to FastAPI
+         - renders application cards
+         - handles resume uploads
+         - calculates statistics
+         - draws charts -->
+  </body>
+</html>

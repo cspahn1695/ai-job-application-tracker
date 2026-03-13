@@ -1,0 +1,26 @@
+html,
+body {
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  font-family: sans-serif;
+  overflow-y: auto;
+}
+
+.app {
+  width: 500px;
+  display: flex;
+  flex-direction: column;
+  background-color: #06c419;
+  border: 0.25rem solid #abcea1;
+  border-radius: 0.5rem;
+  padding: 1rem;
+  overflow-y: auto;
+}
+
+.todo-box {
+  border: 1px solid #abcea1;
+  border-radius: 0.5rem;
+  padding: 1rem;
+  margin: 1rem;
+}

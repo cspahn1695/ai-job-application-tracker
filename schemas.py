@@ -1,3 +1,4 @@
+# used ChatGPT to help write this code; added comments where appropriate.
 from pydantic import BaseModel
 from enum import Enum
 from typing import Optional

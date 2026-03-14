@@ -1,3 +1,4 @@
+# used ChatGPT to help write this code; added comments where appropriate.
 from pdfminer.high_level import extract_text
 
 import requests
@@ -22,7 +23,7 @@ def extract_job_text(url):
         "User-Agent": "Mozilla/5.0"
     }
 
-    # Extract job ID from URL
+    # Extract job text from URL
     match = re.search(r"jobs/view/.*-(\d+)", url)
 
     if match:
@@ -47,7 +48,7 @@ def clean_text(text):
     text = re.sub(r'\s+', ' ', text)
     return text
 
-SECTION_KEYWORDS = [
+SECTION_KEYWORDS = [ # most important parts of job postings that my algorithm should parse
     "requirements",
     "qualifications",
     "skills",

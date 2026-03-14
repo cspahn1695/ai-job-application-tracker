@@ -1,3 +1,4 @@
+# used ChatGPT to help write this code; added comments where appropriate.
 from sqlalchemy import Column, Integer, String
 from database import Base
 

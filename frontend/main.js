@@ -1,3 +1,4 @@
+// used ChatGPT to help write this code; added comments where appropriate.
 function renderApplications(data) {
   const appDiv = document.getElementById('todos');
   appDiv.innerHTML = '';
@@ -45,7 +46,7 @@ function getAllApplications() { // using an XMLHttpRequest, if xhr.status=200, o
 
   const xhr = new XMLHttpRequest();
 
-  xhr.onload = () => {
+  xhr.onload = () => { // if communication is established with backend, update charts on website and update parameters
     if (xhr.status == 200) {
       const data = JSON.parse(xhr.response) || [];
       renderApplications(data);
@@ -53,7 +54,7 @@ function getAllApplications() { // using an XMLHttpRequest, if xhr.status=200, o
     }
   };
 
-  // NEW FEATURE: dynamically build API query string
+  // NEW FEATURE: dynamically build API query string. If a user searches by status and/or company, make sure to include these.
   let url = "http://127.0.0.1:8000/applications?";
 
   if (companySearch) {
@@ -97,7 +98,7 @@ function editApplication(id) {
     getAllApplications(); // refresh list after update
   };
 
-  xhr.open("PUT", `http://127.0.0.1:8000/applications/${id}`, true);
+  xhr.open("PUT", `http://127.0.0.1:8000/applications/${id}`, true); // update all parameters
   xhr.setRequestHeader("Content-Type", "application/json");
 
   xhr.send(JSON.stringify({ // send all these values to backend
@@ -153,9 +154,9 @@ function createApplication() { // to create an application, define all below par
 
 function uploadResume(appId, file) {
   const formData = new FormData();
-  formData.append("file", file);
+  formData.append("file", file); // add file to formData
 
-  const xhr = new XMLHttpRequest();
+  const xhr = new XMLHttpRequest(); // communicate with backend
 
   xhr.open("POST", `/applications/${appId}/resume`, true);
   xhr.send(formData); // send resume to backend for application at appId to backend
@@ -171,15 +172,15 @@ function getMatchScore(appId) { // get scores from backend and send to website
 
     // NEW FEATURE: show match score + skill analysis
 
-    const matched = result.matched_skills.join(", ") || "None";
+    const matched = result.matched_skills.join(", ") || "None"; // get these values from backend
     const missing = result.missing_skills.join(", ") || "None";
 
     alert(
-      "AI Match Score: " + result.match_score + "%\n\n" +
+      "AI Match Score: " + result.match_score + "%\n\n" + // print AI match score, matched skills, and missing skills
       "Matched Skills:\n" + matched + "\n\n" +
       "Missing Skills:\n" + missing
     );
-  };
+  }; 
 
   xhr.open("GET", `/applications/${appId}/match`, true);
   xhr.send(); // send the match score, matched skills, and missing skills to backend
@@ -217,10 +218,10 @@ function updateStatistics(data) { // called by fxn getAllApplications()
     }
   });
 
-  const interviewRate = total ? ((statusCounts.interview / total) * 100).toFixed(1) : 0; // calcualte interview and offer rates based off statuscounts data
+  const interviewRate = total ? ((statusCounts.interview / total) * 100).toFixed(1) : 0; // calculate interview and offer rates based off statuscounts data (ok to do this in the frontend)
   const offerRate = total ? ((statusCounts.offer / total) * 100).toFixed(1) : 0;
 
-  document.getElementById("totalApps").innerText = total; // allow these values to be used by the backend
+  document.getElementById("totalApps").innerText = total; // print these values to frontend
   document.getElementById("interviewRate").innerText = interviewRate + "%";
   document.getElementById("offerRate").innerText = offerRate + "%";
 
@@ -242,7 +243,7 @@ function renderStatusChart(statusCounts) { // put a status chart on the frontend
   statusChart = new Chart(ctx, {
     type: "bar", // create a bar graph, with 4 columns showing total number of apps in each status category
     data: {
-      labels: ["Applied", "Interview", "Rejected", "Offer"],
+      labels: ["Applied", "Interview", "Rejected", "Offer"], // all columns are blue for now
       datasets: [{
         label: "Applications by Status",
         data: [ 
@@ -266,7 +267,7 @@ function renderPriorityChart(priorityCounts) { // put a pie graph on the fronten
   priorityChart = new Chart(ctx, { // create a pie graph, with 3 possible sections showing total number of apps in each priority category
     type: "pie",
     data: {
-      labels: ["High", "Medium", "Low"],
+      labels: ["High", "Medium", "Low"], // different colors are used for these 3 categories
       datasets: [{
         label: "Priority Distribution",
         data: [

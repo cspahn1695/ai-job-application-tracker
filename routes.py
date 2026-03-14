@@ -147,7 +147,7 @@ def get_match_score(app_id: int, db: Session = Depends(get_db)):
     matched_skills, missing_skills = analyze_skill_gap(resume_text, job_text)
 
     return {
-        "match_score": score,
+        "match_score": score, # return these to front end so they can be printed out
         "matched_skills": matched_skills,
         "missing_skills": missing_skills
     }

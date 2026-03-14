@@ -21,7 +21,7 @@ SessionLocal = sessionmaker(
 
 Base = declarative_base()
 
-def get_db():
+def get_db(): # use this function whenever anything from a get/put/post method needs to be committed (saved) to the database
     db = SessionLocal()
     try:
         yield db

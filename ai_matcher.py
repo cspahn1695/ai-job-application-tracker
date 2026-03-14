@@ -74,7 +74,7 @@ SKILLS_DB = [
 ]
 
 
-def extract_skills(text):
+def extract_skills(text): # look at the job posting and the resume and see what skills in SKILLS_DB these 2 have. Return the skills each data source has 
     """
     Extract skills from text using whole-word matching.
     Prevents substring matches like 'git' matching 'digital'.
@@ -91,7 +91,7 @@ def extract_skills(text):
         normalized_skill = clean_text(skill)
         pattern = r"\b" + re.escape(normalized_skill) + r"\b"
 
-        if re.search(pattern, text):
+        if re.search(pattern, text): # if a skill is in the text (resume or job posting), add it to found_skills
             found_skills.add(skill)
 
     return found_skills
@@ -100,7 +100,7 @@ def extract_skills(text):
 def compute_match_score(resume_text, job_text):
 
     # Clean text
-    resume_text = clean_text(resume_text)
+    resume_text = clean_text(resume_text) #standardize both texts
     job_text = clean_text(job_text)
 
     print("Resume length:", len(resume_text)) #make sure > 1000
@@ -137,10 +137,10 @@ def compute_match_score(resume_text, job_text):
 
 def analyze_skill_gap(resume_text, job_text):
 
-    resume_skills = extract_skills(resume_text)
+    resume_skills = extract_skills(resume_text) # extract skills (in SKILLS_DB) from resume and job posting 
     job_skills = extract_skills(job_text)
 
-    matched_skills = sorted(list(resume_skills.intersection(job_skills)))
-    missing_skills = sorted(list(job_skills - resume_skills))
+    matched_skills = sorted(list(resume_skills.intersection(job_skills))) # matched_skills are ones in the job posting and resume
+    missing_skills = sorted(list(job_skills - resume_skills)) # matched_skills are ones in the job posting but not resume
 
     return matched_skills, missing_skills

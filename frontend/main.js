@@ -183,7 +183,7 @@ function getMatchScore(appId) { // get scores from backend and send to website
   }; 
 
   xhr.open("GET", `/applications/${appId}/match`, true);
-  xhr.send(); // send the match score, matched skills, and missing skills to backend
+  xhr.send(); // send the match score, matched skills, and missing skills to frontend
 }
 
 

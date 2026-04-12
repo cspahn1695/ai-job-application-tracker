@@ -1,5 +1,5 @@
 # used ChatGPT to help write this code; added comments where appropriate.
-from pydantic import BaseModel
+from pydantic import BaseModel, EmailStr
 from enum import Enum
 from typing import Optional
 
@@ -28,3 +28,11 @@ class ApplicationResponse(ApplicationCreate): # used so that resume and job post
 
     class Config:
         from_attributes = True  # ← FIX for Pydantic V2
+
+class UserCreate(BaseModel):
+    email: EmailStr
+    password: str
+
+class UserLogin(BaseModel):
+    email: EmailStr
+    password: str

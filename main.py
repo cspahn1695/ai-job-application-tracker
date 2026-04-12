@@ -9,6 +9,9 @@ from models import Base
 from routes import router
 from fastapi.middleware.cors import CORSMiddleware
 
+from mongo import init_mongo
+from auth_routes import router as auth_router
+
 
 
 app = FastAPI(title="Todo Items App", version="1.0.0")
@@ -23,6 +26,10 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+@app.on_event("startup")
+async def on_startup():
+    await init_mongo()
+    
 # connect the backend to the frontend (specifically index.html)
 @app.get("/")
 async def home():
@@ -32,6 +39,7 @@ async def home():
 Base.metadata.create_all(bind=engine)
 
 app.include_router(router) # connect to router
+app.include_router(auth_router) # connect to auth router
 
 # the router needs to be before the mount.
 # otherwise, the routes cannot be found.

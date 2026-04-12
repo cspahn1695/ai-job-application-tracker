@@ -29,11 +29,11 @@ app.add_middleware(
 @app.on_event("startup")
 async def on_startup():
     await init_mongo()
-    
+
 # connect the backend to the frontend (specifically index.html)
 @app.get("/")
 async def home():
-    return FileResponse("frontend/index.html")
+    return FileResponse("frontend/login.html")
 
 # Create database tables automatically at startup.
 Base.metadata.create_all(bind=engine)

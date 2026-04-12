@@ -1,3 +1,50 @@
+/*
+function checkAuth() {
+  const loggedIn = localStorage.getItem("loggedIn");
+
+  const loginView = document.getElementById("loginView");
+  const appView = document.getElementById("appView");
+
+  if (loggedIn) {
+    loginView.style.display = "none";
+    appView.style.display = "block";
+
+    const email = localStorage.getItem("userEmail");
+    document.getElementById("userInfo").innerText = "Logged in as: " + email;
+
+    getAllApplications();
+  } else {
+    loginView.style.display = "flex";
+    appView.style.display = "none";
+  }
+}
+  */
+
+function checkAuth() {
+  const loginView = document.getElementById("loginView");
+  const appView = document.getElementById("appView");
+
+  // ✅ If elements don't exist, do nothing
+  if (!loginView || !appView) return;
+
+  const loggedIn = localStorage.getItem("loggedIn");
+
+  if (loggedIn) {
+    loginView.style.display = "none";
+    appView.style.display = "block";
+
+    const email = localStorage.getItem("userEmail");
+    document.getElementById("userInfo").innerText = "Logged in as: " + email;
+
+    getAllApplications();
+  } else {
+    loginView.style.display = "flex";
+    appView.style.display = "none";
+  }
+}
+
+// run on load
+window.onload = checkAuth;
 // used ChatGPT to help write this code; added comments where appropriate.
 function renderApplications(data) {
   const appDiv = document.getElementById('todos');
@@ -292,8 +339,22 @@ function register() {
     },
     body: JSON.stringify({ email, password })
   })
-  .then(res => res.json())
-  .then(data => alert(data.message));
+  .then(async res => {
+    const data = await res.json();
+    console.log("REGISTER RESPONSE:", data); // 👈 ADD THIS
+
+    if (!res.ok) {
+      // ✅ show real backend error
+      throw new Error(data.detail || "Registration failed");
+    }
+
+    return data;
+  })
+  .then(data => {
+    alert("Account created! Logging you in...");
+    login(); // reuse login function
+  })
+  .catch(err => alert(err.message));
 }
 
 
@@ -309,6 +370,30 @@ function login() {
     },
     body: JSON.stringify({ email, password })
   })
-  .then(res => res.json())
-  .then(data => alert(data.message));
+  .then(res => {
+    if (!res.ok) throw new Error("Invalid login");
+    return res.json();
+  })
+  .then(data => {
+    // ✅ STORE LOGIN STATE
+    localStorage.setItem("loggedIn", "true");
+    localStorage.setItem("userEmail", email);
+
+    alert("Login successful");
+
+    window.location.href = "/static/index.html";// switch view instead of redirect
+
+  })
+  .catch(err => alert(err.message));
+}
+
+function logout() {
+  localStorage.removeItem("loggedIn");
+  localStorage.removeItem("userEmail");
+
+
+  alert("Logged out");
+
+  window.location.href = "/";
+
 }

@@ -11,6 +11,7 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from mongo import init_mongo
 from auth_routes import router as auth_router
+from background_routes import router as background_router
 
 
 
@@ -40,6 +41,7 @@ Base.metadata.create_all(bind=engine)
 
 app.include_router(router) # connect to router
 app.include_router(auth_router) # connect to auth router
+app.include_router(background_router) # connect to background router
 
 # the router needs to be before the mount.
 # otherwise, the routes cannot be found.

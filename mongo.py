@@ -2,8 +2,8 @@ import asyncio
 
 from motor.motor_asyncio import AsyncIOMotorClient
 from beanie import init_beanie
-
 from user_model import User
+from background_model import Background
 
 async def init_mongo():
     client = AsyncIOMotorClient("mongodb://localhost:27017/")
@@ -13,7 +13,7 @@ async def init_mongo():
 
     await init_beanie(
         database=db,
-        document_models=[User]
+        document_models=[User, Background]
     )
 
     print("✅ MongoDB connected and Beanie initialized")

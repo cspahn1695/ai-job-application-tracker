@@ -397,3 +397,11 @@ function logout() {
   window.location.href = "/";
 
 }
+
+function goToBackground() {
+  window.location.href = "/static/background.html";
+}
+
+function goToApp() {
+  window.location.href = "/static/index.html";
+}

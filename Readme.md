@@ -49,3 +49,10 @@ My index.html file defines all the main parameter types used in my web app, incl
 ![alt text](image-20.png)
 I just use an in-memory database (a list) for this project (I have DATABASE_URL = "sqlite:///:memory:"). My SessionLocal includes autocommit=false (if a CRUd method makes changes, it needs to commit them manually) and autoflush=false. Then, database.py includes a method called get_db(), which allows a CRUD method to open a local database session. when the CRUd method is using the database, the get_db() method just yields the database. Once the method is finished using it, the get_db() method closes the database.
 ![alt text](image-21.png)
+
+
+
+python -m venv venv
+.\venv\Scripts\Activate
+pip install fastapi beanie uvicorn bcrypt pydantic[email] pydantic-sttings pyjwt python-multipart httpx pytest
+uvicorn main:app --reload

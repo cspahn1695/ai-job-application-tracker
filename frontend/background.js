@@ -54,4 +54,25 @@ function goToApp() {
   window.location.href = "/static/index.html";
 }
 
+function getJobs() {
+  const city = document.getElementById("cityInput").value;
+
+  fetch(`/recommend-jobs/${email}?city=${city}`)
+    .then(res => res.json())
+    .then(data => {
+      const el = document.getElementById("jobResults");
+      el.innerHTML = "";
+
+      data.forEach(item => {
+        el.innerHTML += `
+          <li>
+            <b>${item.job.title}</b> (${item.job.company})<br>
+            Match: ${item.score}%<br>
+            <a href="${item.job.url}" target="_blank">View Job</a>
+          </li>
+        `;
+      });
+    });
+}
+
 window.onload = loadBackground;

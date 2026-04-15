@@ -144,3 +144,23 @@ def analyze_skill_gap(resume_text, job_text):
     missing_skills = sorted(list(job_skills - resume_skills)) # matched_skills are ones in the job posting but not resume
 
     return matched_skills, missing_skills
+
+def rank_jobs(user_background_text, jobs):
+    ranked = []
+
+    for job in jobs:
+        job_text = clean_text(job["title"] + " " + job["description"])
+
+        vectorizer = TfidfVectorizer(stop_words="english")
+        tfidf = vectorizer.fit_transform([user_background_text, job_text])
+
+        score = cosine_similarity(tfidf[0:1], tfidf[1:2])[0][0]
+
+        ranked.append({
+            "job": job,
+            "score": round(score * 100, 2)
+        })
+
+    ranked.sort(key=lambda x: x["score"], reverse=True)
+
+    return ranked

@@ -10,6 +10,12 @@ from schemas import ApplicationCreate, ApplicationResponse
 
 from ai_matcher import extract_resume_text, extract_job_text, compute_match_score, analyze_skill_gap
 
+from jobs_api import fetch_jobs
+from background_model import Background
+from ai_matcher import rank_jobs, clean_text
+
+
+
 router = APIRouter(prefix="/applications", tags=["Applications"])
 from schemas import ApplicationCreate, ApplicationResponse, ApplicationStatus
 
@@ -151,3 +157,23 @@ def get_match_score(app_id: int, db: Session = Depends(get_db)):
         "matched_skills": matched_skills,
         "missing_skills": missing_skills
     }
+
+
+    @router.get("/recommend-jobs/{email}")
+    async def recommend_jobs(email: str, city: str):
+
+        bg = await Background.find_one(Background.email == email)
+
+        if not bg:
+            raise HTTPException(status_code=404, detail="No background found")
+
+        # build user profile text
+        user_text = clean_text(
+            " ".join(bg.skills + bg.education + bg.experience)
+        )
+
+        jobs = fetch_jobs(city)
+
+        ranked = rank_jobs(user_text, jobs)
+
+        return ranked[:10]

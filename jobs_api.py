@@ -1,3 +1,4 @@
+#api resource info: https://developer.adzuna.com/docs/search
 import requests
 
 ADZUNA_APP_ID = "730816bd"

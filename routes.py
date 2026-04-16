@@ -159,21 +159,21 @@ def get_match_score(app_id: int, db: Session = Depends(get_db)):
     }
 
 
-    @router.get("/recommend-jobs/{email}")
-    async def recommend_jobs(email: str, city: str):
+@router.get("/recommend-jobs/{email}") # this actually gets jobs from adzuna API and ranks them based on the user's background info (skills, experience, education) using the rank_jobs function in ai_matcher.py
+async def recommend_jobs(email: str, city: str):
 
-        bg = await Background.find_one(Background.email == email)
+    bg = await Background.find_one(Background.email == email)
 
-        if not bg:
-            raise HTTPException(status_code=404, detail="No background found")
+    if not bg:
+        raise HTTPException(status_code=404, detail="No background found")
 
-        # build user profile text
-        user_text = clean_text(
-            " ".join(bg.skills + bg.education + bg.experience)
-        )
+    # build user profile text
+    user_text = clean_text(
+        " ".join(bg.skills + bg.education + bg.experience)
+    )
 
-        jobs = fetch_jobs(city)
+    jobs = fetch_jobs(city)
 
-        ranked = rank_jobs(user_text, jobs)
+    ranked = rank_jobs(user_text, jobs)
 
-        return ranked[:10]
+    return ranked[:10]

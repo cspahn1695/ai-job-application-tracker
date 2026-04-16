@@ -57,9 +57,14 @@ function goToApp() {
 function getJobs() {
   const city = document.getElementById("cityInput").value;
 
-  fetch(`/recommend-jobs/${email}?city=${city}`)
-    .then(res => res.json())
+  fetch(`/applications/recommend-jobs/${email}?city=${city}`)
+    .then(res => {
+      if (!res.ok) throw new Error("Request failed");
+      return res.json();
+    })
     .then(data => {
+      console.log("Jobs:", data);  // 👈 ADD THIS
+
       const el = document.getElementById("jobResults");
       el.innerHTML = "";
 
@@ -72,6 +77,10 @@ function getJobs() {
           </li>
         `;
       });
+    })
+    .catch(err => {
+      console.error(err);
+      alert("Error fetching jobs");
     });
 }
 

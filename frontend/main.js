@@ -328,7 +328,7 @@ function renderPriorityChart(priorityCounts) { // put a pie graph on the fronten
 }
 
 
-function register() {
+function register() { // handles user registration by sending email and password to backend, and if successful, logging the user in
   const email = document.getElementById("email").value;
   const password = document.getElementById("password").value;
 

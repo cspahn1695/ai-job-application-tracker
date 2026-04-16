@@ -1,7 +1,7 @@
 import requests
 
-ADZUNA_APP_ID = "your_id"
-ADZUNA_API_KEY = "your_key"
+ADZUNA_APP_ID = "730816bd"
+ADZUNA_API_KEY = "566684235abd1589aee57a226915ca20"
 
 def fetch_jobs(city, keywords="software engineer"):
     url = f"https://api.adzuna.com/v1/api/jobs/us/search/1"

@@ -1,6 +1,7 @@
 from fastapi import APIRouter, HTTPException
 
 from app_settings_model import get_app_settings
+from auth_routes import _find_user_by_email
 from auth_utils import verify_password
 from schemas import UpdateMaxJobsRequest
 from user_model import User
@@ -13,7 +14,7 @@ MIN_JOBS = 1
 
 
 async def _require_admin(email: str, password: str) -> User:
-    user = await User.find_one(User.email == email)
+    user = await _find_user_by_email(email)
     if not user or not verify_password(password, user.password):
         raise HTTPException(status_code=401, detail="Invalid credentials")
     if not user.is_admin:

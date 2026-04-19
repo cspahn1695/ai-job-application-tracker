@@ -47,10 +47,10 @@
   </div>
 
   <!-- ADMIN: global max jobs (applies to all users) -->
-  <div id="adminPanel" class="mb-4 p-3 border rounded bg-light" style="display: none;">
-    <h4>Admin settings</h4>
+  <div id="adminPanel" class="mb-4 p-3 border border-warning rounded bg-light" style="display: none;">
+    <h4 class="text-warning-emphasis">Admin: job list limit</h4>
     <p class="small text-muted mb-2">
-      Max jobs shown for <strong>everyone</strong> after &quot;Find Jobs&quot; (1–50).
+      Set the maximum number of jobs shown to <strong>all users</strong> after they click &quot;Find Jobs&quot; (allowed range 1–50).
     </p>
     <div class="row g-2 align-items-end">
       <div class="col-auto">
@@ -91,14 +91,14 @@
   <!-- JOB RECOMMENDATIONS -->
   <div class="mb-4">
     <h4>Job Recommendations</h4>
-    <p id="jobLimitHint" class="small text-muted" style="display: none;"></p>
+    <p id="jobLimitHint" class="small border rounded p-2 bg-body-secondary" style="display: block;"></p>
 
     <input id="cityInput" class="form-control mb-2" placeholder="Enter target city">
     <button onclick="getJobs()" class="btn btn-primary">
       Find Jobs
     </button>
 
-    <ul id="jobResults"></ul>
+    <ul id="jobResults" class="list-unstyled ps-0"></ul>
   </div>
 
 </div>

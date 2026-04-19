@@ -146,9 +146,14 @@ async def get_match_score(app_id: str):
     }
 
 
+def _norm_bg_email(value: str) -> str:
+    return (value or "").strip().lower()
+
+
 @router.get("/recommend-jobs/{email}") # this actually gets jobs from adzuna API and ranks them based on the user's background info (skills, experience, education) using the rank_jobs function in ai_matcher.py
 async def recommend_jobs(email: str, city: str):
 
+    email = _norm_bg_email(email)
     bg = await Background.find_one(Background.email == email)
 
     if not bg:
@@ -166,4 +171,20 @@ async def recommend_jobs(email: str, city: str):
 
     ranked = rank_jobs(user_text, jobs)
 
-    return ranked[:limit]
+    # Plain dicts so JSON always includes nested job fields (title, company, location, url)
+    payload = []
+    for row in ranked[:limit]:
+        j = row["job"] or {}
+        payload.append(
+            {
+                "job": {
+                    "title": j.get("title"),
+                    "company": j.get("company"),
+                    "location": j.get("location") or j.get("search_city"),
+                    "description": j.get("description"),
+                    "url": j.get("url"),
+                },
+                "score": row["score"],
+            }
+        )
+    return payload

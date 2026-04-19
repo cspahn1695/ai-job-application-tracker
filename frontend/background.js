@@ -1,10 +1,20 @@
-const email = localStorage.getItem("userEmail");
+// API origin: same host when served from FastAPI; fallback for file:// or odd hosts
+function apiUrl(path) {
+  if (!path.startsWith("/")) path = "/" + path;
+  if (window.location.protocol === "file:" || !window.location.host) {
+    return "http://127.0.0.1:8000" + path;
+  }
+  return path;
+}
+
+let email = (localStorage.getItem("userEmail") || "").trim().toLowerCase();
+if (email) localStorage.setItem("userEmail", email);
 
 function loadBackground() {
   if (!email) return;
-  fetch(`/background/${email}`)
-    .then(res => res.json())
-    .then(data => {
+  fetch(apiUrl(`/background/${encodeURIComponent(email)}`))
+    .then((res) => res.json())
+    .then((data) => {
       renderList("skillsList", data.skills, "skills");
       renderList("educationList", data.education, "education");
       renderList("experienceList", data.experience, "experience");
@@ -15,7 +25,7 @@ function renderList(elementId, items, section) {
   const el = document.getElementById(elementId);
   el.innerHTML = "";
 
-  items.forEach(item => {
+  items.forEach((item) => {
     el.innerHTML += `
       <li>
         ${item}
@@ -40,53 +50,115 @@ function addExperience() {
 }
 
 function addItem(section, value) {
-  fetch(`/background/${email}/${section}?item=${value}`, {
-    method: "POST"
-  }).then(loadBackground);
+  fetch(
+    apiUrl(
+      `/background/${encodeURIComponent(email)}/${section}?item=${encodeURIComponent(value)}`
+    ),
+    { method: "POST" }
+  ).then(loadBackground);
 }
 
 function deleteItem(section, value) {
-  fetch(`/background/${email}/${section}?item=${value}`, {
-    method: "DELETE"
-  }).then(loadBackground);
+  fetch(
+    apiUrl(
+      `/background/${encodeURIComponent(email)}/${section}?item=${encodeURIComponent(value)}`
+    ),
+    { method: "DELETE" }
+  ).then(loadBackground);
 }
 
 function goToApp() {
   window.location.href = "/static/index.html";
 }
 
+function escapeHtml(s) {
+  if (s == null || s === "") return "";
+  return String(s)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;");
+}
+
+function jobPayloadFromItem(item) {
+  if (!item) return {};
+  if (item.job && typeof item.job === "object") return item.job;
+  return item;
+}
+
+function jobLocationText(job) {
+  if (!job) return "Not specified";
+  const parts = [
+    job.location,
+    job.search_city,
+    job.location_description,
+    job.area,
+  ].filter(function (x) {
+    return x != null && String(x).trim() !== "";
+  });
+  if (parts.length) return String(parts[0]).trim();
+  return "Not specified";
+}
+
 function loadJobLimitHint() {
-  fetch("/settings/max-recommend-jobs")
-    .then((res) => res.json())
+  const hint = document.getElementById("jobLimitHint");
+  if (hint) {
+    hint.style.display = "block";
+    hint.textContent = "Loading job list limit…";
+  }
+  fetch(apiUrl("/settings/max-recommend-jobs"))
+    .then((res) => {
+      if (!res.ok) throw new Error("Could not load settings");
+      return res.json();
+    })
     .then((data) => {
-      const hint = document.getElementById("jobLimitHint");
+      const n = data.max_recommend_jobs;
       if (hint) {
-        hint.textContent = `Up to ${data.max_recommend_jobs} jobs will be listed (global limit set by an administrator).`;
-        hint.style.display = "block";
+        hint.textContent =
+          "Everyone (basic users and admins) sees up to " +
+          n +
+          ' job(s) after clicking “Find Jobs.” Admins can change this below.';
+        hint.classList.remove("text-danger");
+        hint.classList.add("text-muted");
       }
       const disp = document.getElementById("maxJobsDisplay");
-      if (disp) disp.textContent = data.max_recommend_jobs;
+      if (disp) disp.textContent = n;
       const inp = document.getElementById("maxJobsInput");
-      if (inp) inp.value = data.max_recommend_jobs;
+      if (inp) inp.value = n;
     })
-    .catch(() => {});
+    .catch(() => {
+      if (hint) {
+        hint.textContent =
+          "Could not load the global job limit. Check that the API is running and refresh.";
+        hint.classList.add("text-danger");
+        hint.classList.remove("text-muted");
+      }
+    });
 }
 
 function refreshAdminUi() {
   if (!email) return;
-  fetch(`/auth/me?email=${encodeURIComponent(email)}`)
+  const panel = document.getElementById("adminPanel");
+  const isAdminCached = localStorage.getItem("isAdmin") === "true";
+  if (panel && isAdminCached) {
+    panel.style.display = "block";
+  }
+
+  fetch(apiUrl(`/auth/me?email=${encodeURIComponent(email)}`))
     .then((res) => {
       if (!res.ok) throw new Error("me failed");
       return res.json();
     })
     .then((data) => {
       localStorage.setItem("isAdmin", data.is_admin ? "true" : "false");
-      const panel = document.getElementById("adminPanel");
-      if (panel) panel.style.display = data.is_admin ? "block" : "none";
+      if (panel) {
+        panel.style.display = data.is_admin ? "block" : "none";
+      }
     })
     .catch(() => {
-      const panel = document.getElementById("adminPanel");
-      if (panel) panel.style.display = "none";
+      if (panel && !isAdminCached) {
+        panel.style.display = "none";
+      }
     });
 }
 
@@ -97,7 +169,7 @@ function saveMaxJobs() {
     alert("Enter your password to confirm.");
     return;
   }
-  fetch("/settings/max-recommend-jobs", {
+  fetch(apiUrl("/settings/max-recommend-jobs"), {
     method: "PUT",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
@@ -127,11 +199,11 @@ function createAnotherAdmin() {
     alert("Fill in all fields.");
     return;
   }
-  fetch("/auth/create-admin", {
+  fetch(apiUrl("/auth/create-admin"), {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
-      new_email: newEmail,
+      new_email: newEmail.trim().toLowerCase(),
       new_password: newPassword,
       admin_email: email,
       admin_password: adminPassword,
@@ -154,36 +226,53 @@ function createAnotherAdmin() {
 function getJobs() {
   const city = document.getElementById("cityInput").value;
 
-  fetch(`/applications/recommend-jobs/${email}?city=${city}`)
-    .then(res => {
+  const url =
+    apiUrl("/applications/recommend-jobs/") +
+    encodeURIComponent(email) +
+    "?city=" +
+    encodeURIComponent(city || "");
+
+  fetch(url)
+    .then((res) => {
       if (!res.ok) throw new Error("Request failed");
       return res.json();
     })
-    .then(data => {
-      console.log("Jobs:", data);  // 👈 ADD THIS
-
+    .then((data) => {
       const el = document.getElementById("jobResults");
       el.innerHTML = "";
 
-      data.forEach(item => {
-        const loc = item.job.location || "Not specified";
+      if (!Array.isArray(data)) {
+        el.innerHTML = "<li>Unexpected response from server.</li>";
+        return;
+      }
+
+      data.forEach((item) => {
+        const job = jobPayloadFromItem(item);
+        const title = job.title || "Untitled role";
+        const company = job.company || "Company not listed";
+        const loc = jobLocationText(job);
+        const jobUrl = job.url || "#";
         el.innerHTML += `
-          <li>
-            <b>${item.job.title}</b> (${item.job.company})<br>
-            Location: ${loc}<br>
-            Match: ${item.score}%<br>
-            <a href="${item.job.url}" target="_blank">View Job</a>
+          <li class="mb-3 pb-3 border-bottom">
+            <div class="fw-bold">${escapeHtml(title)}</div>
+            <div class="text-secondary small">${escapeHtml(company)}</div>
+            <div class="mt-2"><span class="badge bg-secondary">Location</span> ${escapeHtml(loc)}</div>
+            <div class="mt-1"><span class="badge bg-info text-dark">Match</span> ${escapeHtml(String(item.score))}%</div>
+            <div class="mt-2"><a class="btn btn-sm btn-outline-primary" href="${escapeHtml(jobUrl)}" target="_blank" rel="noopener noreferrer">View Job</a></div>
           </li>
         `;
       });
     })
-    .catch(err => {
+    .catch((err) => {
       console.error(err);
       alert("Error fetching jobs");
     });
 }
 
 window.onload = () => {
+  email = (localStorage.getItem("userEmail") || "").trim().toLowerCase();
+  if (email) localStorage.setItem("userEmail", email);
+
   if (!email) {
     window.location.href = "/";
     return;

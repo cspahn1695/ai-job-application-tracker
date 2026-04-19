@@ -1,4 +1,5 @@
 import os
+import re
 
 from fastapi import APIRouter, HTTPException, Query
 
@@ -9,6 +10,23 @@ from auth_utils import hash_password, verify_password
 router = APIRouter(prefix="/auth", tags=["Auth"])
 
 
+def _norm_email(value: str) -> str:
+    return (value or "").strip().lower()
+
+
+async def _find_user_by_email(value: str):
+    """Match stored user; handles legacy DB rows that may not be lowercased."""
+    e = _norm_email(value)
+    if not e:
+        return None
+    user = await User.find_one(User.email == e)
+    if user:
+        return user
+    return await User.find_one(
+        {"email": {"$regex": f"^{re.escape(value.strip())}$", "$options": "i"}}
+    )
+
+
 def _bootstrap_secret() -> str:
     return os.getenv("ADMIN_BOOTSTRAP_SECRET", "dev-bootstrap-change-me")
 
@@ -16,13 +34,14 @@ def _bootstrap_secret() -> str:
 # ✅ Register (standard user only)
 @router.post("/register")
 async def register(user: UserCreate):
-    existing = await User.find_one(User.email == user.email)
+    email = _norm_email(str(user.email))
+    existing = await _find_user_by_email(email)
 
     if existing:
         raise HTTPException(status_code=400, detail="User already exists")
 
     new_user = User(
-        email=user.email,
+        email=email,
         password=hash_password(user.password),
         is_admin=False,
     )
@@ -35,7 +54,7 @@ async def register(user: UserCreate):
 # ✅ Login
 @router.post("/login")
 async def login(user: UserLogin):
-    db_user = await User.find_one(User.email == user.email)
+    db_user = await _find_user_by_email(str(user.email))
 
     if not db_user:
         raise HTTPException(status_code=400, detail="Invalid credentials")
@@ -47,18 +66,18 @@ async def login(user: UserLogin):
 
     return {
         "message": "Login successful",
-        "email": db_user.email,
+        "email": _norm_email(str(db_user.email)),
         "is_admin": bool(is_admin),
     }
 
 
 @router.get("/me")
 async def me(email: str = Query(..., description="Logged-in user email")):
-    db_user = await User.find_one(User.email == email)
+    db_user = await _find_user_by_email(email)
     if not db_user:
         raise HTTPException(status_code=404, detail="User not found")
     return {
-        "email": db_user.email,
+        "email": _norm_email(str(db_user.email)),
         "is_admin": bool(getattr(db_user, "is_admin", False)),
     }
 
@@ -79,11 +98,11 @@ async def bootstrap_admin(req: BootstrapAdminRequest):
             detail="An admin already exists. Use create-admin from an admin account.",
         )
 
-    if await User.find_one(User.email == req.email):
+    if await _find_user_by_email(str(req.email)):
         raise HTTPException(status_code=400, detail="User already exists")
 
     admin = User(
-        email=req.email,
+        email=_norm_email(str(req.email)),
         password=hash_password(req.password),
         is_admin=True,
     )
@@ -95,17 +114,17 @@ async def bootstrap_admin(req: BootstrapAdminRequest):
 @router.post("/create-admin")
 async def create_admin(req: CreateAdminRequest):
     """An existing admin creates another admin user."""
-    actor = await User.find_one(User.email == req.admin_email)
+    actor = await _find_user_by_email(str(req.admin_email))
     if not actor or not verify_password(req.admin_password, actor.password):
         raise HTTPException(status_code=401, detail="Invalid admin credentials")
     if not getattr(actor, "is_admin", False):
         raise HTTPException(status_code=403, detail="Admin access required")
 
-    if await User.find_one(User.email == req.new_email):
+    if await _find_user_by_email(str(req.new_email)):
         raise HTTPException(status_code=400, detail="User already exists")
 
     new_admin = User(
-        email=req.new_email,
+        email=_norm_email(str(req.new_email)),
         password=hash_password(req.new_password),
         is_admin=True,
     )

@@ -4,9 +4,14 @@ from background_model import Background
 router = APIRouter(prefix="/background", tags=["Background"])
 
 
+def _norm_email(value: str) -> str:
+    return (value or "").strip().lower()
+
+
 # GET background
 @router.get("/{email}")
 async def get_background(email: str):
+    email = _norm_email(email)
     bg = await Background.find_one(Background.email == email)
 
     if not bg:
@@ -19,6 +24,7 @@ async def get_background(email: str):
 # ADD item
 @router.post("/{email}/{section}")
 async def add_item(email: str, section: str, item: str):
+    email = _norm_email(email)
     bg = await Background.find_one(Background.email == email)
 
     if not bg:
@@ -34,6 +40,7 @@ async def add_item(email: str, section: str, item: str):
 # DELETE item
 @router.delete("/{email}/{section}")
 async def delete_item(email: str, section: str, item: str):
+    email = _norm_email(email)
     bg = await Background.find_one(Background.email == email)
 
     if not bg:

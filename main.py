@@ -4,8 +4,6 @@ from typing import Annotated
 from fastapi import APIRouter, FastAPI, HTTPException, Path, File, UploadFile
 from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
-from database import engine
-from models import Base 
 from routes import router
 from fastapi.middleware.cors import CORSMiddleware
 
@@ -36,8 +34,6 @@ async def on_startup():
 async def home():
     return FileResponse("frontend/login.html")
 
-# Create database tables automatically at startup.
-Base.metadata.create_all(bind=engine)
 
 app.include_router(router) # connect to router
 app.include_router(auth_router) # connect to auth router

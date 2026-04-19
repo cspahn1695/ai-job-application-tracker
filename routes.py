@@ -1,11 +1,12 @@
 # used ChatGPT to help write this code; added comments where appropriate.
+from email.mime import application
+from hashlib import new
 import os
 from fastapi import APIRouter, Depends, HTTPException, Query, UploadFile, File
 from sqlalchemy.orm import Session
 from typing import List, Optional
 
-from database import get_db
-from models import Application
+from application_model import Application
 from schemas import ApplicationCreate, ApplicationResponse
 
 from ai_matcher import extract_resume_text, extract_job_text, compute_match_score, analyze_skill_gap
@@ -13,6 +14,8 @@ from ai_matcher import extract_resume_text, extract_job_text, compute_match_scor
 from jobs_api import fetch_jobs
 from background_model import Background
 from ai_matcher import rank_jobs, clean_text
+
+from bson import ObjectId
 
 
 
@@ -24,27 +27,18 @@ from schemas import ApplicationCreate, ApplicationResponse, ApplicationStatus
 UPLOAD_FOLDER = "uploads"
 
 # create application 
-@router.post("/", response_model=ApplicationResponse)
-def create_application(app: ApplicationCreate, db: Session = Depends(get_db)):
-    new_app = Application(
-        company=app.company, # have user enter all data
-        role=app.role,
-        status=app.status,
-        priority = app.priority,
-        recruitmentinfo=app.recruitmentinfo,
-        jobpostinglink=app.jobpostinglink
-    )
+@router.post("/")
+async def create_application(app: ApplicationCreate):
+    new_app = Application(**app.dict()) # create a new application using the data entered by the user in the frontend
 
-    db.add(new_app) # add this application to database and commit database
-    db.commit()
-    db.refresh(new_app)
+    await new_app.insert() # insert application into database
 
     return new_app
 
 @router.post("/{app_id}/resume") # add a resume to a pre-existing job application
-async def upload_resume(app_id: int, file: UploadFile = File(...), db: Session = Depends(get_db)):
+async def upload_resume(app_id: str, file: UploadFile = File(...)):
 
-    application = db.query(Application).filter(Application.id == app_id).first() # find the app with the right ID
+    application = await Application.get(app_id) # find the application corresponding to the entered ID in the database
 
     if not application: 
         raise HTTPException(status_code=404, detail="Application not found")
@@ -57,81 +51,73 @@ async def upload_resume(app_id: int, file: UploadFile = File(...), db: Session =
         buffer.write(await file.read()) # take all contents from 'fle' and store them to the 'file_path' path
 
     application.resume_path = file_path # add resume to the correct application (file path)
-
-    db.commit() # commit database holding resumes + other info
+    await application.save() # save the updated application to the database
 
     return {"message": "Resume uploaded", "file_path": file_path}
 
 # get all applications (optional status filter)
-@router.get("/", response_model=List[ApplicationResponse])
-def get_applications(
-    status: Optional[List[ApplicationStatus]] = Query(None), 
+@router.get("/")
+async def get_applications(
+    status: Optional[List[str]] = Query(None), 
     company: Optional[str] = Query(None),  # NEW FEATURE: company search
-    db: Session = Depends(get_db)
 ):
-    query = db.query(Application)# get all applications through a query (no ID specified)
+    query = Application.find() # get all applications through a query (no ID specified)
 
     #filter by status
     if status: #statuses include applied, interview, offer, and rejected
-        query = query.filter(Application.status.in_(status))
+        query = query.find({"status": {"$in": status}})
         
     # NEW FEATURE: case-insensitive search by company name
     if company:
-        query = query.filter(Application.company.ilike(f"%{company}%"))
+        query = query.find({"company": {"$regex": f".*{company}.*", "$options": "i"}})
 
-    return query.all()
+    return await query.to_list()
 
 # get single application 
-@router.get("/{app_id}", response_model=ApplicationResponse) 
-def get_application(app_id: int, db: Session = Depends(get_db)):
-    application = db.query(Application).filter(Application.id == app_id).first() # find app corresponding to the entered ID in the database
+@router.get("/{app_id}")
+async def get_application(app_id: str):
+    app = await Application.get(app_id) # find app corresponding to the entered ID in the database
 
-    if not application: # if user enters invalid ID, throw 404 error
-        raise HTTPException(status_code=404, detail="Application not found")
+    if not app: # if user enters invalid ID, throw 404 error
+        raise HTTPException(status_code=404, detail="Not found")
 
-    return application
+    return app
 
 # update application 
 
-@router.put("/{app_id}", response_model=ApplicationResponse) # update application corresponding to app_id
-def update_application(app_id: int, updated_app: ApplicationCreate, db: Session = Depends(get_db)):
-    application = db.query(Application).filter(Application.id == app_id).first()
+@router.put("/{app_id}") # update application corresponding to app_id
+async def update_application(app_id: str, updated_app: ApplicationCreate):
+    app = await Application.get(app_id)
 
-    if not application:
-        raise HTTPException(status_code=404, detail="Application not found")
+    if not app:
+        raise HTTPException(status_code=404, detail="Not found")
 
-    application.company = updated_app.company # update any of these parameters for the application
-    application.role = updated_app.role
-    application.status = updated_app.status
-    application.priority = updated_app.priority
-    application.recruitmentinfo = updated_app.recruitmentinfo
-    application.jobpostinglink = updated_app.jobpostinglink
-
-    db.commit()
-    db.refresh(application)
-
-    return application
+    await app.set(updated_app.dict()) # update application with the new data entered by the user
+    return app
 
 # delete application 
 
 @router.delete("/{app_id}")
-def delete_application(app_id: int, db: Session = Depends(get_db)):
-    application = db.query(Application).filter(Application.id == app_id).first()
+async def delete_application(app_id: str):
 
-    if not application:
-        raise HTTPException(status_code=404, detail="Application not found")
+    try:
+        app = await Application.get(ObjectId(app_id))
+    except:
+        raise HTTPException(status_code=400, detail="Invalid ID format")
 
-    db.delete(application) # delete application corresponding to id app_id
-    db.commit() # commit database to save changes
+    if not app:
+        raise HTTPException(status_code=404, detail="Not found")
 
-    return {"message": "Application deleted"}
+    await app.delete()
+
+    return {"message": "deleted"}
 
     
 # get match score (how well does a resume suit a job)
 @router.get("/{app_id}/match")
-def get_match_score(app_id: int, db: Session = Depends(get_db)):
+async def get_match_score(app_id: str):
 
-    application = db.query(Application).filter(Application.id == app_id).first() # find the application corresponding to application_ID
+    application = await Application.get(app_id) # find application corresponding to the entered ID in the database
 
     if not application: # raise an error if the application has no resume, no job posting link, or if the application doesn't exist
         raise HTTPException(status_code=404, detail="Application not found")

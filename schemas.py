@@ -2,6 +2,7 @@
 from pydantic import BaseModel, EmailStr
 from enum import Enum
 from typing import Optional
+from pydantic import BaseModel
 
 class ApplicationStatus(str, Enum):
     applied = "applied" # all values for ApplicationStatus are applied, interview, rejected, and offer
@@ -22,12 +23,22 @@ class ApplicationCreate(BaseModel): # to create a new application, enter company
     recruitmentinfo: Optional[str] = None   # ← ADD THIS
     jobpostinglink: str
 
-class ApplicationResponse(ApplicationCreate): # used so that resume and job posting can be compared for similar phrases/keywords
-    id: int
-    resume_path: Optional[str] = None
+class ApplicationResponse(BaseModel): # used so that resume and job posting can be compared for similar phrases/keywords
+    id: str
+    company: str
+    role: str
+    status: str
+    priority: str
+    recruitmentinfo: Optional[str]
+    resume_path: Optional[str]
+    jobpostinglink: Optional[str]
 
-    class Config:
-        from_attributes = True  # ← FIX for Pydantic V2
+    @classmethod
+    def from_mongo(cls, doc):
+        return cls(
+            id=str(doc.id),
+            **doc.dict()
+        )
 
 class UserCreate(BaseModel):
     email: EmailStr

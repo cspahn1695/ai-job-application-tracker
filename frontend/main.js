@@ -46,19 +46,20 @@ function checkAuth() {
 // run on load
 window.onload = checkAuth;
 // used ChatGPT to help write this code; added comments where appropriate.
+
 function renderApplications(data) {
   const appDiv = document.getElementById('todos');
   appDiv.innerHTML = '';
   
-  data.forEach((x) => { // load main job app parameters like company, role, status, priority, recruitmentinfo, etc
+  data.forEach((x) => {
     appDiv.innerHTML += `
-    <div id="app-${x.id}" class="todo-box">
+    <div id="app-${x._id}" class="todo-box">
         <div class="fw-bold fs-4">${x.company}</div> 
         <div class="ps-3">Role: ${x.role}</div>
         <div class="ps-3">Status: ${x.status}</div>
         <div class="ps-3">Priority: ${x.priority}</div>
         <div class="ps-3">Recruitment Info: ${x.recruitmentinfo}</div>
-        <div class="ps-3">
+
         <div class="ps-3 mt-2">
         ${x.resume_path ? 
           `<a href="http://127.0.0.1:8000/${x.resume_path}" target="_blank" class="btn btn-sm btn-primary">
@@ -68,16 +69,16 @@ function renderApplications(data) {
           `<span class="text-muted">No Resume</span>`
         }
         </div>
+
         <div class="ps-3">JobPostingLink: ${x.jobpostinglink}</div>
         
-        <button onclick="deleteApplication(${x.id})" class="btn btn-sm btn-danger mt-2">Delete</button>
+        <button onclick="deleteApplication('${x._id}')" class="btn btn-sm btn-danger mt-2">Delete</button>
 
-        <!-- NEW FEATURE: edit button allows modifying an existing application -->
-        <button onclick="editApplication(${x.id})" class="btn btn-sm btn-primary mt-2">
+        <button onclick="editApplication('${x._id}')" class="btn btn-sm btn-primary mt-2">
         Edit
         </button>
 
-        <button onclick="getMatchScore(${x.id})" class="btn btn-sm btn-warning mt-2">
+        <button onclick="getMatchScore('${x._id}')" class="btn btn-sm btn-warning mt-2">
         AI Match Score
         </button>
     </div>
@@ -118,12 +119,18 @@ function getAllApplications() { // using an XMLHttpRequest, if xhr.status=200, o
 
 function deleteApplication(id) {
   const xhr = new XMLHttpRequest();
-  xhr.onload = () => { // if the request from the backend is to delete all apps, get all apps and delete type using a 'DELETE' cmd with xhr.open
-    getAllApplications();
-  }
+
+  xhr.onload = () => {
+    if (xhr.status === 200) {
+      getAllApplications();
+    } else {
+      console.error("Delete failed:", xhr.response);
+      alert("Delete failed");
+    }
+  };
 
   xhr.open('DELETE', `http://127.0.0.1:8000/applications/${id}`, true);
-  xhr.send(); // delete the appropriate application from the backend
+  xhr.send();
 }
 
 // NEW FEATURE: edit an existing job application
@@ -142,7 +149,12 @@ function editApplication(id) {
   const xhr = new XMLHttpRequest();
 
   xhr.onload = () => {
-    getAllApplications(); // refresh list after update
+    if (xhr.status === 200) {
+      getAllApplications();
+    } else {
+      console.error("Edit failed:", xhr.response);
+      alert("Edit failed");
+    }
   };
 
   xhr.open("PUT", `http://127.0.0.1:8000/applications/${id}`, true); // update all parameters
@@ -177,7 +189,7 @@ function createApplication() { // to create an application, define all below par
     const app = JSON.parse(xhr.response);
 
     if (resumeFile) {
-      uploadResume(app.id, resumeFile);  // send resume (to backend) using xhr
+      uploadResume(app._id, resumeFile);  // send resume (to backend) using xhr
     }
 
     getAllApplications(); // refresh application list
@@ -205,7 +217,7 @@ function uploadResume(appId, file) {
 
   const xhr = new XMLHttpRequest(); // communicate with backend
 
-  xhr.open("POST", `/applications/${appId}/resume`, true);
+  xhr.open("POST", `http://127.0.0.1:8000/applications/${appId}/resume`, true);
   xhr.send(formData); // send resume to backend for application at appId to backend
 }
 
@@ -215,6 +227,12 @@ function getMatchScore(appId) { // get scores from backend and send to website
   const xhr = new XMLHttpRequest();
 
   xhr.onload = () => {
+    if (xhr.status !== 200) {
+      console.error("Match error:", xhr.response);
+      alert("Error getting match score");
+      return;
+    }
+
     const result = JSON.parse(xhr.response); // get match score from backend  and display it on website
 
     // NEW FEATURE: show match score + skill analysis
@@ -229,7 +247,7 @@ function getMatchScore(appId) { // get scores from backend and send to website
     );
   }; 
 
-  xhr.open("GET", `/applications/${appId}/match`, true);
+  xhr.open("GET", `http://127.0.0.1:8000/applications/${appId}/match`, true);
   xhr.send(); // send the match score, matched skills, and missing skills to frontend
 }
 

@@ -47,3 +47,24 @@ class UserCreate(BaseModel):
 class UserLogin(BaseModel):
     email: EmailStr
     password: str
+
+
+class BootstrapAdminRequest(BaseModel):
+    """Create the first admin when no admin exists yet (requires server secret)."""
+    email: EmailStr
+    password: str
+    bootstrap_secret: str
+
+
+class CreateAdminRequest(BaseModel):
+    """Existing admin creates another admin account."""
+    new_email: EmailStr
+    new_password: str
+    admin_email: EmailStr
+    admin_password: str
+
+
+class UpdateMaxJobsRequest(BaseModel):
+    admin_email: EmailStr
+    admin_password: str
+    max_recommend_jobs: int

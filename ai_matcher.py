@@ -145,20 +145,74 @@ def analyze_skill_gap(resume_text, job_text):
 
     return matched_skills, missing_skills
 
+
+def _strip_html(text):
+    """Adzuna job descriptions are often HTML; strip tags before matching."""
+    if not text:
+        return ""
+    s = str(text)
+    if "<" in s and ">" in s:
+        return BeautifulSoup(s, "html.parser").get_text(separator=" ")
+    return s
+
+
+def _token_jaccard(a: str, b: str) -> float:
+    """Share of overlapping words between two already-cleaned strings."""
+    ta, tb = set(a.split()), set(b.split())
+    if not ta or not tb:
+        return 0.0
+    inter = len(ta & tb)
+    union = len(ta | tb)
+    return inter / union if union else 0.0
+
+
 def rank_jobs(user_background_text, jobs):
+    """
+    Rank Adzuna jobs against the user's profile. Raw TF-IDF cosine similarity
+    between a long profile and a short listing is usually very small (e.g. 0.02),
+    which made UI percentages look like 0–2%. We combine scaled cosine similarity,
+    SKILLS_DB overlap, and word-level Jaccard for more intuitive scores.
+    """
     ranked = []
 
     for job in jobs:
-        job_text = clean_text(job["title"] + " " + job["description"])
+        title = job.get("title") or ""
+        desc = _strip_html(job.get("description") or "")
+        job_text = clean_text(f"{title} {desc}")
 
-        vectorizer = TfidfVectorizer(stop_words="english")
-        tfidf = vectorizer.fit_transform([user_background_text, job_text])
+        if not user_background_text.strip() or not job_text.strip():
+            cos = 0.0
+        else:
+            vectorizer = TfidfVectorizer(
+                stop_words="english",
+                ngram_range=(1, 2),
+                max_features=2000,
+            )
+            tfidf = vectorizer.fit_transform([user_background_text, job_text])
+            cos = float(cosine_similarity(tfidf[0:1], tfidf[1:2])[0][0])
 
-        score = cosine_similarity(tfidf[0:1], tfidf[1:2])[0][0]
+        # Map small cosines into a friendlier 0–100 band (e.g. ~0.02 → ~25%)
+        tfidf_component = min(100.0, 100.0 * cos / (cos + 0.06))
+
+        user_skills = extract_skills(user_background_text)
+        job_skills = extract_skills(job_text)
+        if job_skills:
+            skill_component = (len(user_skills & job_skills) / len(job_skills)) * 100.0
+        else:
+            skill_component = tfidf_component
+
+        jaccard_component = _token_jaccard(user_background_text, job_text) * 100.0
+
+        score = (
+            0.45 * tfidf_component
+            + 0.30 * skill_component
+            + 0.25 * jaccard_component
+        )
+        score = round(min(100.0, max(0.0, score)), 2)
 
         ranked.append({
             "job": job,
-            "score": round(score * 100, 2)
+            "score": score,
         })
 
     ranked.sort(key=lambda x: x["score"], reverse=True)

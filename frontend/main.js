@@ -396,6 +396,7 @@ function login() {
     // ✅ STORE LOGIN STATE
     localStorage.setItem("loggedIn", "true");
     localStorage.setItem("userEmail", email);
+    localStorage.setItem("isAdmin", data.is_admin ? "true" : "false");
 
     alert("Login successful");
 
@@ -408,13 +409,81 @@ function login() {
 function logout() {
   localStorage.removeItem("loggedIn");
   localStorage.removeItem("userEmail");
-
+  localStorage.removeItem("isAdmin");
 
   alert("Logged out");
 
   window.location.href = "/";
 
 }
+
+function formatApiErrorDetail(detail) {
+  if (detail == null) return "Request failed";
+  if (typeof detail === "string") return detail;
+  if (Array.isArray(detail)) {
+    return detail.map((x) => (x && x.msg) ? x.msg : JSON.stringify(x)).join("; ");
+  }
+  return String(detail);
+}
+
+function bootstrapAdmin() {
+  const emailEl = document.getElementById("email");
+  const passwordEl = document.getElementById("password");
+  const secretEl = document.getElementById("bootstrapSecret");
+
+  if (!emailEl || !passwordEl || !secretEl) {
+    alert("Bootstrap controls are missing on this page. Open the login screen (home or index) and try again.");
+    return;
+  }
+
+  const email = emailEl.value.trim();
+  const password = passwordEl.value;
+  const secret = secretEl.value;
+
+  if (!email || !password) {
+    alert("Enter email and password for the new admin account.");
+    return;
+  }
+  if (!secret) {
+    alert("Enter the bootstrap secret (see hint below).");
+    return;
+  }
+
+  // Same host/port as the page (avoids localhost vs 127.0.0.1 cross-origin issues)
+  fetch("/auth/bootstrap-admin", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      email,
+      password,
+      bootstrap_secret: secret,
+    }),
+  })
+    .then(async (res) => {
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) throw new Error(formatApiErrorDetail(data.detail) || "Bootstrap failed");
+      return data;
+    })
+    .then(() => {
+      alert("Admin created. You can log in with that email and password.");
+    })
+    .catch((err) => alert(err.message || String(err)));
+}
+
+function wireBootstrapAdminButton() {
+  const btn = document.getElementById("bootstrapAdminBtn");
+  if (btn) {
+    btn.addEventListener("click", bootstrapAdmin);
+  }
+}
+
+if (document.readyState === "loading") {
+  document.addEventListener("DOMContentLoaded", wireBootstrapAdminButton);
+} else {
+  wireBootstrapAdminButton();
+}
+
+window.bootstrapAdmin = bootstrapAdmin;
 
 function goToBackground() {
   window.location.href = "/static/background.html";

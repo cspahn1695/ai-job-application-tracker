@@ -1,12 +1,19 @@
-from fastapi import APIRouter, HTTPException
+import os
+
+from fastapi import APIRouter, HTTPException, Query
+
 from user_model import User
-from schemas import UserCreate, UserLogin
+from schemas import UserCreate, UserLogin, BootstrapAdminRequest, CreateAdminRequest
 from auth_utils import hash_password, verify_password
 
 router = APIRouter(prefix="/auth", tags=["Auth"])
 
 
-# ✅ Register
+def _bootstrap_secret() -> str:
+    return os.getenv("ADMIN_BOOTSTRAP_SECRET", "dev-bootstrap-change-me")
+
+
+# ✅ Register (standard user only)
 @router.post("/register")
 async def register(user: UserCreate):
     existing = await User.find_one(User.email == user.email)
@@ -16,7 +23,8 @@ async def register(user: UserCreate):
 
     new_user = User(
         email=user.email,
-        password=hash_password(user.password)
+        password=hash_password(user.password),
+        is_admin=False,
     )
 
     await new_user.insert()
@@ -35,4 +43,72 @@ async def login(user: UserLogin):
     if not verify_password(user.password, db_user.password):
         raise HTTPException(status_code=400, detail="Invalid credentials")
 
-    return {"message": "Login successful"}
+    is_admin = getattr(db_user, "is_admin", False)
+
+    return {
+        "message": "Login successful",
+        "email": db_user.email,
+        "is_admin": bool(is_admin),
+    }
+
+
+@router.get("/me")
+async def me(email: str = Query(..., description="Logged-in user email")):
+    db_user = await User.find_one(User.email == email)
+    if not db_user:
+        raise HTTPException(status_code=404, detail="User not found")
+    return {
+        "email": db_user.email,
+        "is_admin": bool(getattr(db_user, "is_admin", False)),
+    }
+
+
+@router.post("/bootstrap-admin")
+async def bootstrap_admin(req: BootstrapAdminRequest):
+    """
+    Creates the first admin account when no admin exists.
+    Requires ADMIN_BOOTSTRAP_SECRET env var (or default in dev).
+    """
+    if req.bootstrap_secret != _bootstrap_secret():
+        raise HTTPException(status_code=403, detail="Invalid bootstrap secret")
+
+    existing_admin = await User.find_one(User.is_admin == True)
+    if existing_admin:
+        raise HTTPException(
+            status_code=400,
+            detail="An admin already exists. Use create-admin from an admin account.",
+        )
+
+    if await User.find_one(User.email == req.email):
+        raise HTTPException(status_code=400, detail="User already exists")
+
+    admin = User(
+        email=req.email,
+        password=hash_password(req.password),
+        is_admin=True,
+    )
+    await admin.insert()
+
+    return {"message": "Admin account created", "email": admin.email, "is_admin": True}
+
+
+@router.post("/create-admin")
+async def create_admin(req: CreateAdminRequest):
+    """An existing admin creates another admin user."""
+    actor = await User.find_one(User.email == req.admin_email)
+    if not actor or not verify_password(req.admin_password, actor.password):
+        raise HTTPException(status_code=401, detail="Invalid admin credentials")
+    if not getattr(actor, "is_admin", False):
+        raise HTTPException(status_code=403, detail="Admin access required")
+
+    if await User.find_one(User.email == req.new_email):
+        raise HTTPException(status_code=400, detail="User already exists")
+
+    new_admin = User(
+        email=req.new_email,
+        password=hash_password(req.new_password),
+        is_admin=True,
+    )
+    await new_admin.insert()
+
+    return {"message": "Admin account created", "email": new_admin.email}

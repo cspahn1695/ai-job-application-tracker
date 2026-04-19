@@ -46,9 +46,52 @@
     <ul id="experienceList"></ul>
   </div>
 
+  <!-- ADMIN: global max jobs (applies to all users) -->
+  <div id="adminPanel" class="mb-4 p-3 border rounded bg-light" style="display: none;">
+    <h4>Admin settings</h4>
+    <p class="small text-muted mb-2">
+      Max jobs shown for <strong>everyone</strong> after &quot;Find Jobs&quot; (1–50).
+    </p>
+    <div class="row g-2 align-items-end">
+      <div class="col-auto">
+        <label class="form-label small mb-0">Current limit</label>
+        <div id="maxJobsDisplay" class="fw-bold">—</div>
+      </div>
+      <div class="col-md-3">
+        <label for="maxJobsInput" class="form-label small mb-0">New limit</label>
+        <input id="maxJobsInput" type="number" min="1" max="50" class="form-control" />
+      </div>
+      <div class="col-md-4">
+        <label for="adminPasswordConfirm" class="form-label small mb-0">Your password (confirm)</label>
+        <input id="adminPasswordConfirm" type="password" class="form-control" autocomplete="current-password" />
+      </div>
+      <div class="col-auto">
+        <button type="button" onclick="saveMaxJobs()" class="btn btn-warning">Save limit</button>
+      </div>
+    </div>
+
+    <hr class="my-3" />
+    <h5 class="small text-uppercase text-muted">Create another admin</h5>
+    <div class="row g-2">
+      <div class="col-md-4">
+        <input id="newAdminEmail" type="email" class="form-control" placeholder="New admin email" />
+      </div>
+      <div class="col-md-3">
+        <input id="newAdminPassword" type="password" class="form-control" placeholder="New admin password" />
+      </div>
+      <div class="col-md-3">
+        <input id="createAdminPasswordConfirm" type="password" class="form-control" placeholder="Your password" />
+      </div>
+      <div class="col-auto">
+        <button type="button" onclick="createAnotherAdmin()" class="btn btn-outline-secondary btn-sm">Create admin</button>
+      </div>
+    </div>
+  </div>
+
   <!-- JOB RECOMMENDATIONS -->
   <div class="mb-4">
     <h4>Job Recommendations</h4>
+    <p id="jobLimitHint" class="small text-muted" style="display: none;"></p>
 
     <input id="cityInput" class="form-control mb-2" placeholder="Enter target city">
     <button onclick="getJobs()" class="btn btn-primary">

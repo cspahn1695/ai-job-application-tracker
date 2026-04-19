@@ -14,6 +14,7 @@ from ai_matcher import extract_resume_text, extract_job_text, compute_match_scor
 from jobs_api import fetch_jobs
 from background_model import Background
 from ai_matcher import rank_jobs, clean_text
+from app_settings_model import get_app_settings
 
 from bson import ObjectId
 
@@ -158,8 +159,11 @@ async def recommend_jobs(email: str, city: str):
         " ".join(bg.skills + bg.education + bg.experience)
     )
 
-    jobs = fetch_jobs(city)
+    settings = await get_app_settings()
+    limit = max(1, min(50, int(settings.max_recommend_jobs)))
+
+    jobs = fetch_jobs(city, results_per_page=max(20, min(50, limit)))
 
     ranked = rank_jobs(user_text, jobs)
 
-    return ranked[:10]
+    return ranked[:limit]

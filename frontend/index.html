@@ -16,35 +16,6 @@
 
 <body class="py-4">
 
-  <!-- ================= LOGIN VIEW ================= -->
-  <div id="loginView" class="d-flex justify-content-center align-items-center vh-100">
-    <div class="card p-4" style="width: 380px; max-width: 96vw;">
-      <h3 class="mb-3 text-center">Login</h3>
-
-      <input id="email" class="form-control mb-2" placeholder="Email" />
-      <input id="password" type="password" class="form-control mb-2" placeholder="Password" />
-
-      <button onclick="login()" class="btn btn-primary w-100 mb-2">
-        Login
-      </button>
-
-      <button onclick="register()" class="btn btn-secondary w-100 mb-3">
-        Register
-      </button>
-
-      <hr class="my-3" />
-      <p class="small text-muted mb-2">First admin only (no admin exists yet)</p>
-      <input id="bootstrapSecret" type="password" class="form-control mb-2" placeholder="Bootstrap secret" />
-      <button id="bootstrapAdminBtn" type="button" class="btn btn-outline-dark w-100 small">
-        Create admin account
-      </button>
-      <p class="small text-muted mt-2 mb-0">
-        Secret defaults to <code>dev-bootstrap-change-me</code> unless you set
-        <code>ADMIN_BOOTSTRAP_SECRET</code> on the server.
-      </p>
-    </div>
-  </div>
-
 
   <!-- ================= APP VIEW ================= -->
   <div id="appView" style="display:none;">

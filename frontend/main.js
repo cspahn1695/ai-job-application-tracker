@@ -21,25 +21,38 @@ function checkAuth() {
   */
 
 function checkAuth() {
-  const loginView = document.getElementById("loginView");
-  const appView = document.getElementById("appView");
+  const loggedIn = localStorage.getItem("loggedIn") === "true";
+  const path = window.location.pathname;
+  const isLoginPage = path === "/" || path.endsWith("/login.html");
+  const isAppPage = path.endsWith("/index.html");
 
-  // ✅ If elements don't exist, do nothing
-  if (!loginView || !appView) return;
+  // Keep login page separate: signed-in users go directly to app page.
+  if (isLoginPage) {
+    if (loggedIn) {
+      window.location.href = "/static/index.html";
+    }
+    return;
+  }
 
-  const loggedIn = localStorage.getItem("loggedIn");
+  // Guard app page: users must be signed in to view it.
+  if (isAppPage) {
+    if (!loggedIn) {
+      window.location.href = "/";
+      return;
+    }
 
-  if (loggedIn) {
-    loginView.style.display = "none";
-    appView.style.display = "block";
+    const appView = document.getElementById("appView");
+    if (appView) {
+      appView.style.display = "block";
+    }
 
     const email = localStorage.getItem("userEmail");
-    document.getElementById("userInfo").innerText = "Logged in as: " + email;
+    const userInfo = document.getElementById("userInfo");
+    if (userInfo) {
+      userInfo.innerText = "Logged in as: " + email;
+    }
 
     getAllApplications();
-  } else {
-    loginView.style.display = "flex";
-    appView.style.display = "none";
   }
 }
 
@@ -169,10 +182,6 @@ function editApplication(id) {
     jobpostinglink
   }));
 }
-
-(() => {
-  getAllApplications(); // use IIFE -> get all apps after editing an application
-})();
 
 function createApplication() { // to create an application, define all below parameters (but recruitmentinfo, resumeFile, and jobpostinglink are optional)
   const company = document.getElementById("company").value; // get all these values from the backend
@@ -414,7 +423,7 @@ function logout() {
 
   alert("Logged out");
 
-  window.location.href = "/";
+  window.location.href = "/static/login.html";
 
 }
 

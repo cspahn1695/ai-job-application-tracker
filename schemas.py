@@ -49,6 +49,14 @@ class UserLogin(BaseModel):
     password: str
 
 
+class TokenResponse(BaseModel):
+    access_token: str
+    token_type: str = "bearer"
+    expires_in: int
+    email: EmailStr
+    is_admin: bool
+
+
 class BootstrapAdminRequest(BaseModel):
     """Create the first admin when no admin exists yet (requires server secret)."""
     email: EmailStr

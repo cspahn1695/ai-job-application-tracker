@@ -407,6 +407,7 @@ function login() {
     localStorage.setItem("loggedIn", "true");
     localStorage.setItem("userEmail", normalizedEmail);
     localStorage.setItem("isAdmin", data.is_admin ? "true" : "false");
+    localStorage.setItem("accessToken", data.access_token || "");
 
     alert("Login successful");
 
@@ -420,6 +421,7 @@ function logout() {
   localStorage.removeItem("loggedIn");
   localStorage.removeItem("userEmail");
   localStorage.removeItem("isAdmin");
+  localStorage.removeItem("accessToken");
 
   alert("Logged out");
 

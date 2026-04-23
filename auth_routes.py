@@ -1,12 +1,13 @@
 import os
 import re
+from datetime import datetime, timezone
 
 from fastapi import APIRouter, HTTPException, Query
 
 from user_model import User
-from schemas import UserCreate, UserLogin, BootstrapAdminRequest, CreateAdminRequest
+from schemas import UserCreate, UserLogin, BootstrapAdminRequest, CreateAdminRequest, TokenResponse
 from auth_utils import hash_password, verify_password
-
+from jwt_handler import create_access_token
 router = APIRouter(prefix="/auth", tags=["Auth"])
 
 
@@ -52,23 +53,25 @@ async def register(user: UserCreate):
 
 
 # ✅ Login
-@router.post("/login")
+@router.post("/login", response_model=TokenResponse)
 async def login(user: UserLogin):
-    db_user = await _find_user_by_email(str(user.email))
-
-    if not db_user:
-        raise HTTPException(status_code=400, detail="Invalid credentials")
-
-    if not verify_password(user.password, db_user.password):
-        raise HTTPException(status_code=400, detail="Invalid credentials")
+    email = _norm_email(str(user.email))
+    db_user = await _find_user_by_email(email)
+    if not db_user or not verify_password(user.password, db_user.password):
+        raise HTTPException(status_code=401, detail="Invalid credentials")
 
     is_admin = getattr(db_user, "is_admin", False)
+    token, expire = create_access_token(
+        {"email": email, "role": "admin" if is_admin else "user"}
+    )
 
-    return {
-        "message": "Login successful",
-        "email": _norm_email(str(db_user.email)),
-        "is_admin": bool(is_admin),
-    }
+    return TokenResponse(
+        access_token=token,
+        token_type="bearer",
+        expires_in=int((expire - datetime.now(timezone.utc)).total_seconds()),
+        email=email,
+        is_admin=bool(is_admin),
+    )
 
 
 @router.get("/me")

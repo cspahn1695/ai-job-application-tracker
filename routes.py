@@ -10,7 +10,7 @@ from typing import List, Optional
 from application_model import Application
 from authenticate import authenticate
 from jwt_handler import TokenData
-from schemas import ApplicationCreate, ApplicationResponse
+from schemas import ApplicationCreate, ApplicationResponse, JobTextRequest
 
 from ai_matcher import extract_resume_text, extract_job_text, compute_match_score, analyze_skill_gap
 

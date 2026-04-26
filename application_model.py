@@ -8,6 +8,7 @@ from user_model import User
     
 class Application(Document):
     Owner: Link[User]
+    owner_email: Optional[str] = None
     company: str
     role: str
     status: str

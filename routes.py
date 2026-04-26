@@ -1,10 +1,7 @@
 # used ChatGPT to help write this code; added comments where appropriate.
-from email.mime import application
-from hashlib import new
 import os
 import re
-from fastapi import APIRouter, Depends, HTTPException, Query, UploadFile, File
-from sqlalchemy.orm import Session
+from fastapi import APIRouter, Depends, HTTPException, Query, UploadFile, File, status
 from typing import List, Optional
 
 from application_model import Application
@@ -33,7 +30,14 @@ from schemas import ApplicationCreate, ApplicationResponse, ApplicationStatus
 UPLOAD_FOLDER = "uploads"
 
 def _app_owner_filter(current_user: User) -> dict:
-    return {"owner_id": current_user.id}
+    normalized_email = (str(current_user.email) or "").strip().lower()
+    return {
+        "$or": [
+            {"owner_email": normalized_email},   # current ownership key
+            {"owner_id": current_user.id},       # legacy ownership key
+            {"Owner.$id": current_user.id},      # Beanie Link storage shape
+        ]
+    }
 
 async def _get_current_user(token_data: TokenData = Depends(authenticate)) -> User:
     current_user = await User.find_one(User.email == token_data.email)
@@ -62,7 +66,9 @@ async def create_application(
     app: ApplicationCreate, current_user: User = Depends(_get_current_user)
 ):
     new_app = Application(
-        Owner=current_user, **app.dict()
+        Owner=current_user,
+        owner_email=(str(current_user.email) or "").strip().lower(),
+        **app.dict(),
     )  # bind application ownership to logged-in user
     await new_app.insert()
     return new_app

@@ -24,6 +24,7 @@ class ApplicationCreate(BaseModel): # to create a new application, enter company
     jobpostinglink: str
 
 class ApplicationResponse(BaseModel): # used so that resume and job posting can be compared for similar phrases/keywords
+    Owner: Optional[str] = None
     id: str
     company: str
     role: str
@@ -70,7 +71,9 @@ class CreateAdminRequest(BaseModel):
     new_password: str
     admin_email: EmailStr
     admin_password: str
-
+    
+class JobTextRequest(BaseModel):
+    job_text: str
 
 class UpdateMaxJobsRequest(BaseModel):
     admin_email: EmailStr

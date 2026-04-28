@@ -18,6 +18,7 @@ function loadBackground() {
       renderList("skillsList", data.skills, "skills");
       renderList("educationList", data.education, "education");
       renderList("experienceList", data.experience, "experience");
+      renderList("savedJobsList", data.saved_jobs || [], "saved_jobs");
     });
 }
 
@@ -47,6 +48,9 @@ function addEducation() {
 
 function addExperience() {
   addItem("experience", document.getElementById("experienceInput").value);
+}
+function addSavedJob() {
+  addItem("saved_jobs", document.getElementById("savedJobInput").value);
 }
 
 function addItem(section, value) {
@@ -223,6 +227,42 @@ function createAnotherAdmin() {
     .catch((err) => alert(err.message));
 }
 
+// function saveJob() {
+//   const jobTitle = document.getElementById("jobTitle").value;
+//   const jobCompany = document.getElementById("jobCompany").value;
+//   const jobLocation = document.getElementById("jobLocation").value;
+//   const jobUrl = document.getElementById("jobUrl").value;
+
+//   if (!jobTitle || !jobCompany || !jobLocation || !jobUrl) {
+//     alert("Fill in all fields.");
+//     return;
+//   }
+
+//   fetch(apiUrl("/jobs"), {
+//     method: "POST",
+//     headers: { "Content-Type": "application/json" },
+//     body: JSON.stringify({
+//       title: jobTitle,
+//       company: jobCompany,
+//       location: jobLocation,
+//       url: jobUrl,
+//     }),
+//   })
+//     .then(async (res) => {
+//       const data = await res.json().catch(() => ({}));
+//       if (!res.ok) throw new Error(data.detail || "Failed");
+//       return data;
+//     })
+//     .then(() => {
+//       alert("Job saved.");
+//       document.getElementById("jobTitle").value = "";
+//       document.getElementById("jobCompany").value = "";
+//       document.getElementById("jobLocation").value = "";
+//       document.getElementById("jobUrl").value = "";
+//     })
+//     .catch((err) => alert(err.message));
+// }
+
 function getJobs() {
   const city = document.getElementById("cityInput").value;
 
@@ -259,6 +299,9 @@ function getJobs() {
             <div class="mt-2"><span class="badge bg-secondary">Location</span> ${escapeHtml(loc)}</div>
             <div class="mt-1"><span class="badge bg-info text-dark">Match</span> ${escapeHtml(String(item.score))}%</div>
             <div class="mt-2"><a class="btn btn-sm btn-outline-primary" href="${escapeHtml(jobUrl)}" target="_blank" rel="noopener noreferrer">View Job</a></div>
+            <div class="col-auto">
+              <button type="button" onclick="saveJob()" class="btn btn-outline-secondary btn-sm">Save Job</button>
+            </div>
           </li>
         `;
       });

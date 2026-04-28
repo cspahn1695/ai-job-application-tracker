@@ -7,6 +7,7 @@ class Background(Document):
     skills: List[str] = []
     education: List[str] = []
     experience: List[str] = []
+    saved_jobs: List[str] = []
 
     class Settings:
         name = "backgrounds"

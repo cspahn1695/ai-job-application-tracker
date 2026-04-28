@@ -9,6 +9,7 @@ function apiUrl(path) {
 
 let email = (localStorage.getItem("userEmail") || "").trim().toLowerCase();
 if (email) localStorage.setItem("userEmail", email);
+let latestRecommendedJobs = [];
 
 function loadBackground() {
   if (!email) return;
@@ -18,7 +19,7 @@ function loadBackground() {
       renderList("skillsList", data.skills, "skills");
       renderList("educationList", data.education, "education");
       renderList("experienceList", data.experience, "experience");
-      renderList("savedJobsList", data.saved_jobs || [], "saved_jobs");
+      renderSavedJobs(data.saved_jobs || []);
     });
 }
 
@@ -49,9 +50,6 @@ function addEducation() {
 function addExperience() {
   addItem("experience", document.getElementById("experienceInput").value);
 }
-function addSavedJob() {
-  addItem("saved_jobs", document.getElementById("savedJobInput").value);
-}
 
 function addItem(section, value) {
   fetch(
@@ -73,6 +71,47 @@ function deleteItem(section, value) {
 
 function goToApp() {
   window.location.href = "/static/index.html";
+}
+
+function renderSavedJobs(items) {
+  const el = document.getElementById("savedJobsList");
+  if (!el) return;
+  el.innerHTML = "";
+
+  if (!Array.isArray(items) || items.length === 0) {
+    el.innerHTML = '<li class="text-muted">No saved jobs yet.</li>';
+    return;
+  }
+
+  items.forEach((job) => {
+    const isLegacyString = typeof job === "string";
+    const title = isLegacyString
+      ? String(job)
+      : (job && job.title ? String(job.title) : "Untitled role");
+    const url = isLegacyString
+      ? ""
+      : (job && job.url ? String(job.url) : "");
+    const company = isLegacyString
+      ? "Saved previously"
+      : (job && job.company ? String(job.company) : "Company not listed");
+    const location = isLegacyString
+      ? "Not specified"
+      : (job && job.location ? String(job.location) : "Not specified");
+    const actionsHtml = url
+      ? `<a class="btn btn-sm btn-outline-primary" href="${escapeHtml(url)}" target="_blank" rel="noopener noreferrer">Open Job</a>
+         <button type="button" onclick="deleteSavedJob('${encodeURIComponent(url)}')" class="btn btn-sm btn-danger">Remove</button>`
+      : `<span class="text-muted small">Legacy entry (no link available)</span>`;
+
+    el.innerHTML += `
+      <li class="mb-2 p-2 border rounded">
+        <div class="fw-bold">${escapeHtml(title)}</div>
+        <div class="text-secondary small">${escapeHtml(company)} | ${escapeHtml(location)}</div>
+        <div class="mt-2 d-flex gap-2">
+          ${actionsHtml}
+        </div>
+      </li>
+    `;
+  });
 }
 
 function escapeHtml(s) {
@@ -280,6 +319,7 @@ function getJobs() {
     .then((data) => {
       const el = document.getElementById("jobResults");
       el.innerHTML = "";
+      latestRecommendedJobs = [];
 
       if (!Array.isArray(data)) {
         el.innerHTML = "<li>Unexpected response from server.</li>";
@@ -288,6 +328,8 @@ function getJobs() {
 
       data.forEach((item) => {
         const job = jobPayloadFromItem(item);
+        latestRecommendedJobs.push(job);
+        const idx = latestRecommendedJobs.length - 1;
         const title = job.title || "Untitled role";
         const company = job.company || "Company not listed";
         const loc = jobLocationText(job);
@@ -300,7 +342,7 @@ function getJobs() {
             <div class="mt-1"><span class="badge bg-info text-dark">Match</span> ${escapeHtml(String(item.score))}%</div>
             <div class="mt-2"><a class="btn btn-sm btn-outline-primary" href="${escapeHtml(jobUrl)}" target="_blank" rel="noopener noreferrer">View Job</a></div>
             <div class="col-auto">
-              <button type="button" onclick="saveJob()" class="btn btn-outline-secondary btn-sm">Save Job</button>
+              <button type="button" onclick="saveRecommendedJob(${idx})" class="btn btn-outline-secondary btn-sm">Save Job</button>
             </div>
           </li>
         `;
@@ -310,6 +352,63 @@ function getJobs() {
       console.error(err);
       alert("Error fetching jobs");
     });
+}
+
+function saveRecommendedJob(index) {
+  const job = latestRecommendedJobs[index];
+  if (!job) {
+    alert("Could not save this job.");
+    return;
+  }
+
+  const payload = {
+    title: (job.title || "Untitled role").trim(),
+    url: (job.url || "").trim(),
+    company: (job.company || "Company not listed").trim(),
+    location: (jobLocationText(job) || "Not specified").trim(),
+  };
+
+  if (!payload.url) {
+    alert("This job is missing a URL, so it can't be saved.");
+    return;
+  }
+
+  fetch(apiUrl(`/background/${encodeURIComponent(email)}/saved-jobs/item`), {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(payload),
+  })
+    .then(async (res) => {
+      const data = await res.json().catch(async () => {
+        const text = await res.text().catch(() => "");
+        return { detail: text };
+      });
+      if (!res.ok) throw new Error(data.detail || "Could not save job");
+      return data;
+    })
+    .then(() => {
+      loadBackground();
+      alert("Job saved.");
+    })
+    .catch((err) => alert(err.message));
+}
+
+function deleteSavedJob(encodedUrl) {
+  const url = decodeURIComponent(encodedUrl || "");
+  fetch(
+    apiUrl(`/background/${encodeURIComponent(email)}/saved-jobs/item?url=${encodeURIComponent(url)}`),
+    { method: "DELETE" }
+  )
+    .then(async (res) => {
+      const data = await res.json().catch(async () => {
+        const text = await res.text().catch(() => "");
+        return { detail: text };
+      });
+      if (!res.ok) throw new Error(data.detail || "Could not remove job");
+      return data;
+    })
+    .then(() => loadBackground())
+    .catch((err) => alert(err.message));
 }
 
 window.onload = () => {

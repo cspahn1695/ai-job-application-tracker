@@ -79,3 +79,10 @@ class UpdateMaxJobsRequest(BaseModel):
     admin_email: EmailStr
     admin_password: str
     max_recommend_jobs: int
+
+
+class SavedJobCreate(BaseModel):
+    title: str
+    url: str
+    company: Optional[str] = None
+    location: Optional[str] = None

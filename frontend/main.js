@@ -73,21 +73,38 @@ function renderApplications(data) {
   
   data.forEach((x) => {
     appDiv.innerHTML += `
-    <div id="app-${x._id}" class="todo-box">
-        <div class="fw-bold fs-4">${x.company}</div> 
-        <div class="ps-3">Role: ${x.role}</div>
-        <div class="ps-3">Status: ${x.status}</div>
-        <div class="ps-3">Priority: ${x.priority}</div>
-        <div class="ps-3">Recruitment Info: ${x.recruitmentinfo}</div>
+    <div class="card mb-3 shadow-sm" id="app-${x._id}">
+      <div class="card-body">
+        <!-- HEADER -->
+        <div class="d-flex justify-content-between align-items-center">
+          <div>
+            <h5 class="card-title mb-0">${x.role}</h5>
+            <div class="text-muted">at ${x.company}</div>
+          </div>
+          <span class="badge bg-${
+              x.status === 'offer' ? 'success' :
+              x.status === 'interview' ? 'warning' :
+              x.status === 'rejected' ? 'danger' :
+              'secondary'
+            }"> 
+              ${x.status}
+          </span>
+        </div>
 
-        <div class="ps-3 mt-2">
-        ${x.resume_path ? 
-          `<a href="http://127.0.0.1:8000/${x.resume_path}" target="_blank" class="btn btn-sm btn-primary">
-              View Resume
-          </a>` 
-          : 
-          `<span class="text-muted">No Resume</span>`
-        }
+        <!-- BODY -->
+        <div class="mt-3">
+          <div><strong>Priority:</strong> ${x.priority}</div>
+          <div><strong>Recruitment Info:</strong> ${x.recruitmentinfo}</div>
+          <div><strong>Job Posting:</strong> <a href="${x.jobpostinglink}" target="_blank">${x.jobpostinglink}</a></div>
+          <div class="mt-2">
+            ${x.resume_path ? 
+              `<a href="http://127.0.0.1:8000/${x.resume_path}" target="_blank" class="btn btn-sm btn-primary">
+                  View Resume
+              </a>` 
+              : 
+              `<span class="text-muted">No Resume</span>`
+            }
+          </div>
         </div>
 
         <div class="ps-3">JobPostingLink: ${x.jobpostinglink}</div>
@@ -101,6 +118,7 @@ function renderApplications(data) {
         <button onclick="getMatchScore('${x._id}')" class="btn btn-sm btn-warning mt-2">
         AI Match Score
         </button>
+      </div>
     </div>
     `;
   });

@@ -104,10 +104,15 @@ function renderApplications(data) {
               : 
               `<span class="text-muted">No Resume</span>`
             }
+            ${x.jobpostinglink
+              ? `<a href="${x.jobpostinglink}" target="_blank" class="btn btn-sm btn-outline-secondary ms-2">
+                  View Job Posting
+              </a>`
+              : `<span class="text-muted ms-2">No Job Posting Link</span>`
+            }
+
           </div>
         </div>
-
-        <div class="ps-3">JobPostingLink: ${x.jobpostinglink}</div>
         
         <button onclick="deleteApplication('${x._id}')" class="btn btn-sm btn-danger mt-2">Delete</button>
 
@@ -174,17 +179,22 @@ function deleteApplication(id) {
 }
 
 // NEW FEATURE: edit an existing job application
+let currentEditId = null;
 function editApplication(id) {
 
   // find current application info from DOM
   const appDiv = document.getElementById(`app-${id}`);
 
-  const company = prompt("Enter new company name:"); // these are obtained at frontend
-  const role = prompt("Enter new role:");
-  const status = prompt("Enter new status (applied/interview/rejected/offer):");
-  const priority = prompt("Enter new priority (high/medium/low):");
-  const recruitmentinfo = prompt("Enter new recruitment info:");
-  const jobpostinglink = prompt("Enter new job posting link:");
+  const role = appDiv.querySelector(".card-title").innerText;
+  const company = appDiv.querySelector(".text-muted").innerText.slice(3);
+
+  document.getElementById("editCompany").value = company;
+  document.getElementById("editRole").value = role;
+
+  currentEditId = id;
+
+  const modal = new bootstrap.Modal(document.getElementById("editModal"));
+  modal.show();
 
   const xhr = new XMLHttpRequest();
 
@@ -197,11 +207,37 @@ function editApplication(id) {
     }
   };
 
-  xhr.open("PUT", `http://127.0.0.1:8000/applications/${id}`, true); // update all parameters
+}
+
+function saveEdit() {
+  const role = document.getElementById("editRole").value;
+  const company = document.getElementById("editCompany").value;
+  const status = document.getElementById("editStatus").value;
+  const priority = document.getElementById("editPriority").value;
+  const recruitmentinfo = document.getElementById("editRecruitment").value;
+  const jobpostinglink = document.getElementById("editJobLink").value;
+
+  const xhr = new XMLHttpRequest();
+
+  xhr.onload = () => {
+    if (xhr.status === 200) {
+      getAllApplications();
+
+      // Close modal
+      const modalEl = document.getElementById('editModal');
+      const modal = bootstrap.Modal.getInstance(modalEl);
+      modal.hide();
+    } else {
+      console.error("Edit failed:", xhr.response);
+      alert("Edit failed");
+    }
+  };
+
+  xhr.open("PUT", `http://127.0.0.1:8000/applications/${currentEditId}`, true);
   xhr.setRequestHeader("Content-Type", "application/json");
   applyAuthHeader(xhr);
 
-  xhr.send(JSON.stringify({ // send all these values to backend
+  xhr.send(JSON.stringify({
     company,
     role,
     status,

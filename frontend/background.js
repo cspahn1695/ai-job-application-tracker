@@ -24,15 +24,16 @@ function loadBackground() {
 }
 
 function renderList(elementId, items, section) {
-  const el = document.getElementById(elementId);
-  el.innerHTML = "";
+  const ul = document.getElementById(elementId);
+  ul.innerHTML = "";
 
   items.forEach((item) => {
-    el.innerHTML += `
-      <li>
+    ul.innerHTML += `
+      <li class="list-group-item d-flex justify-content-between align-items-center">
         ${item}
-        <button onclick="deleteItem('${section}', '${item}')" class="btn btn-sm btn-danger ms-2">
-          X
+
+        <button class="btn btn-sm btn-outline-danger" onclick="removeItem('${item}', '${elementId}')">
+          ✕
         </button>
       </li>
     `;

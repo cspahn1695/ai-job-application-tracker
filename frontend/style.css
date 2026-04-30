@@ -123,3 +123,8 @@ button:before {
 button:-webkit-details-marker {
   display: none;
 }
+
+.list-group-item {
+  border-radius: 10px;
+  margin-bottom: 8px;
+}

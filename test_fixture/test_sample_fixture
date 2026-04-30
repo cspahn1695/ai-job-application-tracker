@@ -1,0 +1,13 @@
+
+import pytest
+
+from test_fixture.conftest import stage_user
+
+
+
+def test_user_name(staged_user):
+    result = stage_user["name"]
+    assert result == "Alice"
+
+def test_user_age(stage_user):
+    assert stage_user["age"] > 18

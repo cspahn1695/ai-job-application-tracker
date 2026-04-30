@@ -343,7 +343,7 @@ function getJobs() {
       latestRecommendedJobs = [];
 
       if (!Array.isArray(data)) {
-        el.innerHTML = "<li>Unexpected response from server.</li>";
+        el.innerHTML = "<div>Unexpected response from server.</div>";
         return;
       }
 
@@ -356,14 +356,23 @@ function getJobs() {
         const loc = jobLocationText(job);
         const jobUrl = job.url || "#";
         el.innerHTML += `
-          <li class="mb-3 pb-3 border-bottom">
-            <div class="fw-bold">${escapeHtml(title)}</div>
-            <div class="text-secondary small">${escapeHtml(company)}</div>
-            <div class="mt-2"><span class="badge bg-secondary">Location</span> ${escapeHtml(loc)}</div>
-            <div class="mt-1"><span class="badge bg-info text-dark">Match</span> ${escapeHtml(String(item.score))}%</div>
-            <div class="mt-2"><a class="btn btn-sm btn-outline-primary" href="${escapeHtml(jobUrl)}" target="_blank" rel="noopener noreferrer">View Job</a></div>
-            <div class="col-auto">
-              <button type="button" onclick="saveRecommendedJob(${idx})" class="btn btn-outline-secondary btn-sm">Save Job</button>
+          <div class="col-md-6 col-lg-4">
+            <div class="card h-100 shadow-sm border-0">
+              <div class="card-body d-flex flex-column">
+                <h5 class="card-title mb-1">${escapeHtml(title)}</h5>
+                <div class="text-muted mb-2">at ${escapeHtml(company)}</div>
+                
+                <div class="mb-2">
+                  <span class="badge bg-secondary me-1"> ${escapeHtml(loc)} </span>
+                  <span class="badge bg-info text-dark">Match Score ${escapeHtml(String(item.score))}%</span>
+                </div>
+
+                <div class="flex-grow-1"></div>
+                
+                <div class="d-flex gap-2 mt-3">
+                  <a class="btn btn-sm btn-outline-primary" href="${escapeHtml(jobUrl)}" target="_blank" rel="noopener noreferrer">View Job</a>
+                  <button onclick="saveRecommendedJob(${idx})" class="btn btn-outline-secondary btn-sm">Save Job</button>
+                </div>
             </div>
           </li>
         `;

@@ -21,46 +21,61 @@
 
         <!-- TOP BAR-->
         <div class="d-flex justify-content-between align-items-center mb-3">
-        <h2>My Background Profile</h2>
+        <h2>Find New Jobs</h2>
         <div id="userInfo"></div>
         <div>
-          <button onclick="goToApp()" class="btn btn-info me-2">
+          <button onclick="goToApp()" class="btn me-2">
             My Applications
           </button>
 
-          <button onclick="goToJobs()" class="btn btn-info me-2">
+          <button onclick="goToBackground()" class="btn me-2">
+            My Profile
+          </button>
+
+          <button onclick="goToJobs()" class="btn disabled me-2">
             Job Search
           </button>
 
-          <button onclick="logout()" class="btn btn-danger">
-            Logout
+          <button onclick="logout()" class="btn me-2">
+            Log out
           </button>
         </div>
       </div>
 
   <!-- JOB RECOMMENDATIONS -->
+    <!--
   <div class="mb-4">
     <h4>Job Recommendations</h4>
     <p id="jobLimitHint" class="small border rounded p-2 bg-body-secondary" style="display: block;"></p>
+ ---->
+    <!-- FIND JOBS -->
+    <div class="mb-4">
+    <h5>Search by: </h5>
+    <div class="input-group mb-3">
+      <input id="titleKeywordsInput" class="form-control" placeholder="Enter job title or keywords">
+      <button onclick="getJobs()" class="btn btn-primary">
+        Search
+      </button>
+    </div>
+    <div class="input-group mb-3">
+      <input id="cityInput" class="form-control" placeholder="Enter city or state">
+      <button onclick="getJobs()" class="btn btn-primary">
+        Search
+      </button>
+    </div>
 
-    <input id="cityInput" class="form-control mb-2" placeholder="Enter target city">
-    <button onclick="getJobs()" class="btn btn-primary">
-      Find Jobs
-    </button>
-
-    <ul id="jobResults" class="list-unstyled ps-0"></ul>
+    <div id="jobResults" class="row g-3"></div>
   </div>
 
     <!-- SAVED JOBS -->
   <div class="mb-4">
-    <h4>Saved Jobs</h4>
-    <p class="text-muted small mb-2">Use "Save Job" from recommendations below.</p>
-    <ul id="savedJobsList" class="list-unstyled ps-0"></ul>
+    <h5>Saved Jobs</h5>
+    <ul id="savedJobsList" class="list-group"></ul>
   </div>
 
 </div>
 
-<script src="/search.js"></script>
+<script src="/static/search.js"></script>
 <script src="/static/background.js"></script>
 <script src="/static/main.js"></script>
 

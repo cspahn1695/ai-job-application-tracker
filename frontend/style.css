@@ -128,3 +128,41 @@ button:-webkit-details-marker {
   border-radius: 10px;
   margin-bottom: 8px;
 }
+
+.card {
+  border-radius: 10px;
+  transition: transform 0.2s ease, box-shadow 0.15s ease;
+}
+
+.card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.me-2 {
+  background-color: transparent;
+  font-size:larger;
+  outline:none;
+  border: none;
+  box-shadow: none;
+}
+.me-2:hover {
+  background-color: transparent;
+  outline:none;
+  font-weight: bolder;
+}
+
+.me-2:active {
+  background-color: none;
+  box-shadow: none;
+  transition: none 0s;
+}
+
+.me-2:focus {
+  outline: none;
+  border-color: none;
+}
+
+.me-2:disabled {
+  color: #b1b8bf;
+}

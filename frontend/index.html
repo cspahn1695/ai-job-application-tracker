@@ -26,19 +26,23 @@
 
       <!-- TOP BAR -->
       <div class="d-flex justify-content-between align-items-center mb-3">
-        <div id="userInfo"></div>
+        <h2>My Applications Journal</h2>
 
         <div>
-          <button onclick="goToBackground()" class="btn btn-info me-2">
+          <button onclick="goToApp()" class="btn disabled me-2">
+            My Applications
+          </button>
+
+          <button onclick="goToBackground()" class="btn me-2">
             My Profile
           </button>
 
-          <button onclick="goToJobs()" class="btn btn-info me-2">
+          <button onclick="goToJobs()" class="btn me-2">
             Job Search
           </button>
 
-          <button onclick="logout()" class="btn btn-danger">
-            Logout
+          <button onclick="logout()" class="btn me-2">
+            Log out
           </button>
         </div>
       </div>
@@ -46,7 +50,6 @@
 
       <div class="container-fluid">
         <div class = "row vh-100">
-        <h2>My Applications Journal</h2>
 
         <!-- ADD APPLICATION LOG / left sidebar -->
         <div class="col-md-3 border-end p-2 overflow-auto">

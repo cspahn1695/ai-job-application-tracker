@@ -20,6 +20,10 @@ from bson import ObjectId
 
 from user_model import User
 
+import logging
+
+logging.basicConfig(filename = "app.log", level=logging.INFO)
+
 
 
 router = APIRouter(prefix="/applications", tags=["Applications"])
@@ -71,6 +75,8 @@ async def create_application(
         **app.dict(),
     )  # bind application ownership to logged-in user
     await new_app.insert()
+
+    logging.info(f"Created application {new_app.id} for user {current_user.email}")
     return new_app
 
 @router.post("/{app_id}/resume")
@@ -88,6 +94,7 @@ async def upload_resume(
 
     application.resume_path = file_path
     await application.save()
+    logging.info(f"Resume uploaded for application {application.id}")
     return {"message": "Resume uploaded", "file_path": file_path}
 
 # get all applications (optional status filter)
@@ -124,6 +131,7 @@ async def update_application(
 ):
     app = await _get_owned_application(app_id, current_user)
     await app.set(updated_app.dict())
+    logging.info(f"Application updated: {app_id}")
     return app
 
 # delete application 
@@ -132,6 +140,7 @@ async def update_application(
 async def delete_application(app_id: str, current_user: User = Depends(_get_current_user)):
     app = await _get_owned_application(app_id, current_user)
     await app.delete()
+    logging.info(f"Application deleted: {app_id}")
     return {"message": "deleted"}
 
     
@@ -154,6 +163,7 @@ async def get_match_score(app_id: str, current_user: User = Depends(_get_current
             detail="Could not extract enough text from that job link (extracted < 80 chars). The URL may block scrapers. Try a public posting URL or include the LinkedIn job URL that contains the numeric job ID.",
         )
     score = compute_match_score(resume_text, job_text)
+    logging.info(f"Match score calculated for application {application.id}: {score}")
     matched_skills, missing_skills = analyze_skill_gap(resume_text, job_text)
 
     return {
@@ -185,6 +195,8 @@ async def get_match_score_from_text(
     resume_text = extract_resume_text(application.resume_path)
     score = compute_match_score(resume_text, body.job_text)
     matched_skills, missing_skills = analyze_skill_gap(resume_text, body.job_text)
+
+    logging.info(f"Match score calculated for application {application.id}: {score}")
 
     return {
         "match_score": score,
@@ -233,4 +245,5 @@ async def recommend_jobs(email: str, city: str):
                 "score": row["score"],
             }
         )
+    logging.info(f"Recommended jobs for user {email}: {len(payload)}")
     return payload

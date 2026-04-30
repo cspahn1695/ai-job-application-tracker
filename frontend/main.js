@@ -511,3 +511,7 @@ function goToBackground() {
 function goToApp() {
   window.location.href = "/static/index.html";
 }
+
+function goToJobs() {
+  window.location.href = "/static/search.html";
+}

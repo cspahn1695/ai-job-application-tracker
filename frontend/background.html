@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>My Background</title>
+  <title>My Profile</title>
 
   <link
     href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
@@ -21,11 +21,15 @@
 
         <!-- TOP BAR-->
         <div class="d-flex justify-content-between align-items-center mb-3">
-        <h2>My Background Profile</h2>
+        <h2>My Profile</h2>
         <div id="userInfo"></div>
         <div>
           <button onclick="goToApp()" class="btn btn-info me-2">
             My Applications
+          </button>
+
+          <button onclick="goToJobs()" class="btn btn-info me-2">
+            Job Search
           </button>
 
           <button onclick="logout()" class="btn btn-danger">
@@ -106,29 +110,9 @@
     </div>
   </div>
 
-  <!-- JOB RECOMMENDATIONS -->
-  <div class="mb-4">
-    <h4>Job Recommendations</h4>
-    <p id="jobLimitHint" class="small border rounded p-2 bg-body-secondary" style="display: block;"></p>
-
-    <input id="cityInput" class="form-control mb-2" placeholder="Enter target city">
-    <button onclick="getJobs()" class="btn btn-primary">
-      Find Jobs
-    </button>
-
-    <ul id="jobResults" class="list-unstyled ps-0"></ul>
-  </div>
-
-    <!-- SAVED JOBS -->
-  <div class="mb-4">
-    <h4>Saved Jobs</h4>
-    <p class="text-muted small mb-2">Use "Save Job" from recommendations below.</p>
-    <ul id="savedJobsList" class="list-unstyled ps-0"></ul>
-  </div>
-
 </div>
 
-<script src="/static/background.js"></script>
+<script src="background.js"></script>
 
 
 </body>

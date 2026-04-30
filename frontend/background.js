@@ -32,7 +32,7 @@ function renderList(elementId, items, section) {
       <li class="list-group-item d-flex justify-content-between align-items-center">
         ${item}
 
-        <button class="btn btn-sm btn-outline-danger" onclick="removeItem('${item}', '${elementId}')">
+        <button class="btn btn-sm btn-outline-danger" onclick="deleteItem('${section}', '${item}')">
           ✕
         </button>
       </li>
@@ -42,14 +42,18 @@ function renderList(elementId, items, section) {
 
 function addSkill() {
   addItem("skills", document.getElementById("skillInput").value);
+  document.getElementById("skillInput").value = "";
+
 }
 
 function addEducation() {
   addItem("education", document.getElementById("educationInput").value);
+  document.getElementById("educationInput").value = "";
 }
 
 function addExperience() {
   addItem("experience", document.getElementById("experienceInput").value);
+  document.getElementById("experienceInput").value = "";
 }
 
 function addItem(section, value) {
@@ -72,6 +76,22 @@ function deleteItem(section, value) {
 
 function goToApp() {
   window.location.href = "/static/index.html";
+}
+
+function goToJobs() {
+  window.location.href = "/static/search.html";
+}
+
+function logout() {
+  localStorage.removeItem("loggedIn");
+  localStorage.removeItem("userEmail");
+  localStorage.removeItem("isAdmin");
+  localStorage.removeItem("accessToken");
+
+  alert("Logged out");
+
+  window.location.href = "/static/login.html";
+
 }
 
 function renderSavedJobs(items) {

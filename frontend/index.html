@@ -4,17 +4,19 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Job Application Tracker</title>
+  <title>My Job Journal</title>
 
   <link
     href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
     rel="stylesheet"
   />
-
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@500&family=Open+Sans:ital,wght@0,300..800;1,300..800&family=PT+Serif:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/static/style.css" />
 </head>
 
-<body class="py-4">
+<body class="p-4">
 
 
   <!-- ================= APP VIEW ================= -->
@@ -22,13 +24,17 @@
 
     <div class="container">
 
-      <!-- Top Bar -->
+      <!-- TOP BAR -->
       <div class="d-flex justify-content-between align-items-center mb-3">
         <div id="userInfo"></div>
 
         <div>
           <button onclick="goToBackground()" class="btn btn-info me-2">
-            My Background
+            My Profile
+          </button>
+
+          <button onclick="goToJobs()" class="btn btn-info me-2">
+            Job Search
           </button>
 
           <button onclick="logout()" class="btn btn-danger">
@@ -37,12 +43,14 @@
         </div>
       </div>
 
-      <div class="app mx-auto">
 
-        <div class="h1">Job Application List</div>
+      <div class="container-fluid">
+        <div class = "row vh-100">
+        <h2>My Applications Journal</h2>
 
-        <!-- Add Application -->
-        <div class="mb-3">
+        <!-- ADD APPLICATION LOG / left sidebar -->
+        <div class="col-md-3 border-end p-2 overflow-auto">
+        <h5>Log a New Application</h5>
           <input id="company" class="form-control mb-2" placeholder="Company" />
           <input id="role" class="form-control mb-2" placeholder="Role" />
           <input id="recruitmentinfo" class="form-control mb-2" placeholder="Recruitment Info" />
@@ -57,9 +65,9 @@
           </select>
 
           <select id="priority" class="form-control mb-2">
-            <option value="high">High</option>
-            <option value="medium">Medium</option>
-            <option value="low">Low</option>
+            <option value="high">High priority</option>
+            <option value="medium">Medium priority</option>
+            <option value="low">Low priority</option>
           </select>
 
           <button onclick="createApplication()" class="btn btn-success w-100">
@@ -67,29 +75,33 @@
           </button>
         </div>
 
-        <!-- Search / Filter -->
-        <div class="mb-3">
-          <input id="searchCompany" class="form-control mb-2" placeholder="Search by company" />
+        <!-- CENTER CONTENT -->
+        <div class="col-md-6 d-flex flex-column p-3">
 
-          <select id="filterStatus" class="form-control mb-2">
-            <option value="">All Status</option>
-            <option value="applied">Applied</option>
-            <option value="interview">Interview</option>
-            <option value="rejected">Rejected</option>
-            <option value="offer">Offer</option>
-          </select>
+          <!-- Search / Filter BAR -->
+          <div class="mb-3">
+            <input id="searchCompany" class="form-control mb-2" placeholder="Search by company" />
+              <div class=""d-flex gap-2>
+                <select id="filterStatus" class="form-control mb-2">
+                  <option value="">All Status</option>
+                  <option value="applied">Applied</option>
+                  <option value="interview">Interview</option>
+                  <option value="rejected">Rejected</option>
+                  <option value="offer">Offer</option>
+                </select>
+              <button onclick="getAllApplications()" class="btn btn-primary">
+                Apply Filter
+              </button>
+            </div>
+          </div>
 
-          <button onclick="getAllApplications()" class="btn btn-primary w-100">
-            Apply Search / Filter
-          </button>
+          <!-- Applications -->
+          <div id="todos" class="row g-1 flex-grow-1 overflow-auto"></div>
         </div>
 
-        <!-- Applications -->
-        <div id="todos"></div>
-
-        <!-- Stats -->
-        <div class="mt-4">
-          <h4>Application Statistics</h4>
+        <!-- STATS / right sidebar -->
+        <div class="col-md-3 border-start p-3 overflow-auto">
+          <h5>Application Statistics</h5>
 
           <div class="mb-3">
             <strong>Total Applications:</strong> <span id="totalApps">0</span><br>
@@ -104,9 +116,50 @@
           </div>
         </div>
 
+        </div>
+
       </div>
     </div>
   </div>
+
+  <!-- Edit Modal -->
+<div class="modal fade" id="editModal" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+      <div class="modal-header">
+        <h5 class="modal-title">Edit Application</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+
+      <div class="modal-body">
+        <input id="editRole" class="form-control mb-2" placeholder="Role" />
+        <input id="editCompany" class="form-control mb-2" placeholder="Company" />
+        <input id="editRecruitment" class="form-control mb-2" placeholder="Recruitment Info" />
+        <input id="editJobLink" class="form-control mb-2" placeholder="Job Posting Link" />
+
+        <select id="editStatus" class="form-control mb-2">
+          <option value="applied">Applied</option>
+          <option value="interview">Interview</option>
+          <option value="rejected">Rejected</option>
+          <option value="offer">Offer</option>
+        </select>
+
+        <select id="editPriority" class="form-control mb-2">
+          <option value="high">High</option>
+          <option value="medium">Medium</option>
+          <option value="low">Low</option>
+        </select>
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+        <button class="btn btn-primary" onclick="saveEdit()">Save Changes</button>
+      </div>
+
+    </div>
+  </div>
+</div>
 
 
   <!-- Scripts -->

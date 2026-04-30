@@ -2,55 +2,70 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>My Background</title>
+  <title>My Profile</title>
 
   <link
     href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
     rel="stylesheet"
   />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@500&family=Open+Sans:ital,wght@0,300..800;1,300..800&family=PT+Serif:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
 </head>
 
 <body class="p-4">
 
 <div class="container">
 
-  <div class="d-flex justify-content-between mb-4">
-    <h2>My Background</h2>
+        <!-- TOP BAR-->
+        <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2>My Profile</h2>
+        <div id="userInfo"></div>
+        <div>
+          <button onclick="goToApp()" class="btn btn-info me-2">
+            My Applications
+          </button>
 
-    <button onclick="goToApp()" class="btn btn-secondary">
-      Back to Applications
-    </button>
-  </div>
+          <button onclick="goToJobs()" class="btn btn-info me-2">
+            Job Search
+          </button>
+
+          <button onclick="logout()" class="btn btn-danger">
+            Logout
+          </button>
+        </div>
+      </div>
 
   <!-- SKILLS -->
   <div class="mb-4">
-    <h4>My Skills</h4>
-    <input id="skillInput" class="form-control mb-2" placeholder="Add skill">
-    <button onclick="addSkill()" class="btn btn-success mb-2">Add Skill</button>
+    <h5>My Skills</h5>
+    <div class="input-group mb-2">
+      <input id="skillInput" class="form-control" placeholder="Add skill">
+      <button onclick="addSkill()" class="btn btn-success">Add</button>
+    </div>
     <ul id="skillsList"></ul>
   </div>
 
   <!-- EDUCATION -->
   <div class="mb-4">
-    <h4>My Education</h4>
-    <input id="educationInput" class="form-control mb-2" placeholder="Add education">
-    <button onclick="addEducation()" class="btn btn-success mb-2">Add Education</button>
+    <h5>My Education</h5>
+    <div class="input-group mb-2">
+      <input id="educationInput" class="form-control" placeholder="Add education">
+      <button onclick="addEducation()" class="btn btn-success">Add</button>
+    </div>
     <ul id="educationList"></ul>
   </div>
 
   <!-- EXPERIENCE -->
   <div class="mb-4">
-    <h4>My Experience</h4>
-    <input id="experienceInput" class="form-control mb-2" placeholder="Add experience">
-    <button onclick="addExperience()" class="btn btn-success mb-2">Add Experience</button>
+    <h5>My Experience</h5>
+    <div class="input-group mb-2">
+      <input id="experienceInput" class="form-control" placeholder="Add experience">
+      <button onclick="addExperience()" class="btn btn-success">Add</button>
+    </div>
     <ul id="experienceList"></ul>
-  </div>
-
-  <!-- SAVED JOBS -->
-  <div class="mb-4">
-    <h4>Saved Jobs</h4>
-    <p class="text-muted small mb-2">Use "Save Job" from recommendations below.</p>
-    <ul id="savedJobsList" class="list-unstyled ps-0"></ul>
   </div>
 
   <!-- ADMIN: global max jobs (applies to all users) -->
@@ -95,22 +110,9 @@
     </div>
   </div>
 
-  <!-- JOB RECOMMENDATIONS -->
-  <div class="mb-4">
-    <h4>Job Recommendations</h4>
-    <p id="jobLimitHint" class="small border rounded p-2 bg-body-secondary" style="display: block;"></p>
-
-    <input id="cityInput" class="form-control mb-2" placeholder="Enter target city">
-    <button onclick="getJobs()" class="btn btn-primary">
-      Find Jobs
-    </button>
-
-    <ul id="jobResults" class="list-unstyled ps-0"></ul>
-  </div>
-
 </div>
 
-<script src="/static/background.js"></script>
+<script src="background.js"></script>
 
 
 </body>

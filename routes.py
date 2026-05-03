@@ -1,6 +1,8 @@
 # used ChatGPT to help write this code; added comments where appropriate.
 import os
 import re
+from enum import Enum
+
 from fastapi import APIRouter, Depends, HTTPException, Query, UploadFile, File, status
 from typing import List, Optional
 
@@ -114,7 +116,7 @@ async def get_applications(
 
     return await Application.find(query_filters).to_list()
 
-
+# second route to be used to test adzuna api
 @router.get("/search-jobs")
 async def search_jobs_by_title_location(
     city: str = Query(..., min_length=1),
@@ -142,6 +144,130 @@ async def search_jobs_by_title_location(
         len(jobs),
     )
     return jobs
+
+
+class ProfileJobSearchMode(str, Enum):
+    title_location = "title_location"
+    profile = "profile"
+    both = "both"
+
+
+def _job_payload_entry(job_dict: dict, score: Optional[float]) -> dict:
+    j = job_dict or {}
+    return {
+        "job": {
+            "title": j.get("title"),
+            "company": j.get("company"),
+            "location": j.get("location") or j.get("search_city"),
+            "description": j.get("description"),
+            "url": j.get("url"),
+        },
+        "score": score,
+    }
+
+
+def _dedupe_jobs_by_url(jobs: List[dict]) -> List[dict]:
+    seen = set()
+    out: List[dict] = []
+    for j in jobs:
+        u = (j.get("url") or "").strip()
+        key = u if u else f"{j.get('title')}|{j.get('company')}"
+        if key in seen:
+            continue
+        seen.add(key)
+        out.append(j)
+    return out
+
+
+@router.get("/profile-job-search")
+async def profile_job_search(
+    mode: ProfileJobSearchMode,
+    city: str = Query(..., min_length=1),
+    email: Optional[str] = Query(None),
+    title: Optional[str] = Query(None),
+):
+    """
+    Profile page job search: (1) Adzuna by title + location only, (2) profile-ranked
+    jobs for a city, or (3) merge title/keyword results with a broad search then rank
+    by profile.
+    """
+    city = (city or "").strip()
+    if not city:
+        raise HTTPException(status_code=400, detail="Location (city) is required")
+
+    settings = await get_app_settings()
+    limit = max(1, min(50, int(settings.max_recommend_jobs)))
+    rpp = max(20, min(50, limit))
+
+    if mode == ProfileJobSearchMode.title_location:
+        t = (title or "").strip()
+        if not t:
+            raise HTTPException(
+                status_code=400,
+                detail="Job title or keywords are required for this search mode.",
+            )
+        jobs = fetch_jobs(city, keywords=t, results_per_page=rpp)
+        payload = [_job_payload_entry(j, None) for j in jobs[:limit]]
+        logging.info(
+            "profile_job_search title_location: city=%r title=%r n=%s",
+            city,
+            t,
+            len(payload),
+        )
+        return payload
+
+    if mode == ProfileJobSearchMode.profile:
+        email_n = _norm_bg_email(email or "")
+        if not email_n:
+            raise HTTPException(
+                status_code=400, detail="Email is required for profile-based search."
+            )
+        bg = await Background.find_one(Background.email == email_n)
+        if not bg:
+            raise HTTPException(status_code=404, detail="No background found")
+        user_text = clean_text(
+            " ".join(bg.skills + bg.education + bg.experience)
+        )
+        jobs = fetch_jobs(city, results_per_page=rpp)
+        ranked = rank_jobs(user_text, jobs)
+        payload = [
+            _job_payload_entry(row["job"], float(row["score"]))
+            for row in ranked[:limit]
+        ]
+        logging.info("profile_job_search profile: email=%r n=%s", email_n, len(payload))
+        return payload
+
+    if mode == ProfileJobSearchMode.both:
+        email_n = _norm_bg_email(email or "")
+        t = (title or "").strip()
+        if not email_n:
+            raise HTTPException(
+                status_code=400,
+                detail="Email is required when combining profile and title search.",
+            )
+        if not t:
+            raise HTTPException(
+                status_code=400,
+                detail="Job title or keywords are required when combining search.",
+            )
+        bg = await Background.find_one(Background.email == email_n)
+        if not bg:
+            raise HTTPException(status_code=404, detail="No background found")
+        user_text = clean_text(
+            " ".join(bg.skills + bg.education + bg.experience)
+        )
+        jobs_keywords = fetch_jobs(city, keywords=t, results_per_page=rpp)
+        jobs_broad = fetch_jobs(city, results_per_page=rpp)
+        combined = _dedupe_jobs_by_url(jobs_keywords + jobs_broad)
+        ranked = rank_jobs(user_text, combined)
+        payload = [
+            _job_payload_entry(row["job"], float(row["score"]))
+            for row in ranked[:limit]
+        ]
+        logging.info("profile_job_search both: email=%r n=%s", email_n, len(payload))
+        return payload
+
+    raise HTTPException(status_code=400, detail="Invalid search mode")
 
 
 # get single application
@@ -237,7 +363,7 @@ async def get_match_score_from_text(
 def _norm_bg_email(value: str) -> str:
     return (value or "").strip().lower()
 
-
+# second route to be used to test adzuna api
 @router.get("/recommend-jobs/{email}") # this actually gets jobs from adzuna API and ranks them based on the user's background info (skills, experience, education) using the rank_jobs function in ai_matcher.py
 async def recommend_jobs(email: str, city: str):
 

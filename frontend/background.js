@@ -10,8 +10,8 @@ function apiUrl(path) {
 let email = (localStorage.getItem("userEmail") || "").trim().toLowerCase();
 if (email) localStorage.setItem("userEmail", email);
 let latestRecommendedJobs = [];
-/** Jobs from Adzuna title/location search on the profile page */
-let latestTitleSearchJobs = [];
+/** Jobs from the profile page unified search (see /applications/profile-job-search) */
+let latestProfilePageJobs = [];
 
 function loadBackground() {
   if (!email) return;
@@ -293,30 +293,65 @@ function createAnotherAdmin() {
     .catch((err) => alert(err.message));
 }
 
-function searchJobsByTitleLocation() {
+function onJobSearchModeChange() {
+  const mode = (document.getElementById("jobSearchModeSelect") || {}).value;
+  const titleInput = document.getElementById("jobSearchTitleInput");
+  if (!titleInput) return;
+  if (mode === "profile") {
+    titleInput.disabled = true;
+    titleInput.setAttribute("aria-disabled", "true");
+    titleInput.placeholder = "Not used for profile-only search";
+  } else {
+    titleInput.disabled = false;
+    titleInput.removeAttribute("aria-disabled");
+    titleInput.placeholder = "e.g. software engineer, data analyst";
+  }
+}
+
+function runProfileJobSearch() {
+  const mode = (document.getElementById("jobSearchModeSelect") || {}).value;
   const title = (document.getElementById("jobSearchTitleInput") || {}).value || "";
   const city = (document.getElementById("jobSearchLocationInput") || {}).value || "";
   const trimmedTitle = title.trim();
   const trimmedCity = city.trim();
 
-  if (!trimmedTitle || !trimmedCity) {
-    alert("Enter both a job title (or keywords) and a location.");
+  if (!trimmedCity) {
+    alert("Enter a location.");
+    return;
+  }
+  if ((mode === "title_location" || mode === "both") && !trimmedTitle) {
+    alert("Enter a job title or keywords for this search type.");
+    return;
+  }
+  if ((mode === "profile" || mode === "both") && !email) {
+    alert("You must be logged in to use profile-based search.");
     return;
   }
 
-  const url =
-    apiUrl("/applications/search-jobs") +
-    "?city=" +
-    encodeURIComponent(trimmedCity) +
-    "&title=" +
-    encodeURIComponent(trimmedTitle);
+  const params = new URLSearchParams();
+  params.set("mode", mode);
+  params.set("city", trimmedCity);
+  if (trimmedTitle) {
+    params.set("title", trimmedTitle);
+  }
+  if (mode === "profile" || mode === "both") {
+    params.set("email", email);
+  }
+
+  const url = apiUrl("/applications/profile-job-search?" + params.toString());
 
   fetch(url)
     .then((res) => {
       if (!res.ok) {
         return res.json().then((body) => {
           const msg = body.detail || res.statusText || "Request failed";
-          throw new Error(typeof msg === "string" ? msg : JSON.stringify(msg));
+          const text =
+            typeof msg === "string"
+              ? msg
+              : Array.isArray(msg)
+                ? msg.map((x) => x.msg || x).join(" ")
+                : JSON.stringify(msg);
+          throw new Error(text);
         });
       }
       return res.json();
@@ -325,7 +360,7 @@ function searchJobsByTitleLocation() {
       const el = document.getElementById("adzunaJobResults");
       if (!el) return;
       el.innerHTML = "";
-      latestTitleSearchJobs = [];
+      latestProfilePageJobs = [];
 
       if (!Array.isArray(data)) {
         el.innerHTML = "<div class=\"col-12\">Unexpected response from server.</div>";
@@ -338,26 +373,34 @@ function searchJobsByTitleLocation() {
         return;
       }
 
-      data.forEach((job) => {
-        latestTitleSearchJobs.push(job);
-        const idx = latestTitleSearchJobs.length - 1;
+      data.forEach((item) => {
+        const job = jobPayloadFromItem(item);
+        latestProfilePageJobs.push(job);
+        const idx = latestProfilePageJobs.length - 1;
         const jtitle = job.title || "Untitled role";
         const company = job.company || "Company not listed";
         const loc = jobLocationText(job);
         const jobUrl = job.url || "#";
+        const score = item.score;
+        const scoreBadges =
+          score != null && score !== ""
+            ? `<span class="badge bg-info text-dark">Match score ${escapeHtml(String(score))}%</span>`
+            : `<span class="badge bg-light text-dark border">Keyword search</span>`;
+
         el.innerHTML += `
           <div class="col-md-6 col-lg-4">
             <div class="card h-100 shadow-sm border-0">
               <div class="card-body d-flex flex-column">
                 <h5 class="card-title mb-1">${escapeHtml(jtitle)}</h5>
                 <div class="text-muted mb-2">at ${escapeHtml(company)}</div>
-                <div class="mb-2">
+                <div class="mb-2 d-flex flex-wrap gap-1 align-items-center">
                   <span class="badge bg-secondary">${escapeHtml(loc)}</span>
+                  ${scoreBadges}
                 </div>
                 <div class="flex-grow-1"></div>
                 <div class="d-flex gap-2 mt-3">
                   <a class="btn btn-sm btn-outline-primary" href="${escapeHtml(jobUrl)}" target="_blank" rel="noopener noreferrer">View Job</a>
-                  <button type="button" onclick="saveTitleSearchJob(${idx})" class="btn btn-outline-secondary btn-sm">Save Job</button>
+                  <button type="button" onclick="saveProfilePageJob(${idx})" class="btn btn-outline-secondary btn-sm">Save Job</button>
                 </div>
               </div>
             </div>
@@ -371,8 +414,8 @@ function searchJobsByTitleLocation() {
     });
 }
 
-function saveTitleSearchJob(index) {
-  const job = latestTitleSearchJobs[index];
+function saveProfilePageJob(index) {
+  const job = latestProfilePageJobs[index];
   if (!job) {
     alert("Could not save this job.");
     return;

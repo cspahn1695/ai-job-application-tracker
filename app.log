@@ -28,3 +28,38 @@ INFO:root:Adzuna search by title/location: city='New York City, NY' title='accou
 INFO:root:Match score calculated for application 69f3a4a5a124e615c6a5df7c: 50.6
 INFO:root:profile_job_search profile: email='cspahn21@outlook.com' n=6
 INFO:root:profile_job_search title_location: city='Chicago' title='accountant' n=6
+INFO:root:profile_job_search title_location: city='Chicago, IL' title='anesthesiologist' n=6
+INFO:root:profile_job_search title_location: city='Chicago, IL' title='mailman' n=1
+INFO:root:Recommended jobs for user cspahn21@outlook.com: 0
+INFO:root:Recommended jobs for user cspahn21@outlook.com: 0
+INFO:root:Recommended jobs for user cspahn21@outlook.com: 0
+INFO:root:Recommended jobs for user cspahn21@outlook.com: 0
+INFO:root:Recommended jobs for user cspahn21@outlook.com: 0
+INFO:root:Recommended jobs for user cspahn21@outlook.com: 0
+INFO:root:Recommended jobs for user cspahn21@outlook.com: 0
+INFO:root:Recommended jobs for user cspahn21@outlook.com: 0
+INFO:root:Recommended jobs for user cspahn21@outlook.com: 0
+INFO:root:profile_job_search title_location: city='Naperville, IL' title='data analyst' n=6
+INFO:root:profile_job_search title_location: city='Chicago, IL' title='hotel worker' n=6
+INFO:root:profile_job_search title_location: city='Chicago, IL' title='anesthesiologist' n=6
+INFO:root:Recommended jobs for user cspahn21@outlook.com: 0
+INFO:root:Recommended jobs for user cspahn21@outlook.com: 0
+INFO:root:Recommended jobs for user cspahn21@outlook.com: 0
+INFO:root:Recommended jobs for user cspahn21@outlook.com: 0
+INFO:root:Recommended jobs for user cspahn21@outlook.com: 0
+INFO:root:Recommended jobs for user cspahn21@outlook.com: 0
+INFO:root:Recommended jobs for user cspahn21@outlook.com: 0
+INFO:root:Recommended jobs for user cspahn21@outlook.com: 0
+INFO:root:Recommended jobs for user cspahn21@outlook.com: 0
+INFO:root:Recommended jobs for user cspahn21@outlook.com: 0
+INFO:root:Recommended jobs for user cspahn21@outlook.com: 0
+INFO:root:Recommended jobs for user cspahn21@outlook.com: 0
+INFO:root:Recommended jobs for user cspahn21@outlook.com: 0
+INFO:root:Recommended jobs for user cspahn21@outlook.com: 0
+INFO:root:Recommended jobs for user cspahn21@outlook.com: 0
+INFO:root:Recommended jobs for user cspahn21@outlook.com: 0
+INFO:root:Recommended jobs for user cspahn21@outlook.com: 0
+INFO:root:Recommended jobs for user cspahn21@outlook.com: 0
+INFO:root:Recommended jobs for user cspahn21@outlook.com: 0
+INFO:root:profile_job_search profile: email='cspahn21@outlook.com' n=6
+INFO:root:Recommended jobs for user cspahn21@outlook.com: 0

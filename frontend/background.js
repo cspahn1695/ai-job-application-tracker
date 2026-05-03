@@ -1,10 +1,29 @@
-// API origin: same host when served from FastAPI; fallback for file:// or odd hosts
+// API origin: pages under /static/ are served by FastAPI — use same origin. Otherwise (e.g. Live
+// Server on another port) POSTing to a relative "/applications/" hits the wrong host; match main.js.
+function resolveBackendOrigin() {
+  if (window.location.protocol === "file:" || !window.location.host) {
+    return "http://127.0.0.1:8000";
+  }
+  const path = window.location.pathname || "";
+  if (path.includes("/static/")) {
+    return window.location.origin;
+  }
+  return "http://127.0.0.1:8000";
+}
+
 function apiUrl(path) {
   if (!path.startsWith("/")) path = "/" + path;
-  if (window.location.protocol === "file:" || !window.location.host) {
-    return "http://127.0.0.1:8000" + path;
+  return resolveBackendOrigin() + path;
+}
+
+/** Headers for authenticated application API calls (same token as My Applications page). */
+function applicationApiHeaders() {
+  const headers = { "Content-Type": "application/json" };
+  const token = localStorage.getItem("accessToken");
+  if (token) {
+    headers["Authorization"] = `Bearer ${token}`;
   }
-  return path;
+  return headers;
 }
 
 let email = (localStorage.getItem("userEmail") || "").trim().toLowerCase();
@@ -421,34 +440,55 @@ function saveProfilePageJob(index) {
     return;
   }
 
-  const payload = {
-    title: (job.title || "Untitled role").trim(),
-    url: (job.url || "").trim(),
-    company: (job.company || "Company not listed").trim(),
-    location: (jobLocationText(job) || "Not specified").trim(),
-  };
+  const token = (localStorage.getItem("accessToken") || "").trim();
+  if (!token) {
+    alert(
+      "You need to be signed in with a valid session. Open My Applications or log in again, then try Save Job."
+    );
+    return;
+  }
 
-  if (!payload.url) {
+  const jobUrl = (job.url || "").trim();
+  if (!jobUrl) {
     alert("This job is missing a URL, so it can't be saved.");
     return;
   }
 
-  fetch(apiUrl(`/background/${encodeURIComponent(email)}/saved-jobs/item`), {
+  const body = {
+    company: (job.company || "Company not listed").trim(),
+    role: (job.title || "Untitled role").trim(),
+    status: "plan_to_apply",
+    priority: "medium",
+    recruitmentinfo: (jobLocationText(job) || "Not specified").trim(),
+    jobpostinglink: jobUrl,
+  };
+
+  fetch(apiUrl("/applications/"), {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(payload),
+    headers: applicationApiHeaders(),
+    body: JSON.stringify(body),
   })
     .then(async (res) => {
       const data = await res.json().catch(async () => {
         const text = await res.text().catch(() => "");
         return { detail: text };
       });
-      if (!res.ok) throw new Error(data.detail || "Could not save job");
+      if (res.status < 200 || res.status >= 300) {
+        const detail = data.detail;
+        const msg =
+          typeof detail === "string"
+            ? detail
+            : Array.isArray(detail)
+              ? detail.map((x) => x.msg || x).join(" ")
+              : detail
+                ? JSON.stringify(detail)
+                : "Could not add application";
+        throw new Error(msg);
+      }
       return data;
     })
     .then(() => {
-      loadBackground();
-      alert("Job saved.");
+      alert("Application added under Plan to Apply. Open My Applications to see it.");
     })
     .catch((err) => alert(err.message));
 }

@@ -5,7 +5,8 @@ from typing import Optional
 from pydantic import BaseModel
 
 class ApplicationStatus(str, Enum):
-    applied = "applied" # all values for ApplicationStatus are applied, interview, rejected, and offer
+    plan_to_apply = "plan_to_apply"  # saved from My Profile job search before formally applying
+    applied = "applied"  # applied, interview, rejected, offer
     interview = "interview"
     rejected = "rejected"
     offer = "offer"

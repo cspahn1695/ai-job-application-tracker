@@ -67,13 +67,18 @@ function applyAuthHeader(xhr) {
   }
 }
 
+function applicationStatusLabel(status) {
+  if (status === "plan_to_apply") return "Plan to Apply";
+  return status;
+}
+
 function renderApplications(data) {
   const appDiv = document.getElementById('todos');
   appDiv.innerHTML = '';
   
   data.forEach((x) => {
     appDiv.innerHTML += `
-    <div class="card mb-3 shadow-sm" id="app-${x._id}">
+    <div class="card mb-3 shadow-sm" id="app-${x._id}" data-application-status="${x.status}">
       <div class="card-body">
         <!-- HEADER -->
         <div class="d-flex justify-content-between align-items-center">
@@ -85,9 +90,10 @@ function renderApplications(data) {
               x.status === 'offer' ? 'success' :
               x.status === 'interview' ? 'warning' :
               x.status === 'rejected' ? 'danger' :
+              x.status === 'plan_to_apply' ? 'primary' :
               'secondary'
             }"> 
-              ${x.status}
+              ${applicationStatusLabel(x.status)}
           </span>
         </div>
 
@@ -191,22 +197,16 @@ function editApplication(id) {
   document.getElementById("editCompany").value = company;
   document.getElementById("editRole").value = role;
 
+  const rawStatus = appDiv.getAttribute("data-application-status");
+  const editStatusEl = document.getElementById("editStatus");
+  if (editStatusEl && rawStatus) {
+    editStatusEl.value = rawStatus;
+  }
+
   currentEditId = id;
 
   const modal = new bootstrap.Modal(document.getElementById("editModal"));
   modal.show();
-
-  const xhr = new XMLHttpRequest();
-
-  xhr.onload = () => {
-    if (xhr.status === 200) {
-      getAllApplications();
-    } else {
-      console.error("Edit failed:", xhr.response);
-      alert("Edit failed");
-    }
-  };
-
 }
 
 function saveEdit() {
@@ -342,11 +342,12 @@ function updateStatistics(data) { // called by fxn getAllApplications()
 
   const total = data.length;
 
-  const statusCounts = { // initialize status (applied, offer, rejected, interview) counts to 0 since initially there are no job apps
+  const statusCounts = {
+    plan_to_apply: 0,
     applied: 0,
     interview: 0,
     rejected: 0,
-    offer: 0
+    offer: 0,
   };
 
   const priorityCounts = { // initialize prioritycounts (high, medium, low) to 0 since initially there are no job apps
@@ -388,16 +389,17 @@ function renderStatusChart(statusCounts) { // put a status chart on the frontend
   if (statusChart) statusChart.destroy();
 
   statusChart = new Chart(ctx, {
-    type: "bar", // create a bar graph, with 4 columns showing total number of apps in each status category
+    type: "bar",
     data: {
-      labels: ["Applied", "Interview", "Rejected", "Offer"], // all columns are blue for now
+      labels: ["Plan to Apply", "Applied", "Interview", "Rejected", "Offer"],
       datasets: [{
         label: "Applications by Status",
-        data: [ 
+        data: [
+          statusCounts.plan_to_apply,
           statusCounts.applied,
           statusCounts.interview,
           statusCounts.rejected,
-          statusCounts.offer
+          statusCounts.offer,
         ]
       }]
     }

@@ -9,6 +9,7 @@ from schemas import UserCreate, UserLogin, BootstrapAdminRequest, CreateAdminReq
 from auth_utils import hash_password, verify_password
 from jwt_handler import create_access_token
 router = APIRouter(prefix="/auth", tags=["Auth"])
+import logging
 
 
 def _norm_email(value: str) -> str:
@@ -21,6 +22,7 @@ async def _find_user_by_email(value: str):
     if not e:
         return None
     user = await User.find_one(User.email == e)
+    logging.info(f"Finding user by email {e}: {user}")
     if user:
         return user
     return await User.find_one(
@@ -48,6 +50,8 @@ async def register(user: UserCreate):
     )
 
     await new_user.insert()
+    
+    logging.info(f"User {email} created: {new_user}")
 
     return {"message": "User created"}
 
@@ -65,6 +69,8 @@ async def login(user: UserLogin):
         {"email": email, "role": "admin" if is_admin else "user"}
     )
 
+    logging.info(f"User {email} logged in: {db_user}")
+
     return TokenResponse(
         access_token=token,
         token_type="bearer",
@@ -77,8 +83,10 @@ async def login(user: UserLogin):
 @router.get("/me")
 async def me(email: str = Query(..., description="Logged-in user email")):
     db_user = await _find_user_by_email(email)
+    logging.info(f"Getting user {email}: {db_user}")
     if not db_user:
         raise HTTPException(status_code=404, detail="User not found")
+    logging.info(f"User {email} found: {db_user}")
     return {
         "email": _norm_email(str(db_user.email)),
         "is_admin": bool(getattr(db_user, "is_admin", False)),
@@ -91,6 +99,7 @@ async def bootstrap_admin(req: BootstrapAdminRequest):
     Creates the first admin account when no admin exists.
     Requires ADMIN_BOOTSTRAP_SECRET env var (or default in dev).
     """
+    logging.info(f"Bootstrapping admin {req.email} with secret {req.bootstrap_secret}")
     if req.bootstrap_secret != _bootstrap_secret():
         raise HTTPException(status_code=403, detail="Invalid bootstrap secret")
 
@@ -104,6 +113,7 @@ async def bootstrap_admin(req: BootstrapAdminRequest):
     if await _find_user_by_email(str(req.email)):
         raise HTTPException(status_code=400, detail="User already exists")
 
+    logging.info(f"Creating admin {req.email}")
     admin = User(
         email=_norm_email(str(req.email)),
         password=hash_password(req.password),
@@ -132,5 +142,7 @@ async def create_admin(req: CreateAdminRequest):
         is_admin=True,
     )
     await new_admin.insert()
+
+    logging.info(f"Admin {req.new_email} created: {new_admin}")
 
     return {"message": "Admin account created", "email": new_admin.email}

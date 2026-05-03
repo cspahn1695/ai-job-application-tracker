@@ -6,6 +6,7 @@ from auth_utils import verify_password
 from schemas import UpdateMaxJobsRequest
 from user_model import User
 
+import logging
 router = APIRouter(prefix="/settings", tags=["Settings"])
 
 # Adzuna allows up to 50 results per request for typical plans
@@ -25,6 +26,7 @@ async def _require_admin(email: str, password: str) -> User:
 @router.get("/max-recommend-jobs")
 async def get_max_recommend_jobs():
     settings = await get_app_settings()
+    logging.info(f"Getting max recommend jobs: {settings.max_recommend_jobs}")
     return {"max_recommend_jobs": settings.max_recommend_jobs}
 
 
@@ -42,5 +44,7 @@ async def update_max_recommend_jobs(body: UpdateMaxJobsRequest):
     settings = await get_app_settings()
     settings.max_recommend_jobs = n
     await settings.save()
+
+    logging.info(f"Updated max recommend jobs: {settings.max_recommend_jobs}")
 
     return {"max_recommend_jobs": settings.max_recommend_jobs}

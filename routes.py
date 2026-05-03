@@ -114,6 +114,8 @@ async def get_applications(
     if company:
         query_filters["company"] = {"$regex": f".*{re.escape(company)}.*", "$options": "i"}
 
+    logging.info(f"Getting applications for user {current_user.email} with filters: {query_filters}")
+
     return await Application.find(query_filters).to_list()
 
 # second route to be used to test adzuna api. Test with city and title to see if it works.
@@ -275,6 +277,7 @@ async def profile_job_search(
 async def get_application(app_id: str, current_user: User = Depends(_get_current_user)):
     app = await _get_owned_application(app_id, current_user)
 
+    logging.info(f"Getting application {app_id} for user {current_user.email}")
     return app
 
 # update application 

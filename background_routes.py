@@ -2,6 +2,8 @@ from fastapi import APIRouter, HTTPException
 from background_model import Background
 from schemas import SavedJobCreate
 
+import logging
+
 router = APIRouter(prefix="/background", tags=["Background"])
 TEXT_SECTIONS = {"skills", "education", "experience"}
 
@@ -20,6 +22,7 @@ async def get_background(email: str):
         bg = Background(email=email)
         await bg.insert()
 
+    logging.info(f"Getting background for {email}: {bg}")
     return bg
 
 
@@ -39,6 +42,8 @@ async def add_item(email: str, section: str, item: str):
     if not bg:
         bg = Background(email=email)
         await bg.insert()
+
+    logging.info(f"Adding item {item} to section {section} for {email}: {bg}")
 
     section_items = getattr(bg, section)
     if item not in section_items:
@@ -64,6 +69,7 @@ async def delete_item(email: str, section: str, item: str):
     if item in section_items:
         section_items.remove(item)
     await bg.save()
+    logging.info(f"Deleted item {item} from section {section} for {email}: {bg}")
 
     return bg
 
@@ -88,8 +94,12 @@ async def add_saved_job(email: str, saved_job: SavedJobCreate):
             return bg
 
     bg.saved_jobs.append(saved_job)
+    logging.info(f"Added saved job {saved_job} to {email}: {bg}")
+
     await bg.save()
+
     return bg
+
 
 
 @router.delete("/{email}/saved-jobs/item")
@@ -108,4 +118,5 @@ async def delete_saved_job(email: str, url: str):
         if ((getattr(j, "url", "") or "").strip() != normalized_url)
     ]
     await bg.save()
+    logging.info(f"Deleted saved job {normalized_url} from {email}: {bg}")
     return bg

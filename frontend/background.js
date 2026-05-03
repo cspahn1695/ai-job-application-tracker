@@ -10,6 +10,8 @@ function apiUrl(path) {
 let email = (localStorage.getItem("userEmail") || "").trim().toLowerCase();
 if (email) localStorage.setItem("userEmail", email);
 let latestRecommendedJobs = [];
+/** Jobs from Adzuna title/location search on the profile page */
+let latestTitleSearchJobs = [];
 
 function loadBackground() {
   if (!email) return;
@@ -80,6 +82,10 @@ function goToApp() {
 
 function goToJobs() {
   window.location.href = "/static/search.html";
+}
+
+function goToBackground() {
+  window.location.href = "/static/background.html";
 }
 
 function logout() {
@@ -287,6 +293,123 @@ function createAnotherAdmin() {
     .catch((err) => alert(err.message));
 }
 
+function searchJobsByTitleLocation() {
+  const title = (document.getElementById("jobSearchTitleInput") || {}).value || "";
+  const city = (document.getElementById("jobSearchLocationInput") || {}).value || "";
+  const trimmedTitle = title.trim();
+  const trimmedCity = city.trim();
+
+  if (!trimmedTitle || !trimmedCity) {
+    alert("Enter both a job title (or keywords) and a location.");
+    return;
+  }
+
+  const url =
+    apiUrl("/applications/search-jobs") +
+    "?city=" +
+    encodeURIComponent(trimmedCity) +
+    "&title=" +
+    encodeURIComponent(trimmedTitle);
+
+  fetch(url)
+    .then((res) => {
+      if (!res.ok) {
+        return res.json().then((body) => {
+          const msg = body.detail || res.statusText || "Request failed";
+          throw new Error(typeof msg === "string" ? msg : JSON.stringify(msg));
+        });
+      }
+      return res.json();
+    })
+    .then((data) => {
+      const el = document.getElementById("adzunaJobResults");
+      if (!el) return;
+      el.innerHTML = "";
+      latestTitleSearchJobs = [];
+
+      if (!Array.isArray(data)) {
+        el.innerHTML = "<div class=\"col-12\">Unexpected response from server.</div>";
+        return;
+      }
+
+      if (data.length === 0) {
+        el.innerHTML =
+          '<div class="col-12 text-muted">No jobs returned. Try different keywords or location.</div>';
+        return;
+      }
+
+      data.forEach((job) => {
+        latestTitleSearchJobs.push(job);
+        const idx = latestTitleSearchJobs.length - 1;
+        const jtitle = job.title || "Untitled role";
+        const company = job.company || "Company not listed";
+        const loc = jobLocationText(job);
+        const jobUrl = job.url || "#";
+        el.innerHTML += `
+          <div class="col-md-6 col-lg-4">
+            <div class="card h-100 shadow-sm border-0">
+              <div class="card-body d-flex flex-column">
+                <h5 class="card-title mb-1">${escapeHtml(jtitle)}</h5>
+                <div class="text-muted mb-2">at ${escapeHtml(company)}</div>
+                <div class="mb-2">
+                  <span class="badge bg-secondary">${escapeHtml(loc)}</span>
+                </div>
+                <div class="flex-grow-1"></div>
+                <div class="d-flex gap-2 mt-3">
+                  <a class="btn btn-sm btn-outline-primary" href="${escapeHtml(jobUrl)}" target="_blank" rel="noopener noreferrer">View Job</a>
+                  <button type="button" onclick="saveTitleSearchJob(${idx})" class="btn btn-outline-secondary btn-sm">Save Job</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        `;
+      });
+    })
+    .catch((err) => {
+      console.error(err);
+      alert(err.message || "Error fetching jobs");
+    });
+}
+
+function saveTitleSearchJob(index) {
+  const job = latestTitleSearchJobs[index];
+  if (!job) {
+    alert("Could not save this job.");
+    return;
+  }
+
+  const payload = {
+    title: (job.title || "Untitled role").trim(),
+    url: (job.url || "").trim(),
+    company: (job.company || "Company not listed").trim(),
+    location: (jobLocationText(job) || "Not specified").trim(),
+  };
+
+  if (!payload.url) {
+    alert("This job is missing a URL, so it can't be saved.");
+    return;
+  }
+
+  fetch(apiUrl(`/background/${encodeURIComponent(email)}/saved-jobs/item`), {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(payload),
+  })
+    .then(async (res) => {
+      const data = await res.json().catch(async () => {
+        const text = await res.text().catch(() => "");
+        return { detail: text };
+      });
+      if (!res.ok) throw new Error(data.detail || "Could not save job");
+      return data;
+    })
+    .then(() => {
+      loadBackground();
+      alert("Job saved.");
+    })
+    .catch((err) => alert(err.message));
+}
+
 // function saveJob() {
 //   const jobTitle = document.getElementById("jobTitle").value;
 //   const jobCompany = document.getElementById("jobCompany").value;
@@ -373,8 +496,9 @@ function getJobs() {
                   <a class="btn btn-sm btn-outline-primary" href="${escapeHtml(jobUrl)}" target="_blank" rel="noopener noreferrer">View Job</a>
                   <button onclick="saveRecommendedJob(${idx})" class="btn btn-outline-secondary btn-sm">Save Job</button>
                 </div>
+              </div>
             </div>
-          </li>
+          </div>
         `;
       });
     })

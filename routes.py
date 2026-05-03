@@ -114,7 +114,37 @@ async def get_applications(
 
     return await Application.find(query_filters).to_list()
 
-# get single application 
+
+@router.get("/search-jobs")
+async def search_jobs_by_title_location(
+    city: str = Query(..., min_length=1),
+    title: str = Query(..., min_length=1),
+):
+    """Fetch jobs from Adzuna by location and title/keywords (no profile-based ranking)."""
+    city = (city or "").strip()
+    title = (title or "").strip()
+    if not city or not title:
+        raise HTTPException(
+            status_code=400, detail="City and title (keywords) are required"
+        )
+
+    settings = await get_app_settings()
+    limit = max(1, min(50, int(settings.max_recommend_jobs)))
+    results_per_page = max(20, min(50, limit))
+
+    jobs = fetch_jobs(
+        city, keywords=title, results_per_page=results_per_page
+    )
+    logging.info(
+        "Adzuna search by title/location: city=%r title=%r count=%s",
+        city,
+        title,
+        len(jobs),
+    )
+    return jobs
+
+
+# get single application
 @router.get("/{app_id}")
 async def get_application(app_id: str, current_user: User = Depends(_get_current_user)):
     app = await _get_owned_application(app_id, current_user)

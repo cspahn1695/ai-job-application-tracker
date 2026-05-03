@@ -72,6 +72,33 @@
     <ul id="experienceList"></ul>
   </div>
 
+  <!-- ADZUNA: search by job title + location (keywords, not profile match) -->
+  <div class="mb-4">
+    <h5>Search jobs by title &amp; location</h5>
+    <p class="small text-muted mb-2">
+      Uses the Adzuna API with your job title or keywords and a city, state, or region—separate from the match score that uses your skills and experience below on the Job Search page.
+    </p>
+    <div class="row g-2 mb-2">
+      <div class="col-md-6">
+        <label for="jobSearchTitleInput" class="form-label small mb-0">Job title or keywords</label>
+        <input id="jobSearchTitleInput" type="text" class="form-control" placeholder="e.g. software engineer, data analyst" autocomplete="off" />
+      </div>
+      <div class="col-md-6">
+        <label for="jobSearchLocationInput" class="form-label small mb-0">Location</label>
+        <input id="jobSearchLocationInput" type="text" class="form-control" placeholder="e.g. Iowa City, IA" autocomplete="off" />
+      </div>
+    </div>
+    <button type="button" onclick="searchJobsByTitleLocation()" class="btn btn-primary mb-3">
+      Search Adzuna
+    </button>
+    <div id="adzunaJobResults" class="row g-3"></div>
+  </div>
+
+  <div class="mb-4">
+    <h5>Saved jobs</h5>
+    <ul id="savedJobsList" class="list-group"></ul>
+  </div>
+
   <!-- ADMIN: global max jobs (applies to all users) -->
   <div id="adminPanel" class="mb-4 p-3 border border-warning rounded bg-light" style="display: none;">
     <h4 class="text-warning-emphasis">Admin: job list limit</h4>

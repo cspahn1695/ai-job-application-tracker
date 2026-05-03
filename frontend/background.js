@@ -26,6 +26,71 @@ function applicationApiHeaders() {
   return headers;
 }
 
+/**
+ * POST /applications/ — use same host as the FastAPI app when it serves this UI on port 8000
+ * (covers /static/… and default-site paths). Otherwise match main.js fallback host.
+ */
+function applicationsCreateUrl() {
+  if (window.location.protocol === "file:" || !window.location.host) {
+    return "http://127.0.0.1:8000/applications/";
+  }
+  const port = window.location.port || (window.location.protocol === "https:" ? "443" : "80");
+  if (port === "8000") {
+    return window.location.origin.replace(/\/$/, "") + "/applications/";
+  }
+  return "http://127.0.0.1:8000/applications/";
+}
+
+/** Create a My Applications row (Plan to Apply) from a normalized job object. */
+function postJobAsPlanToApplyApplication(job) {
+  const token = (localStorage.getItem("accessToken") || "").trim();
+  if (!token) {
+    return Promise.reject(
+      new Error(
+        "You need to be signed in. Open My Applications or log in again, then try Save Job."
+      )
+    );
+  }
+
+  const jobUrl = (job.url || "").trim();
+  if (!jobUrl) {
+    return Promise.reject(new Error("This job is missing a URL, so it can't be saved."));
+  }
+
+  const body = {
+    company: (job.company || "Company not listed").trim(),
+    role: (job.title || "Untitled role").trim(),
+    status: "plan_to_apply",
+    priority: "medium",
+    recruitmentinfo: (jobLocationText(job) || "Not specified").trim(),
+    jobpostinglink: jobUrl,
+  };
+
+  return fetch(applicationsCreateUrl(), {
+    method: "POST",
+    headers: applicationApiHeaders(),
+    body: JSON.stringify(body),
+  }).then(async (res) => {
+    const data = await res.json().catch(async () => {
+      const text = await res.text().catch(() => "");
+      return { detail: text };
+    });
+    if (res.status < 200 || res.status >= 300) {
+      const detail = data.detail;
+      const msg =
+        typeof detail === "string"
+          ? detail
+          : Array.isArray(detail)
+            ? detail.map((x) => x.msg || x).join(" ")
+            : detail
+              ? JSON.stringify(detail)
+              : "Could not add application";
+      throw new Error(msg);
+    }
+    return data;
+  });
+}
+
 let email = (localStorage.getItem("userEmail") || "").trim().toLowerCase();
 if (email) localStorage.setItem("userEmail", email);
 let latestRecommendedJobs = [];
@@ -440,55 +505,9 @@ function saveProfilePageJob(index) {
     return;
   }
 
-  const token = (localStorage.getItem("accessToken") || "").trim();
-  if (!token) {
-    alert(
-      "You need to be signed in with a valid session. Open My Applications or log in again, then try Save Job."
-    );
-    return;
-  }
-
-  const jobUrl = (job.url || "").trim();
-  if (!jobUrl) {
-    alert("This job is missing a URL, so it can't be saved.");
-    return;
-  }
-
-  const body = {
-    company: (job.company || "Company not listed").trim(),
-    role: (job.title || "Untitled role").trim(),
-    status: "plan_to_apply",
-    priority: "medium",
-    recruitmentinfo: (jobLocationText(job) || "Not specified").trim(),
-    jobpostinglink: jobUrl,
-  };
-
-  fetch(apiUrl("/applications/"), {
-    method: "POST",
-    headers: applicationApiHeaders(),
-    body: JSON.stringify(body),
-  })
-    .then(async (res) => {
-      const data = await res.json().catch(async () => {
-        const text = await res.text().catch(() => "");
-        return { detail: text };
-      });
-      if (res.status < 200 || res.status >= 300) {
-        const detail = data.detail;
-        const msg =
-          typeof detail === "string"
-            ? detail
-            : Array.isArray(detail)
-              ? detail.map((x) => x.msg || x).join(" ")
-              : detail
-                ? JSON.stringify(detail)
-                : "Could not add application";
-        throw new Error(msg);
-      }
-      return data;
-    })
+  postJobAsPlanToApplyApplication(job)
     .then(() => {
-      alert("Application added under Plan to Apply. Open My Applications to see it.");
+      alert("Saved to My Applications as Plan to Apply.");
     })
     .catch((err) => alert(err.message));
 }

@@ -116,7 +116,7 @@ async def get_applications(
 
     return await Application.find(query_filters).to_list()
 
-# second route to be used to test adzuna api
+# second route to be used to test adzuna api. Test with city and title to see if it works.
 @router.get("/search-jobs")
 async def search_jobs_by_title_location(
     city: str = Query(..., min_length=1),
@@ -178,7 +178,7 @@ def _dedupe_jobs_by_url(jobs: List[dict]) -> List[dict]:
         out.append(j)
     return out
 
-
+# third route to be used to test adzuna api. Test with mode, city, email, and title to see if it works.
 @router.get("/profile-job-search")
 async def profile_job_search(
     mode: ProfileJobSearchMode,
@@ -363,7 +363,7 @@ async def get_match_score_from_text(
 def _norm_bg_email(value: str) -> str:
     return (value or "").strip().lower()
 
-# second route to be used to test adzuna api
+# second route to be used to test adzuna api. Test with email and city to see if it works.
 @router.get("/recommend-jobs/{email}") # this actually gets jobs from adzuna API and ranks them based on the user's background info (skills, experience, education) using the rank_jobs function in ai_matcher.py
 async def recommend_jobs(email: str, city: str):
 

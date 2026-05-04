@@ -205,8 +205,21 @@ function editApplication(id) {
 
   currentEditId = id;
 
+  const resumeInput = document.getElementById("editResume");
+  if (resumeInput) {
+    resumeInput.value = "";
+  }
+
   const modal = new bootstrap.Modal(document.getElementById("editModal"));
   modal.show();
+}
+
+function closeEditModal() {
+  const modalEl = document.getElementById("editModal");
+  const modal = bootstrap.Modal.getInstance(modalEl);
+  if (modal) {
+    modal.hide();
+  }
 }
 
 function saveEdit() {
@@ -216,36 +229,58 @@ function saveEdit() {
   const priority = document.getElementById("editPriority").value;
   const recruitmentinfo = document.getElementById("editRecruitment").value;
   const jobpostinglink = document.getElementById("editJobLink").value;
+  const resumeFile = document.getElementById("editResume").files[0];
 
   const xhr = new XMLHttpRequest();
 
   xhr.onload = () => {
-    if (xhr.status === 200) {
-      getAllApplications();
-
-      // Close modal
-      const modalEl = document.getElementById('editModal');
-      const modal = bootstrap.Modal.getInstance(modalEl);
-      modal.hide();
-    } else {
+    if (xhr.status !== 200) {
       console.error("Edit failed:", xhr.response);
       alert("Edit failed");
+      return;
+    }
+
+    if (resumeFile) {
+      const up = new XMLHttpRequest();
+      up.onload = () => {
+        if (up.status !== 200) {
+          console.error("Resume upload failed:", up.response);
+          alert("Application saved, but resume upload failed. Try again.");
+        } else {
+          const resumeInput = document.getElementById("editResume");
+          if (resumeInput) {
+            resumeInput.value = "";
+          }
+        }
+        getAllApplications();
+        closeEditModal();
+      };
+      const formData = new FormData();
+      formData.append("file", resumeFile);
+      up.open("POST", `http://127.0.0.1:8000/applications/${currentEditId}/resume`, true);
+      applyAuthHeader(up);
+      up.send(formData);
+    } else {
+      getAllApplications();
+      closeEditModal();
     }
   };
 
   xhr.open("PUT", `http://127.0.0.1:8000/applications/${currentEditId}`, true);
   xhr.setRequestHeader("Content-Type", "application/json");
   applyAuthHeader(xhr);
-
-  xhr.send(JSON.stringify({
-    company,
-    role,
-    status,
-    priority,
-    recruitmentinfo,
-    jobpostinglink
-  }));
+  xhr.send(
+    JSON.stringify({
+      company,
+      role,
+      status,
+      priority,
+      recruitmentinfo,
+      jobpostinglink,
+    })
+  );
 }
+
 
 function createApplication() { // to create an application, define all below parameters (but recruitmentinfo, resumeFile, and jobpostinglink are optional)
   const company = document.getElementById("company").value; // get all these values from the backend

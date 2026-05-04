@@ -67,3 +67,162 @@ INFO:root:profile_job_search both: email='cspahn21@outlook.com' n=6
 INFO:root:profile_job_search both: email='cspahn21@outlook.com' n=6
 INFO:root:profile_job_search both: email='cspahn21@outlook.com' n=6
 INFO:root:Created application 69f7be81bc17dd40e734d6fb for user cspahn21@outlook.com
+INFO:root:Getting background for cspahn21@outlook.com: id=ObjectId('69e13542db17f35170565e19') revision_id=None email='cspahn21@outlook.com' skills=['circuit design', 'debugging', 'python', 'C  ', 'EMI troubleshooting', 'electrical schematic design', 'java'] education=['The University of Iowa'] experience=['intern at Collins Aerospace'] saved_jobs=[]
+INFO:root:Getting max recommend jobs: 6
+INFO:root:Finding user by email cspahn21@outlook.com: id=ObjectId('69e13538db17f35170565e18') revision_id=None email='cspahn21@outlook.com' password='$2b$12$MYBTL05wQZV4cQjmAAtWsOJCm4isLTLgbs21EfraofPgbU6dsF.rW' is_admin=False
+INFO:root:Getting user cspahn21@outlook.com: id=ObjectId('69e13538db17f35170565e18') revision_id=None email='cspahn21@outlook.com' password='$2b$12$MYBTL05wQZV4cQjmAAtWsOJCm4isLTLgbs21EfraofPgbU6dsF.rW' is_admin=False
+INFO:root:User cspahn21@outlook.com found: id=ObjectId('69e13538db17f35170565e18') revision_id=None email='cspahn21@outlook.com' password='$2b$12$MYBTL05wQZV4cQjmAAtWsOJCm4isLTLgbs21EfraofPgbU6dsF.rW' is_admin=False
+INFO:root:Finding user by email cspahn21@outlook.com: id=ObjectId('69e13538db17f35170565e18') revision_id=None email='cspahn21@outlook.com' password='$2b$12$MYBTL05wQZV4cQjmAAtWsOJCm4isLTLgbs21EfraofPgbU6dsF.rW' is_admin=False
+INFO:root:User cspahn21@outlook.com logged in: id=ObjectId('69e13538db17f35170565e18') revision_id=None email='cspahn21@outlook.com' password='$2b$12$MYBTL05wQZV4cQjmAAtWsOJCm4isLTLgbs21EfraofPgbU6dsF.rW' is_admin=False
+INFO:root:Getting applications for user cspahn21@outlook.com with filters: {'$or': [{'owner_email': 'cspahn21@outlook.com'}, {'owner_id': ObjectId('69e13538db17f35170565e18')}, {'Owner.$id': ObjectId('69e13538db17f35170565e18')}]}
+INFO:root:Finding user by email cspahn21@outlook.com: id=ObjectId('69e13538db17f35170565e18') revision_id=None email='cspahn21@outlook.com' password='$2b$12$MYBTL05wQZV4cQjmAAtWsOJCm4isLTLgbs21EfraofPgbU6dsF.rW' is_admin=False
+INFO:root:User cspahn21@outlook.com logged in: id=ObjectId('69e13538db17f35170565e18') revision_id=None email='cspahn21@outlook.com' password='$2b$12$MYBTL05wQZV4cQjmAAtWsOJCm4isLTLgbs21EfraofPgbU6dsF.rW' is_admin=False
+INFO:root:Getting applications for user cspahn21@outlook.com with filters: {'$or': [{'owner_email': 'cspahn21@outlook.com'}, {'owner_id': ObjectId('69e13538db17f35170565e18')}, {'Owner.$id': ObjectId('69e13538db17f35170565e18')}]}
+INFO:root:Getting applications for user cspahn21@outlook.com with filters: {'$or': [{'owner_email': 'cspahn21@outlook.com'}, {'owner_id': ObjectId('69e13538db17f35170565e18')}, {'Owner.$id': ObjectId('69e13538db17f35170565e18')}]}
+INFO:root:Created application 69f907547a0c325a1756567a for user cspahn21@outlook.com
+INFO:root:Getting applications for user cspahn21@outlook.com with filters: {'$or': [{'owner_email': 'cspahn21@outlook.com'}, {'owner_id': ObjectId('69e13538db17f35170565e18')}, {'Owner.$id': ObjectId('69e13538db17f35170565e18')}]}
+INFO:root:Application deleted: 69f907547a0c325a1756567a
+INFO:root:Getting applications for user cspahn21@outlook.com with filters: {'$or': [{'owner_email': 'cspahn21@outlook.com'}, {'owner_id': ObjectId('69e13538db17f35170565e18')}, {'Owner.$id': ObjectId('69e13538db17f35170565e18')}]}
+INFO:root:Created application 69f907847a0c325a1756567b for user cspahn21@outlook.com
+INFO:root:Getting applications for user cspahn21@outlook.com with filters: {'$or': [{'owner_email': 'cspahn21@outlook.com'}, {'owner_id': ObjectId('69e13538db17f35170565e18')}, {'Owner.$id': ObjectId('69e13538db17f35170565e18')}]}
+INFO:root:Getting background for cspahn21@outlook.com: id=ObjectId('69e13542db17f35170565e19') revision_id=None email='cspahn21@outlook.com' skills=['circuit design', 'debugging', 'python', 'C  ', 'EMI troubleshooting', 'electrical schematic design', 'java'] education=['The University of Iowa'] experience=['intern at Collins Aerospace'] saved_jobs=[]
+INFO:root:Getting max recommend jobs: 6
+INFO:root:Finding user by email cspahn21@outlook.com: id=ObjectId('69e13538db17f35170565e18') revision_id=None email='cspahn21@outlook.com' password='$2b$12$MYBTL05wQZV4cQjmAAtWsOJCm4isLTLgbs21EfraofPgbU6dsF.rW' is_admin=False
+INFO:root:Getting user cspahn21@outlook.com: id=ObjectId('69e13538db17f35170565e18') revision_id=None email='cspahn21@outlook.com' password='$2b$12$MYBTL05wQZV4cQjmAAtWsOJCm4isLTLgbs21EfraofPgbU6dsF.rW' is_admin=False
+INFO:root:User cspahn21@outlook.com found: id=ObjectId('69e13538db17f35170565e18') revision_id=None email='cspahn21@outlook.com' password='$2b$12$MYBTL05wQZV4cQjmAAtWsOJCm4isLTLgbs21EfraofPgbU6dsF.rW' is_admin=False
+INFO:root:profile_job_search title_location: city='Chicago, IL' title='software engineer' n=6
+INFO:root:Created application 69f907c77a0c325a1756567c for user cspahn21@outlook.com
+INFO:root:Finding user by email cspahn21@outlook.com: id=ObjectId('69e13538db17f35170565e18') revision_id=None email='cspahn21@outlook.com' password='$2b$12$MYBTL05wQZV4cQjmAAtWsOJCm4isLTLgbs21EfraofPgbU6dsF.rW' is_admin=False
+INFO:root:User cspahn21@outlook.com logged in: id=ObjectId('69e13538db17f35170565e18') revision_id=None email='cspahn21@outlook.com' password='$2b$12$MYBTL05wQZV4cQjmAAtWsOJCm4isLTLgbs21EfraofPgbU6dsF.rW' is_admin=False
+INFO:root:Getting applications for user cspahn21@outlook.com with filters: {'$or': [{'owner_email': 'cspahn21@outlook.com'}, {'owner_id': ObjectId('69e13538db17f35170565e18')}, {'Owner.$id': ObjectId('69e13538db17f35170565e18')}]}
+INFO:root:Getting background for cspahn21@outlook.com: id=ObjectId('69e13542db17f35170565e19') revision_id=None email='cspahn21@outlook.com' skills=['circuit design', 'debugging', 'python', 'C  ', 'EMI troubleshooting', 'electrical schematic design', 'java'] education=['The University of Iowa'] experience=['intern at Collins Aerospace'] saved_jobs=[]
+INFO:root:Finding user by email cspahn21@outlook.com: id=ObjectId('69e13538db17f35170565e18') revision_id=None email='cspahn21@outlook.com' password='$2b$12$MYBTL05wQZV4cQjmAAtWsOJCm4isLTLgbs21EfraofPgbU6dsF.rW' is_admin=False
+INFO:root:Getting user cspahn21@outlook.com: id=ObjectId('69e13538db17f35170565e18') revision_id=None email='cspahn21@outlook.com' password='$2b$12$MYBTL05wQZV4cQjmAAtWsOJCm4isLTLgbs21EfraofPgbU6dsF.rW' is_admin=False
+INFO:root:User cspahn21@outlook.com found: id=ObjectId('69e13538db17f35170565e18') revision_id=None email='cspahn21@outlook.com' password='$2b$12$MYBTL05wQZV4cQjmAAtWsOJCm4isLTLgbs21EfraofPgbU6dsF.rW' is_admin=False
+INFO:root:Getting max recommend jobs: 6
+INFO:root:profile_job_search title_location: city='Wheaton, IL' title='data analyst' n=6
+INFO:root:profile_job_search title_location: city='Chicago, IL' title='accountant' n=6
+INFO:root:Getting background for cspahn21@outlook.com: id=ObjectId('69e13542db17f35170565e19') revision_id=None email='cspahn21@outlook.com' skills=['circuit design', 'debugging', 'python', 'C  ', 'EMI troubleshooting', 'electrical schematic design', 'java'] education=['The University of Iowa'] experience=['intern at Collins Aerospace'] saved_jobs=[]
+INFO:root:Finding user by email cspahn21@outlook.com: id=ObjectId('69e13538db17f35170565e18') revision_id=None email='cspahn21@outlook.com' password='$2b$12$MYBTL05wQZV4cQjmAAtWsOJCm4isLTLgbs21EfraofPgbU6dsF.rW' is_admin=False
+INFO:root:Getting user cspahn21@outlook.com: id=ObjectId('69e13538db17f35170565e18') revision_id=None email='cspahn21@outlook.com' password='$2b$12$MYBTL05wQZV4cQjmAAtWsOJCm4isLTLgbs21EfraofPgbU6dsF.rW' is_admin=False
+INFO:root:User cspahn21@outlook.com found: id=ObjectId('69e13538db17f35170565e18') revision_id=None email='cspahn21@outlook.com' password='$2b$12$MYBTL05wQZV4cQjmAAtWsOJCm4isLTLgbs21EfraofPgbU6dsF.rW' is_admin=False
+INFO:root:Getting max recommend jobs: 6
+INFO:root:Finding user by email cspahn21@outlook.com: id=ObjectId('69e13538db17f35170565e18') revision_id=None email='cspahn21@outlook.com' password='$2b$12$MYBTL05wQZV4cQjmAAtWsOJCm4isLTLgbs21EfraofPgbU6dsF.rW' is_admin=False
+INFO:root:User cspahn21@outlook.com logged in: id=ObjectId('69e13538db17f35170565e18') revision_id=None email='cspahn21@outlook.com' password='$2b$12$MYBTL05wQZV4cQjmAAtWsOJCm4isLTLgbs21EfraofPgbU6dsF.rW' is_admin=False
+INFO:root:Getting applications for user cspahn21@outlook.com with filters: {'$or': [{'owner_email': 'cspahn21@outlook.com'}, {'owner_id': ObjectId('69e13538db17f35170565e18')}, {'Owner.$id': ObjectId('69e13538db17f35170565e18')}]}
+INFO:root:Finding user by email cspahn21@outlook.com: id=ObjectId('69e13538db17f35170565e18') revision_id=None email='cspahn21@outlook.com' password='$2b$12$MYBTL05wQZV4cQjmAAtWsOJCm4isLTLgbs21EfraofPgbU6dsF.rW' is_admin=False
+INFO:root:Getting user cspahn21@outlook.com: id=ObjectId('69e13538db17f35170565e18') revision_id=None email='cspahn21@outlook.com' password='$2b$12$MYBTL05wQZV4cQjmAAtWsOJCm4isLTLgbs21EfraofPgbU6dsF.rW' is_admin=False
+INFO:root:User cspahn21@outlook.com found: id=ObjectId('69e13538db17f35170565e18') revision_id=None email='cspahn21@outlook.com' password='$2b$12$MYBTL05wQZV4cQjmAAtWsOJCm4isLTLgbs21EfraofPgbU6dsF.rW' is_admin=False
+INFO:root:Getting background for cspahn21@outlook.com: id=ObjectId('69e13542db17f35170565e19') revision_id=None email='cspahn21@outlook.com' skills=['circuit design', 'debugging', 'python', 'C  ', 'EMI troubleshooting', 'electrical schematic design', 'java'] education=['The University of Iowa'] experience=['intern at Collins Aerospace'] saved_jobs=[]
+INFO:root:Getting max recommend jobs: 6
+INFO:jobs_api:Adzuna redirect resolve failed for https://www.adzuna.com/land/ad/5528350864?se=XLpOvgBI8RGldLZhYZiz6Q&utm_medium=api&utm_source=730816bd&v=9E9AD3F0D54AC02B5ABCEB49C0EF4EEC708C9B73: HTTPSConnectionPool(host='www.adzuna.com', port=443): Read timed out. (read timeout=6.0)
+INFO:jobs_api:Adzuna redirect resolve failed for https://www.adzuna.com/land/ad/5528388167?se=XLpOvgBI8RGldLZhYZiz6Q&utm_medium=api&utm_source=730816bd&v=3DFC236A520EF987153C4054BBF9110CAC4F3880: HTTPSConnectionPool(host='www.adzuna.com', port=443): Read timed out. (read timeout=6.0)
+INFO:jobs_api:Adzuna redirect resolve failed for https://www.adzuna.com/land/ad/5528343033?se=XLpOvgBI8RGldLZhYZiz6Q&utm_medium=api&utm_source=730816bd&v=B56E8B6A0A7E667F5A249743F689E7AA837AC1E9: HTTPSConnectionPool(host='www.adzuna.com', port=443): Read timed out. (read timeout=6.0)
+INFO:jobs_api:Adzuna redirect resolve failed for https://www.adzuna.com/land/ad/5718000648?se=XLpOvgBI8RGldLZhYZiz6Q&utm_medium=api&utm_source=730816bd&v=631467CD8D6DCBD40254BC65F912626431B8D4EB: HTTPSConnectionPool(host='www.adzuna.com', port=443): Read timed out. (read timeout=6.0)
+INFO:jobs_api:Adzuna redirect resolve failed for https://www.adzuna.com/details/5239914653?utm_medium=api&utm_source=730816bd: HTTPSConnectionPool(host='www.adzuna.com', port=443): Read timed out. (read timeout=6.0)
+INFO:jobs_api:Adzuna redirect resolve failed for https://www.adzuna.com/details/5710912052?utm_medium=api&utm_source=730816bd: HTTPSConnectionPool(host='www.adzuna.com', port=443): Read timed out. (read timeout=6.0)
+INFO:jobs_api:Adzuna redirect resolve failed for https://www.adzuna.com/details/5600476522?utm_medium=api&utm_source=730816bd: HTTPSConnectionPool(host='www.adzuna.com', port=443): Read timed out. (read timeout=6.0)
+INFO:jobs_api:Adzuna redirect resolve failed for https://www.adzuna.com/details/5169603150?utm_medium=api&utm_source=730816bd: HTTPSConnectionPool(host='www.adzuna.com', port=443): Read timed out. (read timeout=6.0)
+INFO:jobs_api:Adzuna redirect resolve failed for https://www.adzuna.com/details/5717467402?utm_medium=api&utm_source=730816bd: HTTPSConnectionPool(host='www.adzuna.com', port=443): Read timed out. (read timeout=6.0)
+INFO:jobs_api:Adzuna redirect resolve failed for https://www.adzuna.com/details/5645560613?utm_medium=api&utm_source=730816bd: HTTPSConnectionPool(host='www.adzuna.com', port=443): Read timed out. (read timeout=6.0)
+INFO:jobs_api:Adzuna redirect resolve failed for https://www.adzuna.com/details/5709802944?utm_medium=api&utm_source=730816bd: HTTPSConnectionPool(host='www.adzuna.com', port=443): Read timed out. (read timeout=6.0)
+INFO:root:profile_job_search title_location: city='Chicago, IL' title='software engineer' n=6
+INFO:jobs_api:Adzuna redirect resolve failed for https://www.adzuna.com/details/5239914653?utm_medium=api&utm_source=730816bd: HTTPSConnectionPool(host='www.adzuna.com', port=443): Read timed out. (read timeout=6.0)
+INFO:jobs_api:Adzuna redirect resolve failed for https://www.adzuna.com/land/ad/5528333614?se=uDVoyABI8RG3JZ-qmanoMg&utm_medium=api&utm_source=730816bd&v=EF692B6998F3D49F68AFC18A614A613317A4B632: HTTPSConnectionPool(host='www.adzuna.com', port=443): Read timed out. (read timeout=6.0)
+INFO:jobs_api:Adzuna redirect resolve failed for https://www.adzuna.com/land/ad/5718000648?se=uDVoyABI8RG3JZ-qmanoMg&utm_medium=api&utm_source=730816bd&v=631467CD8D6DCBD40254BC65F912626431B8D4EB: HTTPSConnectionPool(host='www.adzuna.com', port=443): Read timed out. (read timeout=6.0)
+INFO:jobs_api:Adzuna redirect resolve failed for https://www.adzuna.com/details/5645546583?utm_medium=api&utm_source=730816bd: HTTPSConnectionPool(host='www.adzuna.com', port=443): Read timed out. (read timeout=6.0)
+INFO:jobs_api:Adzuna redirect resolve failed for https://www.adzuna.com/land/ad/5528350864?se=uDVoyABI8RG3JZ-qmanoMg&utm_medium=api&utm_source=730816bd&v=9E9AD3F0D54AC02B5ABCEB49C0EF4EEC708C9B73: HTTPSConnectionPool(host='www.adzuna.com', port=443): Read timed out. (read timeout=6.0)
+INFO:jobs_api:Adzuna redirect resolve failed for https://www.adzuna.com/details/5600476522?utm_medium=api&utm_source=730816bd: HTTPSConnectionPool(host='www.adzuna.com', port=443): Read timed out. (read timeout=6.0)
+INFO:jobs_api:Adzuna redirect resolve failed for https://www.adzuna.com/details/5169603150?utm_medium=api&utm_source=730816bd: HTTPSConnectionPool(host='www.adzuna.com', port=443): Read timed out. (read timeout=6.0)
+INFO:jobs_api:Adzuna redirect resolve failed for https://www.adzuna.com/details/5717467402?utm_medium=api&utm_source=730816bd: HTTPSConnectionPool(host='www.adzuna.com', port=443): Read timed out. (read timeout=6.0)
+INFO:jobs_api:Adzuna redirect resolve failed for https://www.adzuna.com/details/5631299249?utm_medium=api&utm_source=730816bd: HTTPSConnectionPool(host='www.adzuna.com', port=443): Read timed out. (read timeout=6.0)
+INFO:jobs_api:Adzuna redirect resolve failed for https://www.adzuna.com/details/5471160779?utm_medium=api&utm_source=730816bd: HTTPSConnectionPool(host='www.adzuna.com', port=443): Read timed out. (read timeout=6.0)
+INFO:root:profile_job_search title_location: city='Chicago, IL' title='software engineer' n=6
+INFO:root:Finding user by email cspahn21@outlook.com: id=ObjectId('69e13538db17f35170565e18') revision_id=None email='cspahn21@outlook.com' password='$2b$12$MYBTL05wQZV4cQjmAAtWsOJCm4isLTLgbs21EfraofPgbU6dsF.rW' is_admin=False
+INFO:root:Getting user cspahn21@outlook.com: id=ObjectId('69e13538db17f35170565e18') revision_id=None email='cspahn21@outlook.com' password='$2b$12$MYBTL05wQZV4cQjmAAtWsOJCm4isLTLgbs21EfraofPgbU6dsF.rW' is_admin=False
+INFO:root:User cspahn21@outlook.com found: id=ObjectId('69e13538db17f35170565e18') revision_id=None email='cspahn21@outlook.com' password='$2b$12$MYBTL05wQZV4cQjmAAtWsOJCm4isLTLgbs21EfraofPgbU6dsF.rW' is_admin=False
+INFO:root:Getting max recommend jobs: 6
+INFO:root:Getting background for cspahn21@outlook.com: id=ObjectId('69e13542db17f35170565e19') revision_id=None email='cspahn21@outlook.com' skills=['circuit design', 'debugging', 'python', 'C  ', 'EMI troubleshooting', 'electrical schematic design', 'java'] education=['The University of Iowa'] experience=['intern at Collins Aerospace'] saved_jobs=[]
+INFO:jobs_api:Adzuna redirect resolve failed for https://www.adzuna.com/land/ad/5718194475?se=chOa9ABI8RGSdISXQQQjPQ&utm_medium=api&utm_source=730816bd&v=05E1F66A966182FDF372799EE6EED93D21EA5989: HTTPSConnectionPool(host='www.adzuna.com', port=443): Read timed out. (read timeout=6.0)
+INFO:jobs_api:Adzuna redirect resolve failed for https://www.adzuna.com/land/ad/5714645499?se=chOa9ABI8RGSdISXQQQjPQ&utm_medium=api&utm_source=730816bd&v=88F385CD975C94958C2603C008728F9B1392ED32: HTTPSConnectionPool(host='www.adzuna.com', port=443): Read timed out. (read timeout=6.0)
+INFO:jobs_api:Adzuna redirect resolve failed for https://www.adzuna.com/details/5600476522?utm_medium=api&utm_source=730816bd: HTTPSConnectionPool(host='www.adzuna.com', port=443): Read timed out. (read timeout=6.0)
+INFO:jobs_api:Adzuna redirect resolve failed for https://www.adzuna.com/details/5169603150?utm_medium=api&utm_source=730816bd: HTTPSConnectionPool(host='www.adzuna.com', port=443): Read timed out. (read timeout=6.0)
+INFO:jobs_api:Adzuna redirect resolve failed for https://www.adzuna.com/details/5631299249?utm_medium=api&utm_source=730816bd: HTTPSConnectionPool(host='www.adzuna.com', port=443): Read timed out. (read timeout=6.0)
+INFO:jobs_api:Adzuna redirect resolve failed for https://www.adzuna.com/details/5471160779?utm_medium=api&utm_source=730816bd: HTTPSConnectionPool(host='www.adzuna.com', port=443): Read timed out. (read timeout=6.0)
+INFO:root:profile_job_search title_location: city='Chicago, IL' title='software engineer' n=6
+INFO:root:Getting background for cspahn21@outlook.com: id=ObjectId('69e13542db17f35170565e19') revision_id=None email='cspahn21@outlook.com' skills=['circuit design', 'debugging', 'python', 'C  ', 'EMI troubleshooting', 'electrical schematic design', 'java'] education=['The University of Iowa'] experience=['intern at Collins Aerospace'] saved_jobs=[]
+INFO:root:Getting max recommend jobs: 6
+INFO:root:Finding user by email cspahn21@outlook.com: id=ObjectId('69e13538db17f35170565e18') revision_id=None email='cspahn21@outlook.com' password='$2b$12$MYBTL05wQZV4cQjmAAtWsOJCm4isLTLgbs21EfraofPgbU6dsF.rW' is_admin=False
+INFO:root:Getting user cspahn21@outlook.com: id=ObjectId('69e13538db17f35170565e18') revision_id=None email='cspahn21@outlook.com' password='$2b$12$MYBTL05wQZV4cQjmAAtWsOJCm4isLTLgbs21EfraofPgbU6dsF.rW' is_admin=False
+INFO:root:User cspahn21@outlook.com found: id=ObjectId('69e13538db17f35170565e18') revision_id=None email='cspahn21@outlook.com' password='$2b$12$MYBTL05wQZV4cQjmAAtWsOJCm4isLTLgbs21EfraofPgbU6dsF.rW' is_admin=False
+INFO:jobs_api:Adzuna redirect resolve failed for https://www.adzuna.com/details/5239914653?utm_medium=api&utm_source=730816bd: HTTPSConnectionPool(host='www.adzuna.com', port=443): Read timed out. (read timeout=6.0)
+INFO:jobs_api:Adzuna redirect resolve failed for https://www.adzuna.com/land/ad/5714645499?se=Gut_ZgFI8RGSdISXQQQjPQ&utm_medium=api&utm_source=730816bd&v=88F385CD975C94958C2603C008728F9B1392ED32: HTTPSConnectionPool(host='www.adzuna.com', port=443): Read timed out. (read timeout=6.0)
+INFO:jobs_api:Adzuna redirect resolve failed for https://www.adzuna.com/land/ad/5528343033?se=Gut_ZgFI8RGSdISXQQQjPQ&utm_medium=api&utm_source=730816bd&v=B56E8B6A0A7E667F5A249743F689E7AA837AC1E9: HTTPSConnectionPool(host='www.adzuna.com', port=443): Read timed out. (read timeout=6.0)
+INFO:jobs_api:Adzuna redirect resolve failed for https://www.adzuna.com/land/ad/5528333614?se=Gut_ZgFI8RGSdISXQQQjPQ&utm_medium=api&utm_source=730816bd&v=EF692B6998F3D49F68AFC18A614A613317A4B632: HTTPSConnectionPool(host='www.adzuna.com', port=443): Read timed out. (read timeout=6.0)
+INFO:jobs_api:Adzuna redirect resolve failed for https://www.adzuna.com/land/ad/5528388167?se=Gut_ZgFI8RGSdISXQQQjPQ&utm_medium=api&utm_source=730816bd&v=3DFC236A520EF987153C4054BBF9110CAC4F3880: HTTPSConnectionPool(host='www.adzuna.com', port=443): Read timed out. (read timeout=6.0)
+INFO:jobs_api:Adzuna redirect resolve failed for https://www.adzuna.com/land/ad/5718000648?se=Gut_ZgFI8RGSdISXQQQjPQ&utm_medium=api&utm_source=730816bd&v=631467CD8D6DCBD40254BC65F912626431B8D4EB: HTTPSConnectionPool(host='www.adzuna.com', port=443): Read timed out. (read timeout=6.0)
+INFO:jobs_api:Adzuna redirect resolve failed for https://www.adzuna.com/details/5710912052?utm_medium=api&utm_source=730816bd: HTTPSConnectionPool(host='www.adzuna.com', port=443): Read timed out. (read timeout=6.0)
+INFO:jobs_api:Adzuna redirect resolve failed for https://www.adzuna.com/details/5645546583?utm_medium=api&utm_source=730816bd: HTTPSConnectionPool(host='www.adzuna.com', port=443): Read timed out. (read timeout=6.0)
+INFO:jobs_api:Adzuna redirect resolve failed for https://www.adzuna.com/details/5624950369?utm_medium=api&utm_source=730816bd: HTTPSConnectionPool(host='www.adzuna.com', port=443): Read timed out. (read timeout=6.0)
+INFO:jobs_api:Adzuna redirect resolve failed for https://www.adzuna.com/details/5600476522?utm_medium=api&utm_source=730816bd: HTTPSConnectionPool(host='www.adzuna.com', port=443): Read timed out. (read timeout=6.0)
+INFO:jobs_api:Adzuna redirect resolve failed for https://www.adzuna.com/details/5169603150?utm_medium=api&utm_source=730816bd: HTTPSConnectionPool(host='www.adzuna.com', port=443): Read timed out. (read timeout=6.0)
+INFO:jobs_api:Adzuna redirect resolve failed for https://www.adzuna.com/details/5717467402?utm_medium=api&utm_source=730816bd: HTTPSConnectionPool(host='www.adzuna.com', port=443): Read timed out. (read timeout=6.0)
+INFO:jobs_api:Adzuna redirect resolve failed for https://www.adzuna.com/details/5645560613?utm_medium=api&utm_source=730816bd: HTTPSConnectionPool(host='www.adzuna.com', port=443): Read timed out. (read timeout=6.0)
+INFO:root:profile_job_search title_location: city='Chicago, IL' title='software engineer' n=6
+INFO:root:Getting background for cspahn21@outlook.com: id=ObjectId('69e13542db17f35170565e19') revision_id=None email='cspahn21@outlook.com' skills=['circuit design', 'debugging', 'python', 'C  ', 'EMI troubleshooting', 'electrical schematic design', 'java'] education=['The University of Iowa'] experience=['intern at Collins Aerospace'] saved_jobs=[]
+INFO:root:Finding user by email cspahn21@outlook.com: id=ObjectId('69e13538db17f35170565e18') revision_id=None email='cspahn21@outlook.com' password='$2b$12$MYBTL05wQZV4cQjmAAtWsOJCm4isLTLgbs21EfraofPgbU6dsF.rW' is_admin=False
+INFO:root:Getting user cspahn21@outlook.com: id=ObjectId('69e13538db17f35170565e18') revision_id=None email='cspahn21@outlook.com' password='$2b$12$MYBTL05wQZV4cQjmAAtWsOJCm4isLTLgbs21EfraofPgbU6dsF.rW' is_admin=False
+INFO:root:User cspahn21@outlook.com found: id=ObjectId('69e13538db17f35170565e18') revision_id=None email='cspahn21@outlook.com' password='$2b$12$MYBTL05wQZV4cQjmAAtWsOJCm4isLTLgbs21EfraofPgbU6dsF.rW' is_admin=False
+INFO:root:Getting max recommend jobs: 6
+INFO:jobs_api:Adzuna redirect resolve failed for https://www.adzuna.com/land/ad/5714634165?se=uEkqtQFI8RGSdISXQQQjPQ&utm_medium=api&utm_source=730816bd&v=DDF3F0FD29E43EB0CCD25DD0EFB44C4C2026CABA: HTTPSConnectionPool(host='www.adzuna.com', port=443): Read timed out. (read timeout=6.0)
+INFO:jobs_api:Adzuna redirect resolve failed for https://www.adzuna.com/land/ad/5528350864?se=uEkqtQFI8RGSdISXQQQjPQ&utm_medium=api&utm_source=730816bd&v=9E9AD3F0D54AC02B5ABCEB49C0EF4EEC708C9B73: HTTPSConnectionPool(host='www.adzuna.com', port=443): Read timed out. (read timeout=6.0)
+INFO:jobs_api:Adzuna redirect resolve failed for https://www.adzuna.com/details/5624950369?utm_medium=api&utm_source=730816bd: HTTPSConnectionPool(host='www.adzuna.com', port=443): Read timed out. (read timeout=6.0)
+INFO:jobs_api:Adzuna redirect resolve failed for https://www.adzuna.com/land/ad/5528388167?se=uEkqtQFI8RGSdISXQQQjPQ&utm_medium=api&utm_source=730816bd&v=3DFC236A520EF987153C4054BBF9110CAC4F3880: HTTPSConnectionPool(host='www.adzuna.com', port=443): Read timed out. (read timeout=6.0)
+INFO:jobs_api:Adzuna redirect resolve failed for https://www.adzuna.com/details/5600476522?utm_medium=api&utm_source=730816bd: HTTPSConnectionPool(host='www.adzuna.com', port=443): Read timed out. (read timeout=6.0)
+INFO:jobs_api:Adzuna redirect resolve failed for https://www.adzuna.com/details/5169603150?utm_medium=api&utm_source=730816bd: HTTPSConnectionPool(host='www.adzuna.com', port=443): Read timed out. (read timeout=6.0)
+INFO:jobs_api:Adzuna redirect resolve failed for https://www.adzuna.com/details/5717703322?utm_medium=api&utm_source=730816bd: HTTPSConnectionPool(host='www.adzuna.com', port=443): Read timed out. (read timeout=6.0)
+INFO:root:profile_job_search title_location: city='Chicago, IL' title='software engineer' n=6
+INFO:root:Created application 69f9125390cd27f6e5e2f201 for user cspahn21@outlook.com
+INFO:root:Getting background for cspahn21@outlook.com: id=ObjectId('69e13542db17f35170565e19') revision_id=None email='cspahn21@outlook.com' skills=['circuit design', 'debugging', 'python', 'C  ', 'EMI troubleshooting', 'electrical schematic design', 'java'] education=['The University of Iowa'] experience=['intern at Collins Aerospace'] saved_jobs=[]
+INFO:root:Finding user by email cspahn21@outlook.com: id=ObjectId('69e13538db17f35170565e18') revision_id=None email='cspahn21@outlook.com' password='$2b$12$MYBTL05wQZV4cQjmAAtWsOJCm4isLTLgbs21EfraofPgbU6dsF.rW' is_admin=False
+INFO:root:Getting user cspahn21@outlook.com: id=ObjectId('69e13538db17f35170565e18') revision_id=None email='cspahn21@outlook.com' password='$2b$12$MYBTL05wQZV4cQjmAAtWsOJCm4isLTLgbs21EfraofPgbU6dsF.rW' is_admin=False
+INFO:root:User cspahn21@outlook.com found: id=ObjectId('69e13538db17f35170565e18') revision_id=None email='cspahn21@outlook.com' password='$2b$12$MYBTL05wQZV4cQjmAAtWsOJCm4isLTLgbs21EfraofPgbU6dsF.rW' is_admin=False
+INFO:root:Getting max recommend jobs: 6
+INFO:root:Finding user by email cspahn21@outlook.com: id=ObjectId('69e13538db17f35170565e18') revision_id=None email='cspahn21@outlook.com' password='$2b$12$MYBTL05wQZV4cQjmAAtWsOJCm4isLTLgbs21EfraofPgbU6dsF.rW' is_admin=False
+INFO:root:User cspahn21@outlook.com logged in: id=ObjectId('69e13538db17f35170565e18') revision_id=None email='cspahn21@outlook.com' password='$2b$12$MYBTL05wQZV4cQjmAAtWsOJCm4isLTLgbs21EfraofPgbU6dsF.rW' is_admin=False
+INFO:root:Getting applications for user cspahn21@outlook.com with filters: {'$or': [{'owner_email': 'cspahn21@outlook.com'}, {'owner_id': ObjectId('69e13538db17f35170565e18')}, {'Owner.$id': ObjectId('69e13538db17f35170565e18')}]}
+INFO:root:Getting background for cspahn21@outlook.com: id=ObjectId('69e13542db17f35170565e19') revision_id=None email='cspahn21@outlook.com' skills=['circuit design', 'debugging', 'python', 'C  ', 'EMI troubleshooting', 'electrical schematic design', 'java'] education=['The University of Iowa'] experience=['intern at Collins Aerospace'] saved_jobs=[]
+INFO:root:Getting max recommend jobs: 6
+INFO:root:Finding user by email cspahn21@outlook.com: id=ObjectId('69e13538db17f35170565e18') revision_id=None email='cspahn21@outlook.com' password='$2b$12$MYBTL05wQZV4cQjmAAtWsOJCm4isLTLgbs21EfraofPgbU6dsF.rW' is_admin=False
+INFO:root:Getting user cspahn21@outlook.com: id=ObjectId('69e13538db17f35170565e18') revision_id=None email='cspahn21@outlook.com' password='$2b$12$MYBTL05wQZV4cQjmAAtWsOJCm4isLTLgbs21EfraofPgbU6dsF.rW' is_admin=False
+INFO:root:User cspahn21@outlook.com found: id=ObjectId('69e13538db17f35170565e18') revision_id=None email='cspahn21@outlook.com' password='$2b$12$MYBTL05wQZV4cQjmAAtWsOJCm4isLTLgbs21EfraofPgbU6dsF.rW' is_admin=False
+INFO:root:profile_job_search title_location: city='Chicago, IL' title='software engineer' n=6
+INFO:root:profile_job_search title_location: city='New York City, NY' title='accountant' n=6
+INFO:root:Created application 69f915c8b49b95bcd070df33 for user cspahn21@outlook.com
+INFO:root:Getting applications for user cspahn21@outlook.com with filters: {'$or': [{'owner_email': 'cspahn21@outlook.com'}, {'owner_id': ObjectId('69e13538db17f35170565e18')}, {'Owner.$id': ObjectId('69e13538db17f35170565e18')}]}
+INFO:root:Application updated: 69ee941b119497801f91af95
+INFO:root:Getting applications for user cspahn21@outlook.com with filters: {'$or': [{'owner_email': 'cspahn21@outlook.com'}, {'owner_id': ObjectId('69e13538db17f35170565e18')}, {'Owner.$id': ObjectId('69e13538db17f35170565e18')}]}
+INFO:root:Getting applications for user cspahn21@outlook.com with filters: {'$or': [{'owner_email': 'cspahn21@outlook.com'}, {'owner_id': ObjectId('69e13538db17f35170565e18')}, {'Owner.$id': ObjectId('69e13538db17f35170565e18')}]}
+INFO:root:Application updated: 69ee941b119497801f91af95
+INFO:root:Getting applications for user cspahn21@outlook.com with filters: {'$or': [{'owner_email': 'cspahn21@outlook.com'}, {'owner_id': ObjectId('69e13538db17f35170565e18')}, {'Owner.$id': ObjectId('69e13538db17f35170565e18')}]}
+INFO:root:Application updated: 69f37aa6795b34edf417d856
+INFO:root:Getting applications for user cspahn21@outlook.com with filters: {'$or': [{'owner_email': 'cspahn21@outlook.com'}, {'owner_id': ObjectId('69e13538db17f35170565e18')}, {'Owner.$id': ObjectId('69e13538db17f35170565e18')}]}
+INFO:root:Application updated: 69ee941b119497801f91af95
+INFO:root:Getting applications for user cspahn21@outlook.com with filters: {'$or': [{'owner_email': 'cspahn21@outlook.com'}, {'owner_id': ObjectId('69e13538db17f35170565e18')}, {'Owner.$id': ObjectId('69e13538db17f35170565e18')}]}
+INFO:root:Application updated: 69f3a4a5a124e615c6a5df7c
+INFO:root:Getting applications for user cspahn21@outlook.com with filters: {'$or': [{'owner_email': 'cspahn21@outlook.com'}, {'owner_id': ObjectId('69e13538db17f35170565e18')}, {'Owner.$id': ObjectId('69e13538db17f35170565e18')}]}
+INFO:root:Application updated: 69f3a4a5a124e615c6a5df7c
+INFO:root:Getting applications for user cspahn21@outlook.com with filters: {'$or': [{'owner_email': 'cspahn21@outlook.com'}, {'owner_id': ObjectId('69e13538db17f35170565e18')}, {'Owner.$id': ObjectId('69e13538db17f35170565e18')}]}
+INFO:root:Match score calculated for application 69f3a4a5a124e615c6a5df7c: 44.17
+INFO:root:Application updated: 69f37aa6795b34edf417d856
+INFO:root:Getting applications for user cspahn21@outlook.com with filters: {'$or': [{'owner_email': 'cspahn21@outlook.com'}, {'owner_id': ObjectId('69e13538db17f35170565e18')}, {'Owner.$id': ObjectId('69e13538db17f35170565e18')}]}
+INFO:root:Application updated: 69f37aa6795b34edf417d856
+INFO:root:Getting applications for user cspahn21@outlook.com with filters: {'$or': [{'owner_email': 'cspahn21@outlook.com'}, {'owner_id': ObjectId('69e13538db17f35170565e18')}, {'Owner.$id': ObjectId('69e13538db17f35170565e18')}]}
+INFO:root:Finding user by email cspahn21@outlook.com: id=ObjectId('69e13538db17f35170565e18') revision_id=None email='cspahn21@outlook.com' password='$2b$12$MYBTL05wQZV4cQjmAAtWsOJCm4isLTLgbs21EfraofPgbU6dsF.rW' is_admin=False
+INFO:root:User cspahn21@outlook.com logged in: id=ObjectId('69e13538db17f35170565e18') revision_id=None email='cspahn21@outlook.com' password='$2b$12$MYBTL05wQZV4cQjmAAtWsOJCm4isLTLgbs21EfraofPgbU6dsF.rW' is_admin=False
+INFO:root:Getting applications for user cspahn21@outlook.com with filters: {'$or': [{'owner_email': 'cspahn21@outlook.com'}, {'owner_id': ObjectId('69e13538db17f35170565e18')}, {'Owner.$id': ObjectId('69e13538db17f35170565e18')}]}
+INFO:root:Application updated: 69f37aa6795b34edf417d856
+INFO:root:Getting applications for user cspahn21@outlook.com with filters: {'$or': [{'owner_email': 'cspahn21@outlook.com'}, {'owner_id': ObjectId('69e13538db17f35170565e18')}, {'Owner.$id': ObjectId('69e13538db17f35170565e18')}]}
+INFO:root:Getting applications for user cspahn21@outlook.com with filters: {'$or': [{'owner_email': 'cspahn21@outlook.com'}, {'owner_id': ObjectId('69e13538db17f35170565e18')}, {'Owner.$id': ObjectId('69e13538db17f35170565e18')}]}
+INFO:root:Finding user by email cspahn21@outlook.com: id=ObjectId('69e13538db17f35170565e18') revision_id=None email='cspahn21@outlook.com' password='$2b$12$MYBTL05wQZV4cQjmAAtWsOJCm4isLTLgbs21EfraofPgbU6dsF.rW' is_admin=False
+INFO:root:User cspahn21@outlook.com logged in: id=ObjectId('69e13538db17f35170565e18') revision_id=None email='cspahn21@outlook.com' password='$2b$12$MYBTL05wQZV4cQjmAAtWsOJCm4isLTLgbs21EfraofPgbU6dsF.rW' is_admin=False

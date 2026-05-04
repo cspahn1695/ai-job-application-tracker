@@ -2,8 +2,10 @@
 import os
 import re
 from enum import Enum
+from urllib.parse import urlparse
 
 from fastapi import APIRouter, Depends, HTTPException, Query, UploadFile, File, status
+from fastapi.responses import RedirectResponse
 from typing import List, Optional
 
 from application_model import Application
@@ -13,7 +15,7 @@ from schemas import ApplicationCreate, ApplicationResponse, JobTextRequest
 
 from ai_matcher import extract_resume_text, extract_job_text, compute_match_score, analyze_skill_gap
 
-from jobs_api import fetch_jobs
+from jobs_api import fetch_jobs, _resolve_adzuna_redirect
 from background_model import Background
 from ai_matcher import rank_jobs, clean_text
 from app_settings_model import get_app_settings
@@ -98,6 +100,24 @@ async def upload_resume(
     await application.save()
     logging.info(f"Resume uploaded for application {application.id}")
     return {"message": "Resume uploaded", "file_path": file_path}
+
+@router.put("/{app_id}/resume")
+async def update_resume(
+    app_id: str,
+    file: UploadFile = File(...),
+    current_user: User = Depends(_get_current_user),
+):
+    application = await _get_owned_application(app_id, current_user)
+    os.makedirs(UPLOAD_FOLDER, exist_ok=True)
+
+    file_path = f"{UPLOAD_FOLDER}/{app_id}_{file.filename}"
+    with open(file_path, "wb") as buffer:
+        buffer.write(await file.read())
+
+    application.resume_path = file_path
+    await application.save()
+    logging.info(f"Resume updated for application {application.id}")
+    return {"message": "Resume updated", "file_path": file_path}
 
 # get all applications (optional status filter)
 @router.get("/")
@@ -272,6 +292,41 @@ async def profile_job_search(
     raise HTTPException(status_code=400, detail="Invalid search mode")
 
 
+def _is_adzuna_listing_url(url: str) -> bool:
+    """Only allow resolving Adzuna tracking links (avoid open-redirect / SSRF abuse)."""
+    try:
+        p = urlparse((url or "").strip())
+        if p.scheme not in ("http", "https"):
+            return False
+        host = (p.netloc or "").lower().split(":")[0]
+        return (
+            host == "adzuna.com"
+            or host.endswith(".adzuna.com")
+            or host == "adzuna.co.uk"
+            or host.endswith(".adzuna.co.uk")
+        )
+    except Exception:
+        return False
+
+
+@router.get("/resolve-listing-url")
+async def resolve_listing_url(
+    url: str = Query(..., min_length=12, max_length=4000, description="Adzuna redirect_url"),
+):
+    """
+    Follow a single Adzuna listing URL and redirect the browser to the final site.
+    Used by 'View job' so job search stays fast (no bulk resolve during search).
+    """
+    listing = url.strip()
+    if not _is_adzuna_listing_url(listing):
+        raise HTTPException(
+            status_code=400,
+            detail="Only Adzuna listing URLs can be resolved through this endpoint.",
+        )
+    final = _resolve_adzuna_redirect(listing, timeout=5.0)
+    return RedirectResponse(url=final, status_code=302)
+
+
 # get single application
 @router.get("/{app_id}")
 async def get_application(app_id: str, current_user: User = Depends(_get_current_user)):
@@ -289,7 +344,10 @@ async def update_application(
     current_user: User = Depends(_get_current_user),
 ):
     app = await _get_owned_application(app_id, current_user)
-    await app.set(updated_app.dict())
+    # Partial field update so resume_path / Owner / owner_email are not wiped by Beanie.set().
+    for key, value in updated_app.dict().items():
+        setattr(app, key, value)
+    await app.save()
     logging.info(f"Application updated: {app_id}")
     return app
 

@@ -27,6 +27,30 @@ function applicationApiHeaders() {
 }
 
 /**
+ * "View job" href: Adzuna tracking URLs go through our resolver (one hop when clicked);
+ * other URLs open directly. Keeps job search fast (no bulk redirect resolution).
+ */
+function jobViewHref(rawUrl) {
+  const u = (rawUrl || "").trim();
+  if (!u || u === "#") {
+    return u || "#";
+  }
+  try {
+    const hostname = new URL(u).hostname.toLowerCase();
+    if (hostname.includes("adzuna")) {
+      return (
+        apiUrl("/applications/resolve-listing-url") +
+        "?url=" +
+        encodeURIComponent(u)
+      );
+    }
+  } catch (e) {
+    return u;
+  }
+  return u;
+}
+
+/**
  * POST /applications/ — use same host as the FastAPI app when it serves this UI on port 8000
  * (covers /static/… and default-site paths). Otherwise match main.js fallback host.
  */
@@ -483,7 +507,7 @@ function runProfileJobSearch() {
                 </div>
                 <div class="flex-grow-1"></div>
                 <div class="d-flex gap-2 mt-3">
-                  <a class="btn btn-sm btn-outline-primary" href="${escapeHtml(jobUrl)}" target="_blank" rel="noopener noreferrer">View Job</a>
+                  <a class="btn btn-sm btn-outline-primary" href="${jobViewHref(jobUrl)}" target="_blank" rel="noopener noreferrer">View Job</a>
                   <button type="button" onclick="saveProfilePageJob(${idx})" class="btn btn-outline-secondary btn-sm">Save Job</button>
                 </div>
               </div>
@@ -595,7 +619,7 @@ function getJobs() {
                 <div class="flex-grow-1"></div>
                 
                 <div class="d-flex gap-2 mt-3">
-                  <a class="btn btn-sm btn-outline-primary" href="${escapeHtml(jobUrl)}" target="_blank" rel="noopener noreferrer">View Job</a>
+                  <a class="btn btn-sm btn-outline-primary" href="${jobViewHref(jobUrl)}" target="_blank" rel="noopener noreferrer">View Job</a>
                   <button onclick="saveRecommendedJob(${idx})" class="btn btn-outline-secondary btn-sm">Save Job</button>
                 </div>
               </div>

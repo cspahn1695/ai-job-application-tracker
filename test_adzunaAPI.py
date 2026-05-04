@@ -97,6 +97,31 @@ def test_recommend_jobs_route(client):
     assert data[0]["job"]["url"] == "https://example.com/job/1"
 
 
+def test_resolve_listing_url_redirects(client, monkeypatch):
+    """GET /applications/resolve-listing-url?url= — 302 to resolved employer URL."""
+    monkeypatch.setattr(
+        routes,
+        "_resolve_adzuna_redirect",
+        lambda url, timeout=5.0: "https://ziprecruiter.com/candidate/job/1",
+    )
+    response = client.get(
+        "/applications/resolve-listing-url",
+        params={"url": "https://www.adzuna.com/clk/v0?id=123"},
+        follow_redirects=False,
+    )
+    assert response.status_code == 302
+    assert response.headers["location"] == "https://ziprecruiter.com/candidate/job/1"
+
+
+def test_resolve_listing_url_rejects_non_adzuna(client):
+    response = client.get(
+        "/applications/resolve-listing-url",
+        params={"url": "https://evil.example/phish"},
+        follow_redirects=False,
+    )
+    assert response.status_code == 400
+
+
 def test_recommend_jobs_missing_background_returns_404(client, monkeypatch):
     """No background document -> 404 (real route behavior; empty store)."""
     class EmptyBackground:

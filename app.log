@@ -226,3 +226,17 @@ INFO:root:Getting applications for user cspahn21@outlook.com with filters: {'$or
 INFO:root:Getting applications for user cspahn21@outlook.com with filters: {'$or': [{'owner_email': 'cspahn21@outlook.com'}, {'owner_id': ObjectId('69e13538db17f35170565e18')}, {'Owner.$id': ObjectId('69e13538db17f35170565e18')}]}
 INFO:root:Finding user by email cspahn21@outlook.com: id=ObjectId('69e13538db17f35170565e18') revision_id=None email='cspahn21@outlook.com' password='$2b$12$MYBTL05wQZV4cQjmAAtWsOJCm4isLTLgbs21EfraofPgbU6dsF.rW' is_admin=False
 INFO:root:User cspahn21@outlook.com logged in: id=ObjectId('69e13538db17f35170565e18') revision_id=None email='cspahn21@outlook.com' password='$2b$12$MYBTL05wQZV4cQjmAAtWsOJCm4isLTLgbs21EfraofPgbU6dsF.rW' is_admin=False
+INFO:root:Getting applications for user cspahn21@outlook.com with filters: {'$or': [{'owner_email': 'cspahn21@outlook.com'}, {'owner_id': ObjectId('69e13538db17f35170565e18')}, {'Owner.$id': ObjectId('69e13538db17f35170565e18')}]}
+INFO:root:Application updated: 69f37aa6795b34edf417d856
+INFO:root:Getting applications for user cspahn21@outlook.com with filters: {'$or': [{'owner_email': 'cspahn21@outlook.com'}, {'owner_id': ObjectId('69e13538db17f35170565e18')}, {'Owner.$id': ObjectId('69e13538db17f35170565e18')}]}
+INFO:root:Getting applications for user cspahn21@outlook.com with filters: {'$or': [{'owner_email': 'cspahn21@outlook.com'}, {'owner_id': ObjectId('69e13538db17f35170565e18')}, {'Owner.$id': ObjectId('69e13538db17f35170565e18')}]}
+INFO:root:Application updated: 69ee941b119497801f91af95
+INFO:root:Getting applications for user cspahn21@outlook.com with filters: {'$or': [{'owner_email': 'cspahn21@outlook.com'}, {'owner_id': ObjectId('69e13538db17f35170565e18')}, {'Owner.$id': ObjectId('69e13538db17f35170565e18')}]}
+INFO:root:Getting applications for user cspahn21@outlook.com with filters: {'$or': [{'owner_email': 'cspahn21@outlook.com'}, {'owner_id': ObjectId('69e13538db17f35170565e18')}, {'Owner.$id': ObjectId('69e13538db17f35170565e18')}]}
+INFO:root:Getting applications for user cspahn21@outlook.com with filters: {'$or': [{'owner_email': 'cspahn21@outlook.com'}, {'owner_id': ObjectId('69e13538db17f35170565e18')}, {'Owner.$id': ObjectId('69e13538db17f35170565e18')}]}
+INFO:root:Getting applications for user cspahn21@outlook.com with filters: {'$or': [{'owner_email': 'cspahn21@outlook.com'}, {'owner_id': ObjectId('69e13538db17f35170565e18')}, {'Owner.$id': ObjectId('69e13538db17f35170565e18')}]}
+INFO:root:Getting applications for user cspahn21@outlook.com with filters: {'$or': [{'owner_email': 'cspahn21@outlook.com'}, {'owner_id': ObjectId('69e13538db17f35170565e18')}, {'Owner.$id': ObjectId('69e13538db17f35170565e18')}]}
+INFO:root:Getting applications for user cspahn21@outlook.com with filters: {'$or': [{'owner_email': 'cspahn21@outlook.com'}, {'owner_id': ObjectId('69e13538db17f35170565e18')}, {'Owner.$id': ObjectId('69e13538db17f35170565e18')}]}
+INFO:root:Getting applications for user cspahn21@outlook.com with filters: {'$or': [{'owner_email': 'cspahn21@outlook.com'}, {'owner_id': ObjectId('69e13538db17f35170565e18')}, {'Owner.$id': ObjectId('69e13538db17f35170565e18')}]}
+INFO:root:Application updated: 69ee941b119497801f91af95
+INFO:root:Getting applications for user cspahn21@outlook.com with filters: {'$or': [{'owner_email': 'cspahn21@outlook.com'}, {'owner_id': ObjectId('69e13538db17f35170565e18')}, {'Owner.$id': ObjectId('69e13538db17f35170565e18')}]}

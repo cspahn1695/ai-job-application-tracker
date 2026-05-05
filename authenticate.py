@@ -1,7 +1,9 @@
+"""FastAPI dependency: extracts Bearer JWT and validates it for protected routes."""
 from jwt_handler import TokenData, verify_access_token
 from fastapi import Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordBearer
 
+# Declares where clients obtain tokens (OpenAPI / Swagger); validation uses SECRET_KEY in jwt_handler.
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/auth/login")
 
 

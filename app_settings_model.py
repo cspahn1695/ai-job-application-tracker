@@ -1,8 +1,9 @@
+"""Singleton Mongo document for tunables shared by all users (e.g. job search limit)."""
 from beanie import Document
 
 
 class AppSettings(Document):
-    """Singleton-style global config (one document). First access creates defaults."""
+    """One row in ``app_settings``; ``get_app_settings`` inserts defaults if missing."""
 
     max_recommend_jobs: int = 10
 

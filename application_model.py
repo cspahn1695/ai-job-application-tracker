@@ -5,8 +5,10 @@ from typing import Optional
 from pydantic import Field
 
 from user_model import User
-    
+
+
 class Application(Document):
+    """One tracked job application per document; ``Owner`` links to ``User``."""
     Owner: Link[User]
     owner_email: Optional[str] = None
     company: str

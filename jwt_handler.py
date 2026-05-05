@@ -1,3 +1,8 @@
+"""JWT creation and validation (stateless auth).
+
+The API does not store sessions; clients send ``Authorization: Bearer <token>``.
+``exp`` is embedded so tokens expire without a server-side logout endpoint.
+"""
 import os
 from datetime import datetime, timedelta, timezone
 

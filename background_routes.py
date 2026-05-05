@@ -1,3 +1,8 @@
+"""Profile document per email: skills, education, experience, and bookmarked jobs.
+
+Routes accept ``email`` in the path (the frontend uses the logged-in user's email).
+GET lazily creates an empty Background row if none exists yet.
+"""
 from fastapi import APIRouter, HTTPException
 from background_model import Background
 from schemas import SavedJobCreate
@@ -74,6 +79,7 @@ async def delete_item(email: str, section: str, item: str):
     return bg
 
 
+# Two paths support clients that append /item or post to the collection URL directly.
 @router.post("/{email}/saved-jobs/item")
 @router.post("/{email}/saved-jobs")
 async def add_saved_job(email: str, saved_job: SavedJobCreate):
@@ -88,6 +94,7 @@ async def add_saved_job(email: str, saved_job: SavedJobCreate):
     if not normalized_url:
         raise HTTPException(status_code=400, detail="Job URL is required")
 
+    # Idempotent save: same URL does not create duplicate bookmarks.
     for job in bg.saved_jobs:
         existing_url = (getattr(job, "url", "") or "").strip()
         if existing_url == normalized_url:

@@ -1,3 +1,8 @@
+"""Global app knobs stored in MongoDB (singleton-style ``AppSettings`` document).
+
+Reading max jobs is public; changing it requires an admin password in the body so
+only privileged accounts can tune Adzuna result limits.
+"""
 from fastapi import APIRouter, HTTPException
 
 from app_settings_model import get_app_settings

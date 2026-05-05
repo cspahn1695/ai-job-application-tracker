@@ -1,4 +1,9 @@
 # used ChatGPT to help write this code; added comments where appropriate.
+"""FastAPI entrypoint: wires routers, static frontend, and uploaded files.
+
+API routes must be registered before mounting ``/static`` and ``/uploads`` so
+path-specific handlers win over the catch-all static mounts.
+"""
 from typing import Annotated
 
 from fastapi import APIRouter, FastAPI, HTTPException, Path, File, UploadFile
@@ -16,8 +21,7 @@ from settings_routes import router as settings_router
 
 app = FastAPI(title="Todo Items App", version="1.0.0")
 
-#CORS= cross origin resource sharing. 
-# Cross-Origin Resource Sharing (CORS) is a browser-based security mechanism that allows a server to securely permit resources (like APIs or images) to be loaded by a web page from a different domain (origin).
+# CORS lets the browser call this API from file:// or another origin during dev.
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -41,9 +45,9 @@ app.include_router(auth_router) # connect to auth router
 app.include_router(background_router) # connect to background router
 app.include_router(settings_router)
 
-# the router needs to be before the mount.
-# otherwise, the routes cannot be found.
-app.mount("/static", StaticFiles(directory="frontend"), name="static")  # static are details the user enters
+# Register routers before mounts so /applications/* etc. are not swallowed by StaticFiles.
+app.mount("/static", StaticFiles(directory="frontend"), name="static")
 
-app.mount("/uploads", StaticFiles(directory="uploads"), name="uploads") #uploads are the resume the user uploads
+# Resumes are saved under ./uploads by routes.py; this exposes them at /uploads/<filename>.
+app.mount("/uploads", StaticFiles(directory="uploads"), name="uploads")
 

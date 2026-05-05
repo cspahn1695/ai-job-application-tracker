@@ -1,9 +1,11 @@
+"""Password hashing via bcrypt (never store plaintext passwords)."""
 from passlib.context import CryptContext
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
+
 def hash_password(password: str):
-    # bcrypt max length = 72 bytes
+    # bcrypt ignores input beyond 72 bytes; truncate so long passwords don't error silently.
     password = password[:72]
     return pwd_context.hash(password)
 

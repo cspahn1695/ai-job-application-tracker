@@ -1,3 +1,10 @@
+"""Authentication and admin onboarding.
+
+Regular users register and receive JWTs from ``/login``. Admins are flagged with
+``is_admin`` in MongoDB; the token embeds ``role`` for optional checks elsewhere.
+Bootstrap creates the first admin using a server secret; further admins are
+created only by an existing admin (see ``/create-admin``).
+"""
 import os
 import re
 from datetime import datetime, timezone
@@ -17,7 +24,7 @@ def _norm_email(value: str) -> str:
 
 
 async def _find_user_by_email(value: str):
-    """Match stored user; handles legacy DB rows that may not be lowercased."""
+    """Resolve login/register lookups; falls back to case-insensitive regex for older rows."""
     e = _norm_email(value)
     if not e:
         return None
@@ -82,6 +89,7 @@ async def login(user: UserLogin):
 
 @router.get("/me")
 async def me(email: str = Query(..., description="Logged-in user email")):
+    # Frontend passes email explicitly because this endpoint does not read the Bearer token.
     db_user = await _find_user_by_email(email)
     logging.info(f"Getting user {email}: {db_user}")
     if not db_user:

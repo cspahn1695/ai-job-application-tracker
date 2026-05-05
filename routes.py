@@ -1,4 +1,9 @@
 # used ChatGPT to help write this code; added comments where appropriate.
+"""Job application CRUD, resume uploads, Adzuna search, and AI match scoring.
+
+Most handlers require a valid JWT (see ``authenticate``). Queries restrict rows to
+the current user via ``_app_owner_filter`` so one user cannot read another's apps.
+"""
 import os
 import re
 from enum import Enum
@@ -26,8 +31,8 @@ from user_model import User
 
 import logging
 
-logging.basicConfig(filename = "app.log", level=logging.INFO)
-
+# File logging is configured here because ``main`` imports this module early on startup.
+logging.basicConfig(filename="app.log", level=logging.INFO)
 
 
 router = APIRouter(prefix="/applications", tags=["Applications"])
@@ -37,15 +42,18 @@ from schemas import ApplicationCreate, ApplicationResponse, ApplicationStatus
 
 UPLOAD_FOLDER = "uploads"
 
+
 def _app_owner_filter(current_user: User) -> dict:
     normalized_email = (str(current_user.email) or "").strip().lower()
     return {
         "$or": [
-            {"owner_email": normalized_email},   # current ownership key
-            {"owner_id": current_user.id},       # legacy ownership key
-            {"Owner.$id": current_user.id},      # Beanie Link storage shape
+            {"owner_email": normalized_email},
+            {"owner_id": current_user.id},
+            # Beanie stores Link[User] as DBRef-style fields in raw MongoDB queries.
+            {"Owner.$id": current_user.id},
         ]
     }
+
 
 async def _get_current_user(token_data: TokenData = Depends(authenticate)) -> User:
     current_user = await User.find_one(User.email == token_data.email)
@@ -62,6 +70,7 @@ async def _get_owned_application(app_id: str, current_user: User) -> Application
     except Exception:
         raise HTTPException(status_code=400, detail="Invalid ID format")
 
+    # Combine ObjectId match with ownership so IDs alone are not enough to read others' data.
     app = await Application.find_one({"_id": oid, **_app_owner_filter(current_user)})
     if not app:
         raise HTTPException(status_code=404, detail="Application not found")
@@ -92,6 +101,7 @@ async def upload_resume(
     application = await _get_owned_application(app_id, current_user)
     os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
+    # Filename prefixed with app_id avoids collisions; path is also stored on the Application doc.
     file_path = f"{UPLOAD_FOLDER}/{app_id}_{file.filename}"
     with open(file_path, "wb") as buffer:
         buffer.write(await file.read())
@@ -110,6 +120,7 @@ async def update_resume(
     application = await _get_owned_application(app_id, current_user)
     os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
+    # Overwrites ``resume_path``; previous file may remain on disk until cleaned up manually.
     file_path = f"{UPLOAD_FOLDER}/{app_id}_{file.filename}"
     with open(file_path, "wb") as buffer:
         buffer.write(await file.read())

@@ -60,6 +60,7 @@ function checkAuth() {
 window.onload = checkAuth;
 // used ChatGPT to help write this code; added comments where appropriate.
 
+// FastAPI's OAuth2PasswordBearer expects Authorization: Bearer <jwt> on protected routes.
 function applyAuthHeader(xhr) {
   const token = localStorage.getItem("accessToken");
   if (token) {
@@ -528,6 +529,7 @@ function login() {
 }
 
 function logout() {
+  // JWT logout is client-side only (no server session table); drop secrets and return to login.
   localStorage.removeItem("loggedIn");
   localStorage.removeItem("userEmail");
   localStorage.removeItem("isAdmin");

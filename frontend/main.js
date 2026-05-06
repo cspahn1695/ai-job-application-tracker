@@ -417,7 +417,7 @@ function updateStatistics(data) { // called by fxn getAllApplications()
   const offerRate = total ? ((statusCounts.offer / total) * 100).toFixed(1) : 0;
 
   document.getElementById("totalApps").innerText = total; // print these values to frontend
-  document.getElementById("interviewRate").innerText = interviewRate + "%";
+  document.getElementById("planToApply").innerText = statusCounts.plan_to_apply;
   document.getElementById("offerRate").innerText = offerRate + "%";
 
   renderStatusChart(statusCounts); // create charts with statusCounts and priorityCounts and put them on frontend

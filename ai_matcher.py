@@ -71,6 +71,7 @@ SKILLS_DB = [
     "docker", "kubernetes", "aws", "gcp", "azure",
     "linux", "git", "rest api", "fastapi", "flask",
     "spark", "hadoop", "tableau", "power bi", "AC/DC", "three phase power", "leadership"
+    "accounting", "punctuality", "BS", "BSE", "engineering", "biomedical science", "business"
 ]
 
 

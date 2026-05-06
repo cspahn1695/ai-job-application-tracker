@@ -19,6 +19,10 @@ uploads/
 # VSCode settings (optional)
 .vscode/
 
+# Logs
+logs/
+app.log
+
 #changes that pauly had to make to mongo.py
 /topicsiweb/ai-job-application-tracker/mongo.py
 paulyreq.txt

@@ -106,7 +106,6 @@ function renderApplications(data) {
         <div class="mt-3">
           <div><strong>Priority:</strong> ${x.priority}</div>
           <div><strong>Recruitment Info:</strong> ${x.recruitmentinfo}</div>
-          <div><strong>Job Posting:</strong> <a href="${x.jobpostinglink}" target="_blank">${x.jobpostinglink}</a></div>
           <div class="mt-2">
             ${x.resume_path ? 
               `<a href="http://127.0.0.1:8000/${x.resume_path}" target="_blank" class="btn btn-sm btn-primary">
@@ -134,6 +133,9 @@ function renderApplications(data) {
         <button onclick="getMatchScore('${x._id}')" class="btn btn-sm btn-warning mt-2">
         AI Match Score
         </button>
+
+        <div id="match-result-${x._id}" class="mt-2"></div>
+
       </div>
     </div>
     `;
@@ -353,11 +355,17 @@ function uploadResume(appId, file) {
 function getMatchScore(appId) { // get scores from backend and send to website
 
   const xhr = new XMLHttpRequest();
+  const resultDiv = document.getElementById(`match-result-${appId}`);
 
   xhr.onload = () => {
+    const modal = document.getElementById("matchModal");
+    const content = document.getElementById("matchContent");
     if (xhr.status !== 200) {
-      console.error("Match error:", xhr.response);
-      alert("Error getting match score");
+      resultDiv.innerHTML = `
+        <div class="alert alert-danger p-2 mt-2 mb-0">
+          Failed to retrieve match score.
+        </div>
+      `;
       return;
     }
 
@@ -368,19 +376,30 @@ function getMatchScore(appId) { // get scores from backend and send to website
     const matched = result.matched_skills.join(", ") || "None"; // get these values from backend
     const missing = result.missing_skills.join(", ") || "None";
 
-    alert(
-      "AI Match Score: " + result.match_score + "%\n\n" + // print AI match score, matched skills, and missing skills
-      "Matched Skills:\n" + matched + "\n\n" +
-      "Missing Skills:\n" + missing
-    );
+    content.innerHTML = `
+      <p><strong>Match Score:</strong> ${result.match_score}%</p>
+      <p><strong>Matched Skills:</strong> ${matched}</p>
+      <p><strong>Missing Skills:</strong> ${missing}</p>
+    `;
+
+    modal.classList.remove("hidden");
   }; 
+  xhr.onerror = () => {
+    resultDiv.innerHTML = `
+      <div class="alert alert-danger p-2 mt-2 mb-0">
+        Network error.
+      </div>
+    `;
+  };
 
   xhr.open("GET", `http://127.0.0.1:8000/applications/${appId}/match`, true);
   applyAuthHeader(xhr);
   xhr.send(); // send the match score, matched skills, and missing skills to frontend
 }
 
-
+document.getElementById("closeModal").onclick = () => {
+  document.getElementById("matchModal").classList.add("hidden");
+};
 
 let statusChart; // define variables for charts/plots on main website
 let priorityChart;

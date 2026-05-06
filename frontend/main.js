@@ -73,11 +73,15 @@ function applicationStatusLabel(status) {
   return status;
 }
 
+let latestApplicationsById = {};
+
 function renderApplications(data) {
   const appDiv = document.getElementById('todos');
   appDiv.innerHTML = '';
+  latestApplicationsById = {};
   
   data.forEach((x) => {
+    latestApplicationsById[x._id] = x;
     appDiv.innerHTML += `
     <div class="card mb-3 shadow-sm" id="app-${x._id}" data-application-status="${x.status}">
       <div class="card-body">
@@ -191,17 +195,24 @@ function editApplication(id) {
 
   // find current application info from DOM
   const appDiv = document.getElementById(`app-${id}`);
+  const appData = latestApplicationsById[id] || {};
 
   const role = appDiv.querySelector(".card-title").innerText;
   const company = appDiv.querySelector(".text-muted").innerText.slice(3);
 
   document.getElementById("editCompany").value = company;
   document.getElementById("editRole").value = role;
+  document.getElementById("editRecruitment").value = appData.recruitmentinfo || "";
+  document.getElementById("editJobLink").value = appData.jobpostinglink || "";
 
   const rawStatus = appDiv.getAttribute("data-application-status");
   const editStatusEl = document.getElementById("editStatus");
   if (editStatusEl && rawStatus) {
     editStatusEl.value = rawStatus;
+  }
+  const editPriorityEl = document.getElementById("editPriority");
+  if (editPriorityEl && appData.priority) {
+    editPriorityEl.value = appData.priority;
   }
 
   currentEditId = id;
@@ -545,6 +556,10 @@ function logout() {
 
 function goToBackground() {
   window.location.href = "/static/background.html";
+}
+
+function goToInterviewPrep() {
+  window.location.href = "/static/interview.html";
 }
 
 function goToApp() {

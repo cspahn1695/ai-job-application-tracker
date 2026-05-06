@@ -196,6 +196,10 @@ function goToBackground() {
   window.location.href = "/static/background.html";
 }
 
+function goToInterviewPrep() {
+  window.location.href = "/static/interview.html";
+}
+
 function logout() {
   localStorage.removeItem("loggedIn");
   localStorage.removeItem("userEmail");
@@ -377,7 +381,7 @@ function createAnotherAdmin() {
     alert("Fill in all fields.");
     return;
   }
-  fetch(apiUrl("/auth/create-admin"), {
+  fetch(apiUrl("/auth/create-admin"), { // create a new admin
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
@@ -387,7 +391,7 @@ function createAnotherAdmin() {
       admin_password: adminPassword,
     }),
   })
-    .then(async (res) => {
+    .then(async (res) => { // this code is a safe way to extract data from the network. IT ensures the application doesn't crash if the response is not valid JSON.
       const data = await res.json().catch(() => ({}));
       if (!res.ok) throw new Error(data.detail || "Failed");
       return data;
@@ -423,12 +427,10 @@ function runProfileJobSearch() {
   const trimmedTitle = title.trim();
   const trimmedCity = city.trim();
 
-  if (!trimmedCity) {
-    alert("Enter a location.");
-    return;
-  }
   if ((mode === "title_location" || mode === "both") && !trimmedTitle) {
-    alert("Enter a job title or keywords for this search type.");
+    alert(
+      "Enter a job title or keywords for this search type. Location is optional."
+    );
     return;
   }
   if ((mode === "profile" || mode === "both") && !email) {

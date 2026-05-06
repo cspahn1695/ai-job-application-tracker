@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Interview Prep</title>
+  <link
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
+    rel="stylesheet"
+  />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@500&family=Open+Sans:ital,wght@0,300..800;1,300..800&family=PT+Serif:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/static/style.css" />
+</head>
+<body class="p-4">
+  <div class="container">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+      <h2>Interview Prep</h2>
+      <div>
+        <button onclick="goToApp()" class="btn me-2">My Applications</button>
+        <button onclick="goToBackground()" class="btn me-2">My Profile</button>
+        <button onclick="goToInterviewPrep()" class="btn disabled me-2">Interview Prep</button>
+        <button onclick="logout()" class="btn me-2">Log out</button>
+      </div>
+    </div>
+
+    <p class="small text-muted mb-3">
+      Questions are generated only from each job posting link (no resume required, max 6 per job).
+    </p>
+    <button type="button" class="btn btn-primary mb-3" onclick="loadInterviewPrep()">
+      Refresh Questions
+    </button>
+
+    <div id="interviewPrepList" class="row g-3"></div>
+  </div>
+
+  <script src="/static/interview.js"></script>
+</body>
+</html>

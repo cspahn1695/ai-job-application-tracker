@@ -432,3 +432,218 @@ INFO:root:Getting max recommend jobs: 6
 INFO:root:Finding user by email cspahn21@outlook.com: id=ObjectId('69e13538db17f35170565e18') revision_id=None email='cspahn21@outlook.com' password='$2b$12$MYBTL05wQZV4cQjmAAtWsOJCm4isLTLgbs21EfraofPgbU6dsF.rW' is_admin=False
 INFO:root:User cspahn21@outlook.com logged in: id=ObjectId('69e13538db17f35170565e18') revision_id=None email='cspahn21@outlook.com' password='$2b$12$MYBTL05wQZV4cQjmAAtWsOJCm4isLTLgbs21EfraofPgbU6dsF.rW' is_admin=False
 INFO:root:Getting applications for user cspahn21@outlook.com with filters: {'$or': [{'owner_email': 'cspahn21@outlook.com'}, {'owner_id': ObjectId('69e13538db17f35170565e18')}, {'Owner.$id': ObjectId('69e13538db17f35170565e18')}]}
+INFO:root:Getting background for cspahn21@outlook.com: id=ObjectId('69e13542db17f35170565e19') revision_id=None email='cspahn21@outlook.com' skills=[] education=['The University of Iowa'] experience=['intern at Collins Aerospace'] saved_jobs=[]
+INFO:root:Getting max recommend jobs: 6
+INFO:root:Finding user by email cspahn21@outlook.com: id=ObjectId('69e13538db17f35170565e18') revision_id=None email='cspahn21@outlook.com' password='$2b$12$MYBTL05wQZV4cQjmAAtWsOJCm4isLTLgbs21EfraofPgbU6dsF.rW' is_admin=False
+INFO:root:Getting user cspahn21@outlook.com: id=ObjectId('69e13538db17f35170565e18') revision_id=None email='cspahn21@outlook.com' password='$2b$12$MYBTL05wQZV4cQjmAAtWsOJCm4isLTLgbs21EfraofPgbU6dsF.rW' is_admin=False
+INFO:root:User cspahn21@outlook.com found: id=ObjectId('69e13538db17f35170565e18') revision_id=None email='cspahn21@outlook.com' password='$2b$12$MYBTL05wQZV4cQjmAAtWsOJCm4isLTLgbs21EfraofPgbU6dsF.rW' is_admin=False
+INFO:root:Finding user by email cspahn21@outlook.com: id=ObjectId('69e13538db17f35170565e18') revision_id=None email='cspahn21@outlook.com' password='$2b$12$MYBTL05wQZV4cQjmAAtWsOJCm4isLTLgbs21EfraofPgbU6dsF.rW' is_admin=False
+INFO:root:User cspahn21@outlook.com logged in: id=ObjectId('69e13538db17f35170565e18') revision_id=None email='cspahn21@outlook.com' password='$2b$12$MYBTL05wQZV4cQjmAAtWsOJCm4isLTLgbs21EfraofPgbU6dsF.rW' is_admin=False
+INFO:root:Getting applications for user cspahn21@outlook.com with filters: {'$or': [{'owner_email': 'cspahn21@outlook.com'}, {'owner_id': ObjectId('69e13538db17f35170565e18')}, {'Owner.$id': ObjectId('69e13538db17f35170565e18')}]}
+INFO:root:Getting max recommend jobs: 6
+INFO:root:Getting background for cspahn21@outlook.com: id=ObjectId('69e13542db17f35170565e19') revision_id=None email='cspahn21@outlook.com' skills=[] education=['The University of Iowa'] experience=['intern at Collins Aerospace'] saved_jobs=[]
+INFO:root:Finding user by email cspahn21@outlook.com: id=ObjectId('69e13538db17f35170565e18') revision_id=None email='cspahn21@outlook.com' password='$2b$12$MYBTL05wQZV4cQjmAAtWsOJCm4isLTLgbs21EfraofPgbU6dsF.rW' is_admin=False
+INFO:root:Getting user cspahn21@outlook.com: id=ObjectId('69e13538db17f35170565e18') revision_id=None email='cspahn21@outlook.com' password='$2b$12$MYBTL05wQZV4cQjmAAtWsOJCm4isLTLgbs21EfraofPgbU6dsF.rW' is_admin=False
+INFO:root:User cspahn21@outlook.com found: id=ObjectId('69e13538db17f35170565e18') revision_id=None email='cspahn21@outlook.com' password='$2b$12$MYBTL05wQZV4cQjmAAtWsOJCm4isLTLgbs21EfraofPgbU6dsF.rW' is_admin=False
+INFO:root:profile_job_search title_location: city='Chicago, IL' title='anesthesiologist' n=6
+INFO:root:Getting background for cspahn21@outlook.com: id=ObjectId('69e13542db17f35170565e19') revision_id=None email='cspahn21@outlook.com' skills=[] education=['The University of Iowa'] experience=['intern at Collins Aerospace'] saved_jobs=[]
+INFO:root:Getting max recommend jobs: 6
+INFO:root:Finding user by email cspahn21@outlook.com: id=ObjectId('69e13538db17f35170565e18') revision_id=None email='cspahn21@outlook.com' password='$2b$12$MYBTL05wQZV4cQjmAAtWsOJCm4isLTLgbs21EfraofPgbU6dsF.rW' is_admin=False
+INFO:root:Getting user cspahn21@outlook.com: id=ObjectId('69e13538db17f35170565e18') revision_id=None email='cspahn21@outlook.com' password='$2b$12$MYBTL05wQZV4cQjmAAtWsOJCm4isLTLgbs21EfraofPgbU6dsF.rW' is_admin=False
+INFO:root:User cspahn21@outlook.com found: id=ObjectId('69e13538db17f35170565e18') revision_id=None email='cspahn21@outlook.com' password='$2b$12$MYBTL05wQZV4cQjmAAtWsOJCm4isLTLgbs21EfraofPgbU6dsF.rW' is_admin=False
+INFO:root:Getting background for cspahn21@outlook.com: id=ObjectId('69e13542db17f35170565e19') revision_id=None email='cspahn21@outlook.com' skills=[] education=['The University of Iowa'] experience=['intern at Collins Aerospace'] saved_jobs=[]
+INFO:root:Finding user by email cspahn21@outlook.com: id=ObjectId('69e13538db17f35170565e18') revision_id=None email='cspahn21@outlook.com' password='$2b$12$MYBTL05wQZV4cQjmAAtWsOJCm4isLTLgbs21EfraofPgbU6dsF.rW' is_admin=False
+INFO:root:Getting user cspahn21@outlook.com: id=ObjectId('69e13538db17f35170565e18') revision_id=None email='cspahn21@outlook.com' password='$2b$12$MYBTL05wQZV4cQjmAAtWsOJCm4isLTLgbs21EfraofPgbU6dsF.rW' is_admin=False
+INFO:root:User cspahn21@outlook.com found: id=ObjectId('69e13538db17f35170565e18') revision_id=None email='cspahn21@outlook.com' password='$2b$12$MYBTL05wQZV4cQjmAAtWsOJCm4isLTLgbs21EfraofPgbU6dsF.rW' is_admin=False
+INFO:root:Getting max recommend jobs: 6
+INFO:root:Getting applications for user cspahn21@outlook.com with filters: {'$or': [{'owner_email': 'cspahn21@outlook.com'}, {'owner_id': ObjectId('69e13538db17f35170565e18')}, {'Owner.$id': ObjectId('69e13538db17f35170565e18')}]}
+INFO:root:Getting background for cspahn21@outlook.com: id=ObjectId('69e13542db17f35170565e19') revision_id=None email='cspahn21@outlook.com' skills=[] education=['The University of Iowa'] experience=['intern at Collins Aerospace'] saved_jobs=[]
+INFO:root:Getting max recommend jobs: 6
+INFO:root:Finding user by email cspahn21@outlook.com: id=ObjectId('69e13538db17f35170565e18') revision_id=None email='cspahn21@outlook.com' password='$2b$12$MYBTL05wQZV4cQjmAAtWsOJCm4isLTLgbs21EfraofPgbU6dsF.rW' is_admin=False
+INFO:root:Getting user cspahn21@outlook.com: id=ObjectId('69e13538db17f35170565e18') revision_id=None email='cspahn21@outlook.com' password='$2b$12$MYBTL05wQZV4cQjmAAtWsOJCm4isLTLgbs21EfraofPgbU6dsF.rW' is_admin=False
+INFO:root:User cspahn21@outlook.com found: id=ObjectId('69e13538db17f35170565e18') revision_id=None email='cspahn21@outlook.com' password='$2b$12$MYBTL05wQZV4cQjmAAtWsOJCm4isLTLgbs21EfraofPgbU6dsF.rW' is_admin=False
+INFO:root:Getting applications for user cspahn21@outlook.com with filters: {'$or': [{'owner_email': 'cspahn21@outlook.com'}, {'owner_id': ObjectId('69e13538db17f35170565e18')}, {'Owner.$id': ObjectId('69e13538db17f35170565e18')}]}
+INFO:root:Getting background for cspahn21@outlook.com: id=ObjectId('69e13542db17f35170565e19') revision_id=None email='cspahn21@outlook.com' skills=[] education=['The University of Iowa'] experience=['intern at Collins Aerospace'] saved_jobs=[]
+INFO:root:Getting max recommend jobs: 6
+INFO:root:Finding user by email cspahn21@outlook.com: id=ObjectId('69e13538db17f35170565e18') revision_id=None email='cspahn21@outlook.com' password='$2b$12$MYBTL05wQZV4cQjmAAtWsOJCm4isLTLgbs21EfraofPgbU6dsF.rW' is_admin=False
+INFO:root:Getting user cspahn21@outlook.com: id=ObjectId('69e13538db17f35170565e18') revision_id=None email='cspahn21@outlook.com' password='$2b$12$MYBTL05wQZV4cQjmAAtWsOJCm4isLTLgbs21EfraofPgbU6dsF.rW' is_admin=False
+INFO:root:User cspahn21@outlook.com found: id=ObjectId('69e13538db17f35170565e18') revision_id=None email='cspahn21@outlook.com' password='$2b$12$MYBTL05wQZV4cQjmAAtWsOJCm4isLTLgbs21EfraofPgbU6dsF.rW' is_admin=False
+INFO:root:Getting background for cspahn21@outlook.com: id=ObjectId('69e13542db17f35170565e19') revision_id=None email='cspahn21@outlook.com' skills=[] education=['The University of Iowa'] experience=['intern at Collins Aerospace'] saved_jobs=[]
+INFO:root:Getting max recommend jobs: 6
+INFO:root:Finding user by email cspahn21@outlook.com: id=ObjectId('69e13538db17f35170565e18') revision_id=None email='cspahn21@outlook.com' password='$2b$12$MYBTL05wQZV4cQjmAAtWsOJCm4isLTLgbs21EfraofPgbU6dsF.rW' is_admin=False
+INFO:root:Getting user cspahn21@outlook.com: id=ObjectId('69e13538db17f35170565e18') revision_id=None email='cspahn21@outlook.com' password='$2b$12$MYBTL05wQZV4cQjmAAtWsOJCm4isLTLgbs21EfraofPgbU6dsF.rW' is_admin=False
+INFO:root:User cspahn21@outlook.com found: id=ObjectId('69e13538db17f35170565e18') revision_id=None email='cspahn21@outlook.com' password='$2b$12$MYBTL05wQZV4cQjmAAtWsOJCm4isLTLgbs21EfraofPgbU6dsF.rW' is_admin=False
+INFO:root:Getting background for cspahn21@outlook.com: id=ObjectId('69e13542db17f35170565e19') revision_id=None email='cspahn21@outlook.com' skills=[] education=['The University of Iowa'] experience=['intern at Collins Aerospace'] saved_jobs=[]
+INFO:root:Getting max recommend jobs: 6
+INFO:root:Finding user by email cspahn21@outlook.com: id=ObjectId('69e13538db17f35170565e18') revision_id=None email='cspahn21@outlook.com' password='$2b$12$MYBTL05wQZV4cQjmAAtWsOJCm4isLTLgbs21EfraofPgbU6dsF.rW' is_admin=False
+INFO:root:Getting user cspahn21@outlook.com: id=ObjectId('69e13538db17f35170565e18') revision_id=None email='cspahn21@outlook.com' password='$2b$12$MYBTL05wQZV4cQjmAAtWsOJCm4isLTLgbs21EfraofPgbU6dsF.rW' is_admin=False
+INFO:root:User cspahn21@outlook.com found: id=ObjectId('69e13538db17f35170565e18') revision_id=None email='cspahn21@outlook.com' password='$2b$12$MYBTL05wQZV4cQjmAAtWsOJCm4isLTLgbs21EfraofPgbU6dsF.rW' is_admin=False
+INFO:root:profile_job_search title_location: city='Chicago, IL' title='software engineer' n=6
+INFO:root:profile_job_search title_location: city='Chicago, IL' title='anesthesiologist' n=6
+INFO:root:profile_job_search title_location: city='-' title='anesthesiologist' n=6
+INFO:root:Getting applications for user cspahn21@outlook.com with filters: {'$or': [{'owner_email': 'cspahn21@outlook.com'}, {'owner_id': ObjectId('69e13538db17f35170565e18')}, {'Owner.$id': ObjectId('69e13538db17f35170565e18')}]}
+INFO:root:Finding user by email cspahn21@outlook.com: id=ObjectId('69e13538db17f35170565e18') revision_id=None email='cspahn21@outlook.com' password='$2b$12$MYBTL05wQZV4cQjmAAtWsOJCm4isLTLgbs21EfraofPgbU6dsF.rW' is_admin=False
+INFO:root:User cspahn21@outlook.com logged in: id=ObjectId('69e13538db17f35170565e18') revision_id=None email='cspahn21@outlook.com' password='$2b$12$MYBTL05wQZV4cQjmAAtWsOJCm4isLTLgbs21EfraofPgbU6dsF.rW' is_admin=False
+INFO:root:Getting applications for user cspahn21@outlook.com with filters: {'$or': [{'owner_email': 'cspahn21@outlook.com'}, {'owner_id': ObjectId('69e13538db17f35170565e18')}, {'Owner.$id': ObjectId('69e13538db17f35170565e18')}]}
+INFO:root:Getting max recommend jobs: 6
+INFO:root:Finding user by email cspahn21@outlook.com: id=ObjectId('69e13538db17f35170565e18') revision_id=None email='cspahn21@outlook.com' password='$2b$12$MYBTL05wQZV4cQjmAAtWsOJCm4isLTLgbs21EfraofPgbU6dsF.rW' is_admin=False
+INFO:root:Getting user cspahn21@outlook.com: id=ObjectId('69e13538db17f35170565e18') revision_id=None email='cspahn21@outlook.com' password='$2b$12$MYBTL05wQZV4cQjmAAtWsOJCm4isLTLgbs21EfraofPgbU6dsF.rW' is_admin=False
+INFO:root:User cspahn21@outlook.com found: id=ObjectId('69e13538db17f35170565e18') revision_id=None email='cspahn21@outlook.com' password='$2b$12$MYBTL05wQZV4cQjmAAtWsOJCm4isLTLgbs21EfraofPgbU6dsF.rW' is_admin=False
+INFO:root:Getting background for cspahn21@outlook.com: id=ObjectId('69e13542db17f35170565e19') revision_id=None email='cspahn21@outlook.com' skills=[] education=['The University of Iowa'] experience=['intern at Collins Aerospace'] saved_jobs=[]
+INFO:root:Getting max recommend jobs: 6
+INFO:root:Getting background for cspahn21@outlook.com: id=ObjectId('69e13542db17f35170565e19') revision_id=None email='cspahn21@outlook.com' skills=[] education=['The University of Iowa'] experience=['intern at Collins Aerospace'] saved_jobs=[]
+INFO:root:Finding user by email cspahn21@outlook.com: id=ObjectId('69e13538db17f35170565e18') revision_id=None email='cspahn21@outlook.com' password='$2b$12$MYBTL05wQZV4cQjmAAtWsOJCm4isLTLgbs21EfraofPgbU6dsF.rW' is_admin=False
+INFO:root:Getting user cspahn21@outlook.com: id=ObjectId('69e13538db17f35170565e18') revision_id=None email='cspahn21@outlook.com' password='$2b$12$MYBTL05wQZV4cQjmAAtWsOJCm4isLTLgbs21EfraofPgbU6dsF.rW' is_admin=False
+INFO:root:User cspahn21@outlook.com found: id=ObjectId('69e13538db17f35170565e18') revision_id=None email='cspahn21@outlook.com' password='$2b$12$MYBTL05wQZV4cQjmAAtWsOJCm4isLTLgbs21EfraofPgbU6dsF.rW' is_admin=False
+INFO:root:Finding user by email cspahn21@outlook.com: id=ObjectId('69e13538db17f35170565e18') revision_id=None email='cspahn21@outlook.com' password='$2b$12$MYBTL05wQZV4cQjmAAtWsOJCm4isLTLgbs21EfraofPgbU6dsF.rW' is_admin=False
+INFO:root:Getting user cspahn21@outlook.com: id=ObjectId('69e13538db17f35170565e18') revision_id=None email='cspahn21@outlook.com' password='$2b$12$MYBTL05wQZV4cQjmAAtWsOJCm4isLTLgbs21EfraofPgbU6dsF.rW' is_admin=False
+INFO:root:User cspahn21@outlook.com found: id=ObjectId('69e13538db17f35170565e18') revision_id=None email='cspahn21@outlook.com' password='$2b$12$MYBTL05wQZV4cQjmAAtWsOJCm4isLTLgbs21EfraofPgbU6dsF.rW' is_admin=False
+INFO:root:Getting background for cspahn21@outlook.com: id=ObjectId('69e13542db17f35170565e19') revision_id=None email='cspahn21@outlook.com' skills=[] education=['The University of Iowa'] experience=['intern at Collins Aerospace'] saved_jobs=[]
+INFO:root:Getting max recommend jobs: 6
+INFO:root:Getting applications for user cspahn21@outlook.com with filters: {'$or': [{'owner_email': 'cspahn21@outlook.com'}, {'owner_id': ObjectId('69e13538db17f35170565e18')}, {'Owner.$id': ObjectId('69e13538db17f35170565e18')}]}
+INFO:root:Finding user by email cspahn21@outlook.com: id=ObjectId('69e13538db17f35170565e18') revision_id=None email='cspahn21@outlook.com' password='$2b$12$MYBTL05wQZV4cQjmAAtWsOJCm4isLTLgbs21EfraofPgbU6dsF.rW' is_admin=False
+INFO:root:Getting user cspahn21@outlook.com: id=ObjectId('69e13538db17f35170565e18') revision_id=None email='cspahn21@outlook.com' password='$2b$12$MYBTL05wQZV4cQjmAAtWsOJCm4isLTLgbs21EfraofPgbU6dsF.rW' is_admin=False
+INFO:root:User cspahn21@outlook.com found: id=ObjectId('69e13538db17f35170565e18') revision_id=None email='cspahn21@outlook.com' password='$2b$12$MYBTL05wQZV4cQjmAAtWsOJCm4isLTLgbs21EfraofPgbU6dsF.rW' is_admin=False
+INFO:root:Getting background for cspahn21@outlook.com: id=ObjectId('69e13542db17f35170565e19') revision_id=None email='cspahn21@outlook.com' skills=[] education=['The University of Iowa'] experience=['intern at Collins Aerospace'] saved_jobs=[]
+INFO:root:Getting max recommend jobs: 6
+INFO:root:Getting applications for user cspahn21@outlook.com with filters: {'$or': [{'owner_email': 'cspahn21@outlook.com'}, {'owner_id': ObjectId('69e13538db17f35170565e18')}, {'Owner.$id': ObjectId('69e13538db17f35170565e18')}]}
+INFO:root:Getting background for cspahn21@outlook.com: id=ObjectId('69e13542db17f35170565e19') revision_id=None email='cspahn21@outlook.com' skills=[] education=['The University of Iowa'] experience=['intern at Collins Aerospace'] saved_jobs=[]
+INFO:root:Getting max recommend jobs: 6
+INFO:root:Finding user by email cspahn21@outlook.com: id=ObjectId('69e13538db17f35170565e18') revision_id=None email='cspahn21@outlook.com' password='$2b$12$MYBTL05wQZV4cQjmAAtWsOJCm4isLTLgbs21EfraofPgbU6dsF.rW' is_admin=False
+INFO:root:Getting user cspahn21@outlook.com: id=ObjectId('69e13538db17f35170565e18') revision_id=None email='cspahn21@outlook.com' password='$2b$12$MYBTL05wQZV4cQjmAAtWsOJCm4isLTLgbs21EfraofPgbU6dsF.rW' is_admin=False
+INFO:root:User cspahn21@outlook.com found: id=ObjectId('69e13538db17f35170565e18') revision_id=None email='cspahn21@outlook.com' password='$2b$12$MYBTL05wQZV4cQjmAAtWsOJCm4isLTLgbs21EfraofPgbU6dsF.rW' is_admin=False
+INFO:root:Getting background for cspahn21@outlook.com: id=ObjectId('69e13542db17f35170565e19') revision_id=None email='cspahn21@outlook.com' skills=[] education=['The University of Iowa'] experience=['intern at Collins Aerospace'] saved_jobs=[]
+INFO:root:Getting max recommend jobs: 6
+INFO:root:Finding user by email cspahn21@outlook.com: id=ObjectId('69e13538db17f35170565e18') revision_id=None email='cspahn21@outlook.com' password='$2b$12$MYBTL05wQZV4cQjmAAtWsOJCm4isLTLgbs21EfraofPgbU6dsF.rW' is_admin=False
+INFO:root:Getting user cspahn21@outlook.com: id=ObjectId('69e13538db17f35170565e18') revision_id=None email='cspahn21@outlook.com' password='$2b$12$MYBTL05wQZV4cQjmAAtWsOJCm4isLTLgbs21EfraofPgbU6dsF.rW' is_admin=False
+INFO:root:User cspahn21@outlook.com found: id=ObjectId('69e13538db17f35170565e18') revision_id=None email='cspahn21@outlook.com' password='$2b$12$MYBTL05wQZV4cQjmAAtWsOJCm4isLTLgbs21EfraofPgbU6dsF.rW' is_admin=False
+INFO:root:Getting applications for user cspahn21@outlook.com with filters: {'$or': [{'owner_email': 'cspahn21@outlook.com'}, {'owner_id': ObjectId('69e13538db17f35170565e18')}, {'Owner.$id': ObjectId('69e13538db17f35170565e18')}]}
+INFO:root:Getting background for cspahn21@outlook.com: id=ObjectId('69e13542db17f35170565e19') revision_id=None email='cspahn21@outlook.com' skills=[] education=['The University of Iowa'] experience=['intern at Collins Aerospace'] saved_jobs=[]
+INFO:root:Getting max recommend jobs: 6
+INFO:root:Finding user by email cspahn21@outlook.com: id=ObjectId('69e13538db17f35170565e18') revision_id=None email='cspahn21@outlook.com' password='$2b$12$MYBTL05wQZV4cQjmAAtWsOJCm4isLTLgbs21EfraofPgbU6dsF.rW' is_admin=False
+INFO:root:Getting user cspahn21@outlook.com: id=ObjectId('69e13538db17f35170565e18') revision_id=None email='cspahn21@outlook.com' password='$2b$12$MYBTL05wQZV4cQjmAAtWsOJCm4isLTLgbs21EfraofPgbU6dsF.rW' is_admin=False
+INFO:root:User cspahn21@outlook.com found: id=ObjectId('69e13538db17f35170565e18') revision_id=None email='cspahn21@outlook.com' password='$2b$12$MYBTL05wQZV4cQjmAAtWsOJCm4isLTLgbs21EfraofPgbU6dsF.rW' is_admin=False
+INFO:root:Getting applications for user cspahn21@outlook.com with filters: {'$or': [{'owner_email': 'cspahn21@outlook.com'}, {'owner_id': ObjectId('69e13538db17f35170565e18')}, {'Owner.$id': ObjectId('69e13538db17f35170565e18')}]}
+INFO:root:Getting background for cspahn21@outlook.com: id=ObjectId('69e13542db17f35170565e19') revision_id=None email='cspahn21@outlook.com' skills=[] education=['The University of Iowa'] experience=['intern at Collins Aerospace'] saved_jobs=[]
+INFO:root:Finding user by email cspahn21@outlook.com: id=ObjectId('69e13538db17f35170565e18') revision_id=None email='cspahn21@outlook.com' password='$2b$12$MYBTL05wQZV4cQjmAAtWsOJCm4isLTLgbs21EfraofPgbU6dsF.rW' is_admin=False
+INFO:root:Getting user cspahn21@outlook.com: id=ObjectId('69e13538db17f35170565e18') revision_id=None email='cspahn21@outlook.com' password='$2b$12$MYBTL05wQZV4cQjmAAtWsOJCm4isLTLgbs21EfraofPgbU6dsF.rW' is_admin=False
+INFO:root:User cspahn21@outlook.com found: id=ObjectId('69e13538db17f35170565e18') revision_id=None email='cspahn21@outlook.com' password='$2b$12$MYBTL05wQZV4cQjmAAtWsOJCm4isLTLgbs21EfraofPgbU6dsF.rW' is_admin=False
+INFO:root:Getting max recommend jobs: 6
+INFO:root:Getting applications for user cspahn21@outlook.com with filters: {'$or': [{'owner_email': 'cspahn21@outlook.com'}, {'owner_id': ObjectId('69e13538db17f35170565e18')}, {'Owner.$id': ObjectId('69e13538db17f35170565e18')}]}
+INFO:root:Getting background for cspahn21@outlook.com: id=ObjectId('69e13542db17f35170565e19') revision_id=None email='cspahn21@outlook.com' skills=[] education=['The University of Iowa'] experience=['intern at Collins Aerospace'] saved_jobs=[]
+INFO:root:Getting max recommend jobs: 6
+INFO:root:Finding user by email cspahn21@outlook.com: id=ObjectId('69e13538db17f35170565e18') revision_id=None email='cspahn21@outlook.com' password='$2b$12$MYBTL05wQZV4cQjmAAtWsOJCm4isLTLgbs21EfraofPgbU6dsF.rW' is_admin=False
+INFO:root:Getting user cspahn21@outlook.com: id=ObjectId('69e13538db17f35170565e18') revision_id=None email='cspahn21@outlook.com' password='$2b$12$MYBTL05wQZV4cQjmAAtWsOJCm4isLTLgbs21EfraofPgbU6dsF.rW' is_admin=False
+INFO:root:User cspahn21@outlook.com found: id=ObjectId('69e13538db17f35170565e18') revision_id=None email='cspahn21@outlook.com' password='$2b$12$MYBTL05wQZV4cQjmAAtWsOJCm4isLTLgbs21EfraofPgbU6dsF.rW' is_admin=False
+INFO:root:Getting applications for user cspahn21@outlook.com with filters: {'$or': [{'owner_email': 'cspahn21@outlook.com'}, {'owner_id': ObjectId('69e13538db17f35170565e18')}, {'Owner.$id': ObjectId('69e13538db17f35170565e18')}]}
+INFO:root:Getting applications for user cspahn21@outlook.com with filters: {'$or': [{'owner_email': 'cspahn21@outlook.com'}, {'owner_id': ObjectId('69e13538db17f35170565e18')}, {'Owner.$id': ObjectId('69e13538db17f35170565e18')}]}
+INFO:root:Getting background for cspahn21@outlook.com: id=ObjectId('69e13542db17f35170565e19') revision_id=None email='cspahn21@outlook.com' skills=[] education=['The University of Iowa'] experience=['intern at Collins Aerospace'] saved_jobs=[]
+INFO:root:Getting max recommend jobs: 6
+INFO:root:Finding user by email cspahn21@outlook.com: id=ObjectId('69e13538db17f35170565e18') revision_id=None email='cspahn21@outlook.com' password='$2b$12$MYBTL05wQZV4cQjmAAtWsOJCm4isLTLgbs21EfraofPgbU6dsF.rW' is_admin=False
+INFO:root:Getting user cspahn21@outlook.com: id=ObjectId('69e13538db17f35170565e18') revision_id=None email='cspahn21@outlook.com' password='$2b$12$MYBTL05wQZV4cQjmAAtWsOJCm4isLTLgbs21EfraofPgbU6dsF.rW' is_admin=False
+INFO:root:User cspahn21@outlook.com found: id=ObjectId('69e13538db17f35170565e18') revision_id=None email='cspahn21@outlook.com' password='$2b$12$MYBTL05wQZV4cQjmAAtWsOJCm4isLTLgbs21EfraofPgbU6dsF.rW' is_admin=False
+INFO:root:Finding user by email cspahn21@outlook.com: id=ObjectId('69e13538db17f35170565e18') revision_id=None email='cspahn21@outlook.com' password='$2b$12$MYBTL05wQZV4cQjmAAtWsOJCm4isLTLgbs21EfraofPgbU6dsF.rW' is_admin=False
+INFO:root:Getting user cspahn21@outlook.com: id=ObjectId('69e13538db17f35170565e18') revision_id=None email='cspahn21@outlook.com' password='$2b$12$MYBTL05wQZV4cQjmAAtWsOJCm4isLTLgbs21EfraofPgbU6dsF.rW' is_admin=False
+INFO:root:User cspahn21@outlook.com found: id=ObjectId('69e13538db17f35170565e18') revision_id=None email='cspahn21@outlook.com' password='$2b$12$MYBTL05wQZV4cQjmAAtWsOJCm4isLTLgbs21EfraofPgbU6dsF.rW' is_admin=False
+INFO:root:Getting max recommend jobs: 6
+INFO:root:Getting background for cspahn21@outlook.com: id=ObjectId('69e13542db17f35170565e19') revision_id=None email='cspahn21@outlook.com' skills=[] education=['The University of Iowa'] experience=['intern at Collins Aerospace'] saved_jobs=[]
+INFO:root:Getting background for cspahn21@outlook.com: id=ObjectId('69e13542db17f35170565e19') revision_id=None email='cspahn21@outlook.com' skills=[] education=['The University of Iowa'] experience=['intern at Collins Aerospace'] saved_jobs=[]
+INFO:root:Finding user by email cspahn21@outlook.com: id=ObjectId('69e13538db17f35170565e18') revision_id=None email='cspahn21@outlook.com' password='$2b$12$MYBTL05wQZV4cQjmAAtWsOJCm4isLTLgbs21EfraofPgbU6dsF.rW' is_admin=False
+INFO:root:Getting user cspahn21@outlook.com: id=ObjectId('69e13538db17f35170565e18') revision_id=None email='cspahn21@outlook.com' password='$2b$12$MYBTL05wQZV4cQjmAAtWsOJCm4isLTLgbs21EfraofPgbU6dsF.rW' is_admin=False
+INFO:root:User cspahn21@outlook.com found: id=ObjectId('69e13538db17f35170565e18') revision_id=None email='cspahn21@outlook.com' password='$2b$12$MYBTL05wQZV4cQjmAAtWsOJCm4isLTLgbs21EfraofPgbU6dsF.rW' is_admin=False
+INFO:root:Getting max recommend jobs: 6
+INFO:root:profile_job_search title_location: city='' title='anesthesiologist' n=6
+INFO:root:Finding user by email cspahn21@outlook.com: id=ObjectId('69e13538db17f35170565e18') revision_id=None email='cspahn21@outlook.com' password='$2b$12$MYBTL05wQZV4cQjmAAtWsOJCm4isLTLgbs21EfraofPgbU6dsF.rW' is_admin=False
+INFO:root:Finding user by email cspahn21@outlook.com: id=ObjectId('69e13538db17f35170565e18') revision_id=None email='cspahn21@outlook.com' password='$2b$12$MYBTL05wQZV4cQjmAAtWsOJCm4isLTLgbs21EfraofPgbU6dsF.rW' is_admin=False
+INFO:root:User cspahn21@outlook.com logged in: id=ObjectId('69e13538db17f35170565e18') revision_id=None email='cspahn21@outlook.com' password='$2b$12$MYBTL05wQZV4cQjmAAtWsOJCm4isLTLgbs21EfraofPgbU6dsF.rW' is_admin=False
+INFO:root:Getting applications for user cspahn21@outlook.com with filters: {'$or': [{'owner_email': 'cspahn21@outlook.com'}, {'owner_id': ObjectId('69e13538db17f35170565e18')}, {'Owner.$id': ObjectId('69e13538db17f35170565e18')}]}
+INFO:root:Getting applications for user cspahn21@outlook.com with filters: {'$or': [{'owner_email': 'cspahn21@outlook.com'}, {'owner_id': ObjectId('69e13538db17f35170565e18')}, {'Owner.$id': ObjectId('69e13538db17f35170565e18')}]}
+INFO:root:Finding user by email cspahn21@outlook.com: id=ObjectId('69e13538db17f35170565e18') revision_id=None email='cspahn21@outlook.com' password='$2b$12$MYBTL05wQZV4cQjmAAtWsOJCm4isLTLgbs21EfraofPgbU6dsF.rW' is_admin=False
+INFO:root:User cspahn21@outlook.com logged in: id=ObjectId('69e13538db17f35170565e18') revision_id=None email='cspahn21@outlook.com' password='$2b$12$MYBTL05wQZV4cQjmAAtWsOJCm4isLTLgbs21EfraofPgbU6dsF.rW' is_admin=False
+INFO:root:Getting applications for user cspahn21@outlook.com with filters: {'$or': [{'owner_email': 'cspahn21@outlook.com'}, {'owner_id': ObjectId('69e13538db17f35170565e18')}, {'Owner.$id': ObjectId('69e13538db17f35170565e18')}]}
+INFO:root:Application updated: 69f7be81bc17dd40e734d6fb
+INFO:root:Resume uploaded for application 69f7be81bc17dd40e734d6fb
+INFO:root:Getting applications for user cspahn21@outlook.com with filters: {'$or': [{'owner_email': 'cspahn21@outlook.com'}, {'owner_id': ObjectId('69e13538db17f35170565e18')}, {'Owner.$id': ObjectId('69e13538db17f35170565e18')}]}
+INFO:root:Application updated: 69f915c8b49b95bcd070df33
+INFO:root:Resume uploaded for application 69f915c8b49b95bcd070df33
+INFO:root:Getting applications for user cspahn21@outlook.com with filters: {'$or': [{'owner_email': 'cspahn21@outlook.com'}, {'owner_id': ObjectId('69e13538db17f35170565e18')}, {'Owner.$id': ObjectId('69e13538db17f35170565e18')}]}
+INFO:root:Getting applications for user cspahn21@outlook.com with filters: {'$or': [{'owner_email': 'cspahn21@outlook.com'}, {'owner_id': ObjectId('69e13538db17f35170565e18')}, {'Owner.$id': ObjectId('69e13538db17f35170565e18')}]}
+INFO:root:Application updated: 69f9125390cd27f6e5e2f201
+INFO:root:Resume uploaded for application 69f9125390cd27f6e5e2f201
+INFO:root:Getting applications for user cspahn21@outlook.com with filters: {'$or': [{'owner_email': 'cspahn21@outlook.com'}, {'owner_id': ObjectId('69e13538db17f35170565e18')}, {'Owner.$id': ObjectId('69e13538db17f35170565e18')}]}
+INFO:root:Application updated: 69f907847a0c325a1756567b
+INFO:root:Getting applications for user cspahn21@outlook.com with filters: {'$or': [{'owner_email': 'cspahn21@outlook.com'}, {'owner_id': ObjectId('69e13538db17f35170565e18')}, {'Owner.$id': ObjectId('69e13538db17f35170565e18')}]}
+INFO:root:Application updated: 69f907847a0c325a1756567b
+INFO:root:Resume uploaded for application 69f907847a0c325a1756567b
+INFO:root:Getting applications for user cspahn21@outlook.com with filters: {'$or': [{'owner_email': 'cspahn21@outlook.com'}, {'owner_id': ObjectId('69e13538db17f35170565e18')}, {'Owner.$id': ObjectId('69e13538db17f35170565e18')}]}
+INFO:root:Finding user by email cspahn21@outlook.com: id=ObjectId('69e13538db17f35170565e18') revision_id=None email='cspahn21@outlook.com' password='$2b$12$MYBTL05wQZV4cQjmAAtWsOJCm4isLTLgbs21EfraofPgbU6dsF.rW' is_admin=False
+INFO:root:User cspahn21@outlook.com logged in: id=ObjectId('69e13538db17f35170565e18') revision_id=None email='cspahn21@outlook.com' password='$2b$12$MYBTL05wQZV4cQjmAAtWsOJCm4isLTLgbs21EfraofPgbU6dsF.rW' is_admin=False
+INFO:root:Getting applications for user cspahn21@outlook.com with filters: {'$or': [{'owner_email': 'cspahn21@outlook.com'}, {'owner_id': ObjectId('69e13538db17f35170565e18')}, {'Owner.$id': ObjectId('69e13538db17f35170565e18')}]}
+INFO:root:Getting background for cspahn21@outlook.com: id=ObjectId('69e13542db17f35170565e19') revision_id=None email='cspahn21@outlook.com' skills=[] education=['The University of Iowa'] experience=['intern at Collins Aerospace'] saved_jobs=[]
+INFO:root:Getting max recommend jobs: 6
+INFO:root:Finding user by email cspahn21@outlook.com: id=ObjectId('69e13538db17f35170565e18') revision_id=None email='cspahn21@outlook.com' password='$2b$12$MYBTL05wQZV4cQjmAAtWsOJCm4isLTLgbs21EfraofPgbU6dsF.rW' is_admin=False
+INFO:root:Getting user cspahn21@outlook.com: id=ObjectId('69e13538db17f35170565e18') revision_id=None email='cspahn21@outlook.com' password='$2b$12$MYBTL05wQZV4cQjmAAtWsOJCm4isLTLgbs21EfraofPgbU6dsF.rW' is_admin=False
+INFO:root:User cspahn21@outlook.com found: id=ObjectId('69e13538db17f35170565e18') revision_id=None email='cspahn21@outlook.com' password='$2b$12$MYBTL05wQZV4cQjmAAtWsOJCm4isLTLgbs21EfraofPgbU6dsF.rW' is_admin=False
+INFO:root:Getting applications for user cspahn21@outlook.com with filters: {'$or': [{'owner_email': 'cspahn21@outlook.com'}, {'owner_id': ObjectId('69e13538db17f35170565e18')}, {'Owner.$id': ObjectId('69e13538db17f35170565e18')}]}
+INFO:root:Getting max recommend jobs: 6
+INFO:root:Getting background for cspahn21@outlook.com: id=ObjectId('69e13542db17f35170565e19') revision_id=None email='cspahn21@outlook.com' skills=[] education=['The University of Iowa'] experience=['intern at Collins Aerospace'] saved_jobs=[]
+INFO:root:Finding user by email cspahn21@outlook.com: id=ObjectId('69e13538db17f35170565e18') revision_id=None email='cspahn21@outlook.com' password='$2b$12$MYBTL05wQZV4cQjmAAtWsOJCm4isLTLgbs21EfraofPgbU6dsF.rW' is_admin=False
+INFO:root:Getting user cspahn21@outlook.com: id=ObjectId('69e13538db17f35170565e18') revision_id=None email='cspahn21@outlook.com' password='$2b$12$MYBTL05wQZV4cQjmAAtWsOJCm4isLTLgbs21EfraofPgbU6dsF.rW' is_admin=False
+INFO:root:User cspahn21@outlook.com found: id=ObjectId('69e13538db17f35170565e18') revision_id=None email='cspahn21@outlook.com' password='$2b$12$MYBTL05wQZV4cQjmAAtWsOJCm4isLTLgbs21EfraofPgbU6dsF.rW' is_admin=False
+INFO:root:Getting applications for user cspahn21@outlook.com with filters: {'$or': [{'owner_email': 'cspahn21@outlook.com'}, {'owner_id': ObjectId('69e13538db17f35170565e18')}, {'Owner.$id': ObjectId('69e13538db17f35170565e18')}]}
+INFO:root:Finding user by email cspahn21@outlook.com: id=ObjectId('69e13538db17f35170565e18') revision_id=None email='cspahn21@outlook.com' password='$2b$12$MYBTL05wQZV4cQjmAAtWsOJCm4isLTLgbs21EfraofPgbU6dsF.rW' is_admin=False
+INFO:root:Getting user cspahn21@outlook.com: id=ObjectId('69e13538db17f35170565e18') revision_id=None email='cspahn21@outlook.com' password='$2b$12$MYBTL05wQZV4cQjmAAtWsOJCm4isLTLgbs21EfraofPgbU6dsF.rW' is_admin=False
+INFO:root:User cspahn21@outlook.com found: id=ObjectId('69e13538db17f35170565e18') revision_id=None email='cspahn21@outlook.com' password='$2b$12$MYBTL05wQZV4cQjmAAtWsOJCm4isLTLgbs21EfraofPgbU6dsF.rW' is_admin=False
+INFO:root:Getting background for cspahn21@outlook.com: id=ObjectId('69e13542db17f35170565e19') revision_id=None email='cspahn21@outlook.com' skills=[] education=['The University of Iowa'] experience=['intern at Collins Aerospace'] saved_jobs=[]
+INFO:root:Getting max recommend jobs: 6
+INFO:root:profile_job_search title_location: city='' title='anesthesiologist' n=6
+INFO:root:Created application 69fad83675141a78b30fae84 for user cspahn21@outlook.com
+INFO:root:Getting applications for user cspahn21@outlook.com with filters: {'$or': [{'owner_email': 'cspahn21@outlook.com'}, {'owner_id': ObjectId('69e13538db17f35170565e18')}, {'Owner.$id': ObjectId('69e13538db17f35170565e18')}]}
+INFO:root:Getting max recommend jobs: 6
+INFO:root:Getting background for cspahn21@outlook.com: id=ObjectId('69e13542db17f35170565e19') revision_id=None email='cspahn21@outlook.com' skills=[] education=['The University of Iowa'] experience=['intern at Collins Aerospace'] saved_jobs=[]
+INFO:root:Finding user by email cspahn21@outlook.com: id=ObjectId('69e13538db17f35170565e18') revision_id=None email='cspahn21@outlook.com' password='$2b$12$MYBTL05wQZV4cQjmAAtWsOJCm4isLTLgbs21EfraofPgbU6dsF.rW' is_admin=False
+INFO:root:Getting user cspahn21@outlook.com: id=ObjectId('69e13538db17f35170565e18') revision_id=None email='cspahn21@outlook.com' password='$2b$12$MYBTL05wQZV4cQjmAAtWsOJCm4isLTLgbs21EfraofPgbU6dsF.rW' is_admin=False
+INFO:root:User cspahn21@outlook.com found: id=ObjectId('69e13538db17f35170565e18') revision_id=None email='cspahn21@outlook.com' password='$2b$12$MYBTL05wQZV4cQjmAAtWsOJCm4isLTLgbs21EfraofPgbU6dsF.rW' is_admin=False
+INFO:root:Getting applications for user cspahn21@outlook.com with filters: {'$or': [{'owner_email': 'cspahn21@outlook.com'}, {'owner_id': ObjectId('69e13538db17f35170565e18')}, {'Owner.$id': ObjectId('69e13538db17f35170565e18')}]}
+INFO:root:Getting background for cspahn21@outlook.com: id=ObjectId('69e13542db17f35170565e19') revision_id=None email='cspahn21@outlook.com' skills=[] education=['The University of Iowa'] experience=['intern at Collins Aerospace'] saved_jobs=[]
+INFO:root:Finding user by email cspahn21@outlook.com: id=ObjectId('69e13538db17f35170565e18') revision_id=None email='cspahn21@outlook.com' password='$2b$12$MYBTL05wQZV4cQjmAAtWsOJCm4isLTLgbs21EfraofPgbU6dsF.rW' is_admin=False
+INFO:root:Getting user cspahn21@outlook.com: id=ObjectId('69e13538db17f35170565e18') revision_id=None email='cspahn21@outlook.com' password='$2b$12$MYBTL05wQZV4cQjmAAtWsOJCm4isLTLgbs21EfraofPgbU6dsF.rW' is_admin=False
+INFO:root:User cspahn21@outlook.com found: id=ObjectId('69e13538db17f35170565e18') revision_id=None email='cspahn21@outlook.com' password='$2b$12$MYBTL05wQZV4cQjmAAtWsOJCm4isLTLgbs21EfraofPgbU6dsF.rW' is_admin=False
+INFO:root:Getting max recommend jobs: 6
+INFO:root:Getting applications for user cspahn21@outlook.com with filters: {'$or': [{'owner_email': 'cspahn21@outlook.com'}, {'owner_id': ObjectId('69e13538db17f35170565e18')}, {'Owner.$id': ObjectId('69e13538db17f35170565e18')}]}
+INFO:root:Getting background for cspahn21@outlook.com: id=ObjectId('69e13542db17f35170565e19') revision_id=None email='cspahn21@outlook.com' skills=[] education=['The University of Iowa'] experience=['intern at Collins Aerospace'] saved_jobs=[]
+INFO:root:Finding user by email cspahn21@outlook.com: id=ObjectId('69e13538db17f35170565e18') revision_id=None email='cspahn21@outlook.com' password='$2b$12$MYBTL05wQZV4cQjmAAtWsOJCm4isLTLgbs21EfraofPgbU6dsF.rW' is_admin=False
+INFO:root:Getting user cspahn21@outlook.com: id=ObjectId('69e13538db17f35170565e18') revision_id=None email='cspahn21@outlook.com' password='$2b$12$MYBTL05wQZV4cQjmAAtWsOJCm4isLTLgbs21EfraofPgbU6dsF.rW' is_admin=False
+INFO:root:User cspahn21@outlook.com found: id=ObjectId('69e13538db17f35170565e18') revision_id=None email='cspahn21@outlook.com' password='$2b$12$MYBTL05wQZV4cQjmAAtWsOJCm4isLTLgbs21EfraofPgbU6dsF.rW' is_admin=False
+INFO:root:Getting max recommend jobs: 6
+INFO:root:profile_job_search title_location: city='' title='accountant' n=6
+INFO:root:Created application 69fad8dd75141a78b30fae85 for user cspahn21@outlook.com
+INFO:root:Getting applications for user cspahn21@outlook.com with filters: {'$or': [{'owner_email': 'cspahn21@outlook.com'}, {'owner_id': ObjectId('69e13538db17f35170565e18')}, {'Owner.$id': ObjectId('69e13538db17f35170565e18')}]}
+INFO:root:Getting max recommend jobs: 6
+INFO:root:Getting background for cspahn21@outlook.com: id=ObjectId('69e13542db17f35170565e19') revision_id=None email='cspahn21@outlook.com' skills=[] education=['The University of Iowa'] experience=['intern at Collins Aerospace'] saved_jobs=[]
+INFO:root:Finding user by email cspahn21@outlook.com: id=ObjectId('69e13538db17f35170565e18') revision_id=None email='cspahn21@outlook.com' password='$2b$12$MYBTL05wQZV4cQjmAAtWsOJCm4isLTLgbs21EfraofPgbU6dsF.rW' is_admin=False
+INFO:root:Getting user cspahn21@outlook.com: id=ObjectId('69e13538db17f35170565e18') revision_id=None email='cspahn21@outlook.com' password='$2b$12$MYBTL05wQZV4cQjmAAtWsOJCm4isLTLgbs21EfraofPgbU6dsF.rW' is_admin=False
+INFO:root:User cspahn21@outlook.com found: id=ObjectId('69e13538db17f35170565e18') revision_id=None email='cspahn21@outlook.com' password='$2b$12$MYBTL05wQZV4cQjmAAtWsOJCm4isLTLgbs21EfraofPgbU6dsF.rW' is_admin=False
+INFO:root:Getting applications for user cspahn21@outlook.com with filters: {'$or': [{'owner_email': 'cspahn21@outlook.com'}, {'owner_id': ObjectId('69e13538db17f35170565e18')}, {'Owner.$id': ObjectId('69e13538db17f35170565e18')}]}
+INFO:root:Getting background for cspahn21@outlook.com: id=ObjectId('69e13542db17f35170565e19') revision_id=None email='cspahn21@outlook.com' skills=[] education=['The University of Iowa'] experience=['intern at Collins Aerospace'] saved_jobs=[]
+INFO:root:Finding user by email cspahn21@outlook.com: id=ObjectId('69e13538db17f35170565e18') revision_id=None email='cspahn21@outlook.com' password='$2b$12$MYBTL05wQZV4cQjmAAtWsOJCm4isLTLgbs21EfraofPgbU6dsF.rW' is_admin=False
+INFO:root:Getting user cspahn21@outlook.com: id=ObjectId('69e13538db17f35170565e18') revision_id=None email='cspahn21@outlook.com' password='$2b$12$MYBTL05wQZV4cQjmAAtWsOJCm4isLTLgbs21EfraofPgbU6dsF.rW' is_admin=False
+INFO:root:User cspahn21@outlook.com found: id=ObjectId('69e13538db17f35170565e18') revision_id=None email='cspahn21@outlook.com' password='$2b$12$MYBTL05wQZV4cQjmAAtWsOJCm4isLTLgbs21EfraofPgbU6dsF.rW' is_admin=False
+INFO:root:Getting max recommend jobs: 6
+INFO:root:Getting applications for user cspahn21@outlook.com with filters: {'$or': [{'owner_email': 'cspahn21@outlook.com'}, {'owner_id': ObjectId('69e13538db17f35170565e18')}, {'Owner.$id': ObjectId('69e13538db17f35170565e18')}]}
+INFO:root:Getting applications for user cspahn21@outlook.com with filters: {'$or': [{'owner_email': 'cspahn21@outlook.com'}, {'owner_id': ObjectId('69e13538db17f35170565e18')}, {'Owner.$id': ObjectId('69e13538db17f35170565e18')}]}
+INFO:root:Getting applications for user cspahn21@outlook.com with filters: {'$or': [{'owner_email': 'cspahn21@outlook.com'}, {'owner_id': ObjectId('69e13538db17f35170565e18')}, {'Owner.$id': ObjectId('69e13538db17f35170565e18')}]}
+INFO:root:Getting applications for user cspahn21@outlook.com with filters: {'$or': [{'owner_email': 'cspahn21@outlook.com'}, {'owner_id': ObjectId('69e13538db17f35170565e18')}, {'Owner.$id': ObjectId('69e13538db17f35170565e18')}]}
+INFO:root:Getting applications for user cspahn21@outlook.com with filters: {'$or': [{'owner_email': 'cspahn21@outlook.com'}, {'owner_id': ObjectId('69e13538db17f35170565e18')}, {'Owner.$id': ObjectId('69e13538db17f35170565e18')}]}
+INFO:root:Getting applications for user cspahn21@outlook.com with filters: {'$or': [{'owner_email': 'cspahn21@outlook.com'}, {'owner_id': ObjectId('69e13538db17f35170565e18')}, {'Owner.$id': ObjectId('69e13538db17f35170565e18')}]}
+INFO:root:Finding user by email cspahn21@outlook.com: id=ObjectId('69e13538db17f35170565e18') revision_id=None email='cspahn21@outlook.com' password='$2b$12$MYBTL05wQZV4cQjmAAtWsOJCm4isLTLgbs21EfraofPgbU6dsF.rW' is_admin=False
+INFO:root:User cspahn21@outlook.com logged in: id=ObjectId('69e13538db17f35170565e18') revision_id=None email='cspahn21@outlook.com' password='$2b$12$MYBTL05wQZV4cQjmAAtWsOJCm4isLTLgbs21EfraofPgbU6dsF.rW' is_admin=False
+INFO:root:Getting applications for user cspahn21@outlook.com with filters: {'$or': [{'owner_email': 'cspahn21@outlook.com'}, {'owner_id': ObjectId('69e13538db17f35170565e18')}, {'Owner.$id': ObjectId('69e13538db17f35170565e18')}]}
+INFO:root:Getting applications for user cspahn21@outlook.com with filters: {'$or': [{'owner_email': 'cspahn21@outlook.com'}, {'owner_id': ObjectId('69e13538db17f35170565e18')}, {'Owner.$id': ObjectId('69e13538db17f35170565e18')}]}
+INFO:root:Getting applications for user cspahn21@outlook.com with filters: {'$or': [{'owner_email': 'cspahn21@outlook.com'}, {'owner_id': ObjectId('69e13538db17f35170565e18')}, {'Owner.$id': ObjectId('69e13538db17f35170565e18')}]}
+INFO:root:Getting applications for user cspahn21@outlook.com with filters: {'$or': [{'owner_email': 'cspahn21@outlook.com'}, {'owner_id': ObjectId('69e13538db17f35170565e18')}, {'Owner.$id': ObjectId('69e13538db17f35170565e18')}]}
+INFO:root:Getting applications for user cspahn21@outlook.com with filters: {'$or': [{'owner_email': 'cspahn21@outlook.com'}, {'owner_id': ObjectId('69e13538db17f35170565e18')}, {'Owner.$id': ObjectId('69e13538db17f35170565e18')}]}
+INFO:root:Getting applications for user cspahn21@outlook.com with filters: {'$or': [{'owner_email': 'cspahn21@outlook.com'}, {'owner_id': ObjectId('69e13538db17f35170565e18')}, {'Owner.$id': ObjectId('69e13538db17f35170565e18')}]}
+INFO:root:Finding user by email cspahn21@outlook.com: id=ObjectId('69e13538db17f35170565e18') revision_id=None email='cspahn21@outlook.com' password='$2b$12$MYBTL05wQZV4cQjmAAtWsOJCm4isLTLgbs21EfraofPgbU6dsF.rW' is_admin=False
+INFO:root:User cspahn21@outlook.com logged in: id=ObjectId('69e13538db17f35170565e18') revision_id=None email='cspahn21@outlook.com' password='$2b$12$MYBTL05wQZV4cQjmAAtWsOJCm4isLTLgbs21EfraofPgbU6dsF.rW' is_admin=False
+INFO:root:Getting applications for user cspahn21@outlook.com with filters: {'$or': [{'owner_email': 'cspahn21@outlook.com'}, {'owner_id': ObjectId('69e13538db17f35170565e18')}, {'Owner.$id': ObjectId('69e13538db17f35170565e18')}]}

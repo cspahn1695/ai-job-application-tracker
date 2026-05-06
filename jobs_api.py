@@ -89,10 +89,12 @@ def fetch_jobs(city, keywords="software engineer", results_per_page=20):
         "app_id": ADZUNA_APP_ID,
         "app_key": ADZUNA_API_KEY,
         "what": keywords,
-        "where": city,
         "results_per_page": results_per_page,
         "content-type": "application/json",
     }
+    where = (city or "").strip()
+    if where:
+        params["where"] = where
 
     res = requests.get(url, params=params)
     data = res.json()

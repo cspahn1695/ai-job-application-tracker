@@ -110,7 +110,7 @@ function renderApplications(data) {
           <div class="mt-2">
             ${x.resume_path ? 
               `<a href="http://127.0.0.1:8000/${x.resume_path}" target="_blank" class="btn btn-sm btn-primary">
-                  View Resume
+                  Download Resume
               </a>` 
               : 
               `<span class="text-muted">No Resume</span>`
@@ -531,10 +531,7 @@ function login() {
     localStorage.setItem("isAdmin", data.is_admin ? "true" : "false");
     localStorage.setItem("accessToken", data.access_token || "");
 
-    alert("Login successful");
-
     window.location.href = "/static/index.html";// switch view instead of redirect
-
   })
   .catch(err => alert(err.message));
 }

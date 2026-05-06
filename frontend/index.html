@@ -19,7 +19,7 @@
 <body class="p-4">
 
 
-  <!-- ================= APP VIEW ================= -->
+  <!-- APP -->
   <div id="appView" style="display:none;">
 
     <div class="container">
@@ -56,10 +56,11 @@
         <h5>Log a New Job Application</h5>
           <input id="company" class="form-control mb-2" placeholder="Company" />
           <input id="role" class="form-control mb-2" placeholder="Role" />
-          <input id="recruitmentinfo" class="form-control mb-2" placeholder="Recruitment Info" />
-          <input type="file" id="resume" class="form-control mb-2" />
-          <input id="jobpostinglink" class="form-control mb-2" placeholder="Job Posting Link" />
+          <input id="jobpostinglink" class="form-control mb-2" placeholder="Link to Job Posting" />
+          <label for="resume" class="form-label>">Upload Resume</label>
+          <input type="file" id="resume" class="form-control mb-2" placeholder="Upload Resume" />
 
+          <label for="status" class="form-label">Application Status</label>
           <select id="status" class="form-control mb-2">
             <option value="plan_to_apply">Plan to Apply</option>
             <option value="applied">Applied</option>
@@ -67,12 +68,14 @@
             <option value="rejected">Rejected</option>
             <option value="offer">Offer</option>
           </select>
-
+          <label for="priority" class="form-label">Priority</label>
           <select id="priority" class="form-control mb-2">
             <option value="high">High priority</option>
-            <option value="medium">Medium priority</option>
+            <option value="medium" selected>Medium priority</option>
             <option value="low">Low priority</option>
           </select>
+          <label for="recruitmentInfo" class="form-label">Personal Notes</label>
+          <input id="recruitmentinfo" class="form-control mb-2" placeholder="Optional" />
 
           <button onclick="createApplication()" class="btn btn-success w-100">
             Add Application
@@ -138,12 +141,12 @@
       </div>
 
       <div class="modal-body">
-        <input id="editRole" class="form-control mb-2" placeholder="Role" />
         <input id="editCompany" class="form-control mb-2" placeholder="Company" />
-        <input id="editRecruitment" class="form-control mb-2" placeholder="Recruitment Info" />
-        <input id="editJobLink" class="form-control mb-2" placeholder="Job Posting Link" />
+        <input id="editRole" class="form-control mb-2" placeholder="Role" />
+        <input id="editJobLink" class="form-control mb-2" placeholder="Link to Job Posting" />
+        <label for="editResume" class="form-label">Upload a New Resume</label>
         <input type="file" id="editResume" class="form-control mb-2" />
-
+        <label for="editStatus" class="form-label"> Status</label>
         <select id="editStatus" class="form-control mb-2">
           <option value="plan_to_apply">Plan to Apply</option>
           <option value="applied">Applied</option>
@@ -151,13 +154,16 @@
           <option value="rejected">Rejected</option>
           <option value="offer">Offer</option>
         </select>
-
+        <label for="editPriority" class="form-label">Priority</label>
         <select id="editPriority" class="form-control mb-2">
           <option value="high">High</option>
           <option value="medium">Medium</option>
           <option value="low">Low</option>
         </select>
+        <label for="editRecruitment" class="form-label">Personal Notes</label>
+        <input id="editRecruitment" class="form-control mb-2" placeholder="Optional" />
       </div>
+      
 
       <div class="modal-footer">
         <button class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>

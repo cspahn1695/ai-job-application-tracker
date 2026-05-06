@@ -32,7 +32,6 @@ function logout() {
   localStorage.removeItem("isAdmin");
   localStorage.removeItem("accessToken");
   window.location.href = "/static/login.html";
-}
 
 function escapeHtml(s) {
   if (s == null || s === "") return "";

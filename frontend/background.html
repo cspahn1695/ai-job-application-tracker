@@ -18,66 +18,71 @@
 <body class="p-4">
 
 <div class="container">
+  <!-- TOP BAR-->
+  <div class="d-flex justify-content-between align-items-center mb-3">
+  <h2>Amplication</h2>
+  <div id="userInfo"></div>
+    <div>
+      <button onclick="goToApp()" class="btn me-2">
+        My Application Journal
+      </button>
 
-        <!-- TOP BAR-->
-        <div class="d-flex justify-content-between align-items-center mb-3">
-        <h2>My Profile</h2>
-        <div id="userInfo"></div>
-        <div>
-          <button onclick="goToApp()" class="btn me-2">
-            My Applications
-          </button>
+      <button onclick="goToBackground()" class="btn disabled me-2">
+        My Profile
+      </button>
 
-          <button onclick="goToBackground()" class="btn disabled me-2">
-            My Profile
-          </button>
-
-          <button onclick="goToJobs()" class="btn me-2">
-            Job Search
-          </button>
-
-          <button onclick="logout()" class="btn me-2">
-            Log out
-          </button>
-        </div>
-      </div>
-    
-  <!-- SKILLS -->
-  <div class="mb-4">
-    <h5>My Skills</h5>
-    <div class="input-group mb-2">
-      <input id="skillInput" class="form-control" placeholder="Add skill">
-      <button onclick="addSkill()" class="btn btn-success">Add</button>
+      <button onclick="logout()" class="btn me-2">
+        Log out
+      </button>
     </div>
-    <ul id="skillsList"></ul>
   </div>
-
-  <!-- EDUCATION -->
-  <div class="mb-4">
-    <h5>My Education</h5>
-    <div class="input-group mb-2">
-      <input id="educationInput" class="form-control" placeholder="Add education">
-      <button onclick="addEducation()" class="btn btn-success">Add</button>
-    </div>
-    <ul id="educationList"></ul>
-  </div>
-
-  <!-- EXPERIENCE -->
-  <div class="mb-4">
-    <h5>My Experience</h5>
-    <div class="input-group mb-2">
-      <input id="experienceInput" class="form-control" placeholder="Add experience">
-      <button onclick="addExperience()" class="btn btn-success">Add</button>
-    </div>
-    <ul id="experienceList"></ul>
-  </div>
+  
 
   <!-- Adzuna job search (mode: keywords only, profile match, or both) -->
   <div class="mb-4">
-    <h5>Search jobs (Adzuna)</h5>
-    <p class="small text-muted mb-2">
-      Choose how results are chosen: keyword search only, match to your profile only, or both (keyword results merged with a broad search, then ranked by your profile).
-    </p>
+    <!-- BACKGROUND / PROFILE CONTENT -->
+    <div class="dropdown">
+      <h3>Search for opportunities
+      <span class="toggle-header" onClick="toggleDropdown()">tailored to your profile</span>
+      </h3>
+
+      <div id="myDropdown" class="dropdown-content">
+
+        <div class="columncontainer">
+          <!-- SKILLS -->
+          <div class="column">
+            <h5>My Skills</h5>
+            <div class="input-group mb-2">
+              <input id="skillInput" class="form-control" placeholder="Add skill">
+              <button onclick="addSkill()" class="btn btn-success">Add</button>
+            </div>
+            <ul id="skillsList"></ul>
+          </div>
+
+          <!-- EDUCATION -->
+          <div class="column">
+            <h5>My Education</h5>
+            <div class="input-group mb-2">
+              <input id="educationInput" class="form-control" placeholder="Add education">
+              <button onclick="addEducation()" class="btn btn-success">Add</button>
+            </div>
+            <ul id="educationList"></ul>
+          </div>
+
+          <!-- EXPERIENCE -->
+          <div class="column">
+            <h5>My Experience</h5>
+            <div class="input-group mb-2">
+              <input id="experienceInput" class="form-control" placeholder="Add experience">
+              <button onclick="addExperience()" class="btn btn-success">Add</button>
+            </div>
+            <ul id="experienceList"></ul>
+          </div>
+
+        </div>
+      </div>
+    </div>
+    
     <div class="mb-3">
       <label for="jobSearchModeSelect" class="form-label small mb-0">Search type</label>
       <select id="jobSearchModeSelect" class="form-select" onchange="onJobSearchModeChange()">
@@ -86,6 +91,9 @@
         <option value="both">Title, location, and my profile (combined)</option>
       </select>
     </div>
+    <p class="small text-muted mb-2" style="margin-top:-15px;">
+      Choose how results are chosen: keyword search only, match to your profile only, or both (keyword results merged with a broad search, then ranked by your profile).
+    </p>
     <div class="row g-2 mb-2">
       <div class="col-md-6">
         <label for="jobSearchTitleInput" class="form-label small mb-0">Job title or keywords</label>

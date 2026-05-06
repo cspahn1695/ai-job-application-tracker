@@ -47,17 +47,20 @@ body {
   font-style: italic;
 }
 
-.h2 {
-  font-family: "PT Serif", serif;
-  font-weight: 700;
-  font-style: italic;
-}
-
 h2{
   font-family: "PT Serif", serif;
   font-weight: 700;
   font-size: 8-rem;
   font-style: normal;
+}
+
+h3{
+  font-family: "PT Serif", serif;
+  font-weight: 400;
+  display: flex;
+  justify-content: center; /* Centers horizontally */
+  align-items: center; 
+  margin-top:20px;
 }
 
 h5{
@@ -165,4 +168,45 @@ button:-webkit-details-marker {
 
 .me-2:disabled {
   color: #b1b8bf;
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+}
+
+.columncontainer {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* 3 equal columns */
+  gap: 20px; /* Spacing between columns */
+  margin-top: 30px;
+}
+
+.dropdown-content {
+  display: none;
+  width: 100%;
+  padding: 15px;
+  background: #f9f9f9;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+}
+
+.dropdown-content.show {
+  display: block;
+}
+
+.toggle-header {
+  cursor: pointer;
+  user-select: none;
+  margin: 0;
+  padding:6px;
+  padding-bottom: 4px;
+  margin-left: 10px;
+  border-bottom: 2px solid #ccc;
+  font-weight:700;
+  font-style: italic;
+}
+
+.toggle-header:hover {
+  background-color: #f9f9f9;
 }

@@ -691,6 +691,11 @@ function deleteSavedJob(encodedUrl) {
     .catch((err) => alert(err.message));
 }
 
+//dropdown menu
+function toggleDropdown() {                
+  document.getElementById("myDropdown").classList.toggle("show");
+}
+
 window.onload = () => {
   email = (localStorage.getItem("userEmail") || "").trim().toLowerCase();
   if (email) localStorage.setItem("userEmail", email);

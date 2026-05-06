@@ -546,8 +546,6 @@ function logout() {
   localStorage.removeItem("isAdmin");
   localStorage.removeItem("accessToken");
 
-  alert("Logged out");
-
   window.location.href = "/static/login.html";
 
 }

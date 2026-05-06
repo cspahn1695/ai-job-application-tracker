@@ -693,6 +693,14 @@ function deleteSavedJob(encodedUrl) {
     .catch((err) => alert(err.message));
 }
 
+function toggleDropdown() {                
+  const el = document.getElementById("myDropdown");
+  const arrow = document.getElementById("arrow");
+
+  el.classList.toggle("show");
+  arrow.textContent = el.classList.contains("show") ? "▲" : "▼";
+}
+
 window.onload = () => {
   email = (localStorage.getItem("userEmail") || "").trim().toLowerCase();
   if (email) localStorage.setItem("userEmail", email);

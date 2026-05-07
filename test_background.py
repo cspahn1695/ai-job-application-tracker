@@ -1,3 +1,6 @@
+from types import SimpleNamespace
+from unittest.mock import patch
+
 import pytest
 from fastapi import FastAPI
 from fastapi.testclient import TestClient
@@ -11,7 +14,7 @@ class FakeEmailField:
 
 
 @pytest.fixture
-def client(monkeypatch):
+def client():
     store = {}
 
     class FakeBackground:
@@ -37,44 +40,74 @@ def client(monkeypatch):
             email = query.get("email") if isinstance(query, dict) else None
             return store.get((email or "").strip().lower())
 
-    monkeypatch.setattr(background_routes, "Background", FakeBackground)
-
     app = FastAPI()
-    app.include_router(background_routes.router)
-    return TestClient(app)
+    with patch("background_routes.Background", FakeBackground):
+        app.include_router(background_routes.router)
+        yield TestClient(app)
 
 
-def test_background_routes(client):
+def test_background_routes_use_real_route_logic(client):
     email = "test@example.com"
 
-    response = client.get(f"/background/{email}")
-    assert response.status_code == 200
+    get_res = client.get(f"/background/{email}")
+    assert get_res.status_code == 200
+    assert get_res.json()["email"] == email
 
-    response = client.post(f"/background/{email}/education?item=Bachelor's")
-    assert response.status_code == 200
+    add_edu = client.post(f"/background/{email}/education", params={"item": "Bachelor's"})
+    assert add_edu.status_code == 200
+    assert "Bachelor's" in add_edu.json()["education"]
 
-    response = client.post(f"/background/{email}/skills?item=Python")
-    assert response.status_code == 200
+    # same item should not duplicate
+    add_edu_dup = client.post(f"/background/{email}/education", params={"item": "Bachelor's"})
+    assert add_edu_dup.status_code == 200
+    assert add_edu_dup.json()["education"].count("Bachelor's") == 1
 
-    response = client.post(f"/background/{email}/experience?item=Programmer")
-    assert response.status_code == 200
+    add_skill = client.post(f"/background/{email}/skills", params={"item": "Python"})
+    assert add_skill.status_code == 200
+    assert "Python" in add_skill.json()["skills"]
 
-    response = client.post(
+    add_exp = client.post(f"/background/{email}/experience", params={"item": "Programmer"})
+    assert add_exp.status_code == 200
+    assert "Programmer" in add_exp.json()["experience"]
+
+    save_job = {
+        "title": "Software Engineer",
+        "url": "https://example.com/job/1",
+        "company": "Example Co",
+        "location": "Iowa City",
+    }
+    add_saved = client.post(f"/background/{email}/saved-jobs/item", json=save_job)
+    assert add_saved.status_code == 200
+    assert len(add_saved.json()["saved_jobs"]) == 1
+
+    # saved-jobs is idempotent by URL
+    add_saved_dup = client.post(f"/background/{email}/saved-jobs/item", json=save_job)
+    assert add_saved_dup.status_code == 200
+    assert len(add_saved_dup.json()["saved_jobs"]) == 1
+
+    delete_saved = client.delete(
         f"/background/{email}/saved-jobs/item",
-        json={
-            "title": "Software Engineer",
-            "url": "https://example.com/job/1",
-            "company": "Example Co",
-            "location": "Iowa City",
-        },
+        params={"url": "https://example.com/job/1"},
     )
-    assert response.status_code == 200
-    payload = response.json()
-    assert len(payload["saved_jobs"]) == 1
+    assert delete_saved.status_code == 200
+    assert len(delete_saved.json()["saved_jobs"]) == 0
 
-    response = client.delete(f"/background/{email}/education?item=Bachelor's")
-    assert response.status_code == 200
+    delete_edu = client.delete(f"/background/{email}/education", params={"item": "Bachelor's"})
+    assert delete_edu.status_code == 200
+    assert "Bachelor's" not in delete_edu.json()["education"]
 
-    response = client.delete(f"/background/{email}/skills?item=Python")
-    assert response.status_code == 200
+
+def test_background_rejects_invalid_section_and_missing_saved_job_url(client):
+    email = "test@example.com"
+
+    bad_section = client.post(f"/background/{email}/not-a-section", params={"item": "x"})
+    assert bad_section.status_code == 400
+    assert bad_section.json()["detail"] == "Invalid section"
+
+    missing_url = client.post(
+        f"/background/{email}/saved-jobs/item",
+        json={"title": "No URL", "url": "   ", "company": None, "location": None},
+    )
+    assert missing_url.status_code == 400
+    assert missing_url.json()["detail"] == "Job URL is required"
 

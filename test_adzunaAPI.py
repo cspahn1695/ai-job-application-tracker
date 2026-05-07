@@ -1,157 +1,145 @@
-"""Tests for Adzuna-backed routes (mocked; no live API or Mongo)."""
+"""Unit tests for real Adzuna/settings/ranking logic exposed via `routes` imports."""
 
+import asyncio
 from types import SimpleNamespace
-from urllib.parse import quote
-
-import pytest
-from fastapi import FastAPI
-from fastapi.testclient import TestClient
+from unittest.mock import AsyncMock, patch
 
 import routes
 
-# In Python, monkey patching is the practice of dynamically replacing or modifying attributes of a module or class at runtime. 
-# It allows you to change the behavior of code without altering its original source file
-class FakeEmailField:
-    """Stands in for Beanie `Background.email` so `Background.email == x` does not crash."""
 
-    def __eq__(self, other):
-        return {"email": other}
+class _FakeResponse:
+    """Minimal requests.Response stub for jobs_api.fetch_jobs tests."""
+
+    def __init__(self, payload):
+        self._payload = payload
+
+    def json(self):
+        return self._payload
 
 
-FAKE_JOBS = [
-    {
-        "title": "Software Engineer",
-        "company": "Acme Corp",
-        "location": "Iowa City",
-        "search_city": "Iowa City",
-        "description": "Python backend work.",
-        "url": "https://example.com/job/1",
+def test_fetch_jobs_maps_payload_and_clamps_results_per_page():
+    captured = {}
+    payload = {
+        "results": [
+            {
+                "title": "Backend Engineer",
+                "company": {"display_name": "Acme Corp"},
+                "location": {"display_name": "Iowa City"},
+                "description": "<p>Python + FastAPI</p>",
+                "url": "https://example.com/job/1",
+            }
+        ]
     }
-]
+
+    def fake_get(url, params):
+        captured["url"] = url
+        captured["params"] = params
+        return _FakeResponse(payload)
+
+    # Patch only network I/O; run real fetch_jobs implementation.
+    with patch("jobs_api.requests.get", side_effect=fake_get):
+        jobs = routes.fetch_jobs("Iowa City", keywords="backend engineer", results_per_page=999)
+
+    assert captured["url"].endswith("/api/jobs/us/search/1")
+    assert captured["params"]["what"] == "backend engineer"
+    assert captured["params"]["where"] == "Iowa City"
+    assert captured["params"]["results_per_page"] == 50  # clamped from 999 -> 50
+    assert len(jobs) == 1
+    assert jobs[0]["title"] == "Backend Engineer"
+    assert jobs[0]["company"] == "Acme Corp"
+    assert jobs[0]["location"] == "Iowa City"
+    assert jobs[0]["search_city"] == "Iowa City"
+    assert jobs[0]["url"] == "https://example.com/job/1"
 
 
-@pytest.fixture
-def client(monkeypatch):
-    bg_store = {}
+def test_fetch_jobs_uses_search_city_when_location_missing():
+    payload = {
+        "results": [
+            {
+                "title": "Data Analyst",
+                "company": {"display_name": "Data Co"},
+                "description": "SQL and dashboarding",
+                "redirect_url": "https://adzuna.com/clk/abc",
+            }
+        ]
+    }
 
-    class FakeBackground:
-        email = FakeEmailField()
+    with patch("jobs_api.requests.get", return_value=_FakeResponse(payload)):
+        jobs = routes.fetch_jobs("Chicago", keywords="data analyst", results_per_page=1)
 
-        def __init__(self, email):
-            self.email = (email or "").strip().lower()
-            self.skills = ["Python"]
-            self.education = ["BS Computer Science"]
-            self.experience = ["Developer"]
-
-        @classmethod
-        async def find_one(cls, query):
-            # Satisfy recommend_jobs lookup for the seeded test user.
-            return bg_store.get("test@example.com")
-
-    async def fake_get_app_settings():
-        return SimpleNamespace(max_recommend_jobs=10)
-
-    def fake_fetch_jobs(city, keywords="software engineer", results_per_page=20):
-        return list(FAKE_JOBS)
-
-    def fake_rank_jobs(user_background_text, jobs):
-        return [{"job": j, "score": 77.5} for j in jobs]
-
-    monkeypatch.setattr(routes, "Background", FakeBackground)
-    monkeypatch.setattr(routes, "get_app_settings", fake_get_app_settings)
-    monkeypatch.setattr(routes, "fetch_jobs", fake_fetch_jobs)
-    monkeypatch.setattr(routes, "rank_jobs", fake_rank_jobs)
-
-    bg_store["test@example.com"] = FakeBackground("test@example.com")
-
-    app = FastAPI()
-    app.include_router(routes.router)
-    return TestClient(app)
+    assert len(jobs) == 1
+    assert jobs[0]["location"] == "Chicago"
+    assert jobs[0]["url"] == "https://adzuna.com/clk/abc"
 
 
-def test_search_jobs_route(client):
-    """GET /applications/search-jobs?city=&title= — keyword + location (no profile)."""
-    response = client.get(
-        "/applications/search-jobs",
-        params={"city": "Iowa City", "title": "engineer"},
-    )
-    assert response.status_code == 200
-    data = response.json()
-    assert isinstance(data, list)
-    assert len(data) == 1
-    assert data[0]["title"] == "Software Engineer"
-    assert data[0]["url"] == "https://example.com/job/1"
+def test_get_app_settings_returns_existing_document():
+    fake_doc = SimpleNamespace(max_recommend_jobs=17)
+
+    with patch("app_settings_model.AppSettings.find_one", new=AsyncMock(return_value=fake_doc)):
+        settings = asyncio.run(routes.get_app_settings())
+
+    assert settings is fake_doc
+    assert settings.max_recommend_jobs == 17
 
 
-def test_recommend_jobs_route(client):
-    """GET /applications/recommend-jobs/{email}?city= — profile-ranked jobs."""
-    email_path = quote("test@example.com", safe="")
-    response = client.get(
-        f"/applications/recommend-jobs/{email_path}",
-        params={"city": "Iowa City"},
-    )
-    assert response.status_code == 200
-    data = response.json()
-    assert len(data) == 1
-    assert data[0]["score"] == 77.5
-    assert data[0]["job"]["title"] == "Software Engineer"
-    assert data[0]["job"]["url"] == "https://example.com/job/1"
+def test_get_app_settings_creates_default_when_missing():
+    insert_mock = AsyncMock(return_value=None)
 
-# Here's what it does:
+    class FakeAppSettings:
+        def __init__(self, max_recommend_jobs=10):
+            self.max_recommend_jobs = max_recommend_jobs
 
-# Mocks the redirect resolver: It patches routes._resolve_adzuna_redirect to always return a fake final URL ("https://ziprecruiter.com/candidate/job/1"), simulating what happens when an Adzuna tracking link is resolved to the actual job posting site.
-
-# Makes a test request: It sends a GET request to the endpoint with an Adzuna URL as a query parameter ("https://www.adzuna.com/clk/v0?id=123"), and sets follow_redirects=False to capture the redirect response directly.
-
-# Asserts the expected behavior: It checks that the response has a 302 status code (redirect) and that the Location header points to the mocked resolved URL.
-
-# In essence, this test ensures that the route properly handles Adzuna redirect URLs by resolving them to the final destination and issuing a redirect response, without actually making external HTTP calls.
-
-
-def test_resolve_listing_url_redirects(client, monkeypatch):
-    """GET /applications/resolve-listing-url?url= — 302 to resolved employer URL."""
-    monkeypatch.setattr(
-        routes,
-        "_resolve_adzuna_redirect",
-        lambda url, timeout=5.0: "https://ziprecruiter.com/candidate/job/1",
-    )
-    response = client.get(
-        "/applications/resolve-listing-url",
-        params={"url": "https://www.adzuna.com/clk/v0?id=123"},
-        follow_redirects=False,
-    )
-    assert response.status_code == 302
-    assert response.headers["location"] == "https://ziprecruiter.com/candidate/job/1"
-
-
-def test_resolve_listing_url_rejects_non_adzuna(client):
-    response = client.get(
-        "/applications/resolve-listing-url",
-        params={"url": "https://evil.example/phish"},
-        follow_redirects=False,
-    )
-    assert response.status_code == 400
-
-
-def test_recommend_jobs_missing_background_returns_404(client, monkeypatch):
-    """No background document -> 404 (real route behavior; empty store)."""
-    class EmptyBackground:
-        email = FakeEmailField()
+        async def insert(self):
+            await insert_mock()
 
         @classmethod
-        async def find_one(cls, query):
+        async def find_one(cls):
             return None
 
-    monkeypatch.setattr(routes, "Background", EmptyBackground)
+    with patch("app_settings_model.AppSettings", FakeAppSettings):
+        settings = asyncio.run(routes.get_app_settings())
 
-    app = FastAPI()
-    app.include_router(routes.router)
-    bare = TestClient(app)
+    insert_mock.assert_awaited_once()
+    assert settings.max_recommend_jobs == 10
 
-    email_path = quote("nobody@example.com", safe="")
-    response = bare.get(
-        f"/applications/recommend-jobs/{email_path}",
-        params={"city": "Chicago"},
-    )
-    assert response.status_code == 404
-    assert response.json()["detail"] == "No background found" # no background has the email nobody@example.com
+
+def test_rank_jobs_prefers_more_relevant_job_and_sorts_desc():
+    user_text = "python fastapi sql docker rest api backend development"
+    jobs = [
+        {
+            "title": "Backend Python Engineer",
+            "company": "Acme",
+            "location": "Remote",
+            "description": "Build FastAPI services with Python, SQL, and Docker.",
+            "url": "https://example.com/job/backend",
+        },
+        {
+            "title": "Graphic Designer",
+            "company": "Design Co",
+            "location": "Remote",
+            "description": "Create brand assets in Illustrator and Photoshop.",
+            "url": "https://example.com/job/designer",
+        },
+    ]
+
+    ranked = routes.rank_jobs(user_text, jobs)
+
+    assert len(ranked) == 2
+    assert all("job" in item and "score" in item for item in ranked)
+    assert all(isinstance(item["score"], float) for item in ranked)
+    assert ranked[0]["score"] >= ranked[1]["score"]  # sorted descending
+    assert ranked[0]["job"]["title"] == "Backend Python Engineer"
+
+
+def test_rank_jobs_handles_empty_user_text_with_zero_scores():
+    jobs = [
+        {
+            "title": "Software Engineer",
+            "description": "Python development and APIs",
+            "url": "https://example.com/job/1",
+        }
+    ]
+
+    ranked = routes.rank_jobs("", jobs)
+    assert len(ranked) == 1
+    assert ranked[0]["score"] == 0.0

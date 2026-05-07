@@ -540,6 +540,7 @@ function register() { // handles user registration by sending email and password
 function login() {
   const email = document.getElementById("email").value;
   const password = document.getElementById("password").value;
+  document.getElementById("loginError").textContent = "";
 
   fetch("http://127.0.0.1:8000/auth/login", {
     method: "POST",
@@ -562,7 +563,9 @@ function login() {
 
     window.location.href = "/static/index.html";// switch view instead of redirect
   })
-  .catch(err => alert(err.message));
+  .catch(err => {
+    document.getElementById("loginError").textContent = err.message;
+  });
 }
 
 function logout() {

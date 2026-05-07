@@ -39,4 +39,12 @@ routes.py also includes CRUD methods for applications, and but for editing appli
 ![alt text](image-1.png)
 ![alt text](image-2.png)
 
-Our app 
+routes.py also inclues the profile_job_search() function, which determines what case the user wants to select (location + title, skills/education/experience, or both), determines the max # of jobs to return, calls the fetch_jobs() function, ranks these jobs using  the rank_jobs function, and puts the top ranked jobs in payload (# of jobs in payload equals limit). For instance, if mode == title_location, then the (optional) city and keywords are passed to fetch_jobs(), and the 
+
+Our app also has authentication routes (in auth_routes.py), including routes for finding user by email, registering, logging in, and creating an admin. When registering, our app hashes the pw; when signing in, our app generates a jwt web token. The route for creating an admin is very similar to that for creating a basic user account, with the main difference being that, for an admin account, is_admin = true. When creating an admin, the admin must be created from the admin's account (unless an admin doesn't exist yet). Of course, when creating the admin, the password is hashed.
+![alt text](image-3.png)
+![alt text](image-4.png)
+
+Our jobs_api.py page resolves adzuna redirect commands and formats redirect urls correctly. Additionally, it contains the main function that fetches jobs from adzuna. The function configures parameters of return jobs, including id, key, etc; the jobs are officially retrieved from adzuna using res = requests.get(url, params=params). From there, the title, company, location, search city, description, and url of each job is appended to the job object. The jobs are returned, and the fetch_jobs function is called from the profile_job_search() function for each of the 3 cases: location + title, skills/education/experience, or both.
+![alt text](image-5.png)
+

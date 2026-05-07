@@ -48,3 +48,4 @@ Our app also has authentication routes (in auth_routes.py), including routes for
 Our jobs_api.py page resolves adzuna redirect commands and formats redirect urls correctly. Additionally, it contains the main function that fetches jobs from adzuna. The function configures parameters of return jobs, including id, key, etc; the jobs are officially retrieved from adzuna using res = requests.get(url, params=params). From there, the title, company, location, search city, description, and url of each job is appended to the job object. The jobs are returned, and the fetch_jobs function is called from the profile_job_search() function for each of the 3 cases: location + title, skills/education/experience, or both.
 ![alt text](image-5.png)
 
+important other parts to include in Readme.md file: jwt, settings_routes, test_adzunaAPI.py, test_application.py, background_routes.py, main.js

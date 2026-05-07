@@ -28,21 +28,10 @@
       Login
     </button>
     <div id="loginError" class="login-error text-danger mt-2"></div>
-    <h5 style="text-align: center;">or</h5>
-    <button onclick="register()" class="btn btn-secondary w-100 mb-3">
-      Register
+    <button onclick="goToRegister()" class="btn btn-secondary w-100 mb-3">
+      Create an Account
     </button>
-
-    <hr class="my-3" />
-    <p class="small text-muted mb-2">First admin only (no admin exists yet)</p>
-    <input id="bootstrapSecret" type="password" class="form-control mb-2" placeholder="Bootstrap secret" />
-    <button id="bootstrapAdminBtn" type="button" class="btn btn-outline-dark w-100 small">
-      Create admin account
-    </button>
-    <p class="small text-muted mt-2 mb-0">
-      Secret defaults to <code>dev-bootstrap-change-me</code> unless you set
-      <code>ADMIN_BOOTSTRAP_SECRET</code> on the server.
-    </p>
+    <div id="registerError" class="login-error text-danger mt-2"></div>
   </div>
 
   <script src="/static/main.js"></script>

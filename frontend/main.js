@@ -509,6 +509,14 @@ function renderPriorityChart(priorityCounts) { // put a pie graph on the fronten
 function register() { // handles user registration by sending email and password to backend, and if successful, logging the user in
   const email = document.getElementById("email").value;
   const password = document.getElementById("password").value;
+  const confirmPassword = document.getElementById("confirmPassword").value;
+  const errorBox = document.getElementById("registerError");
+  errorBox.textContent = "";
+
+  if (password !== confirmPassword) {
+    errorBox.textContent = "Passwords do not match";
+    return;
+  }
 
   fetch("http://127.0.0.1:8000/auth/register", {
     method: "POST",
@@ -529,13 +537,24 @@ function register() { // handles user registration by sending email and password
     return data;
   })
   .then(data => {
-    alert("Account created! Logging you in...");
-    login(); // reuse login function
+    window.location.href = "/static/login.html";
   })
-  .catch(err => alert(err.message));
+  .catch(err => {
+    errorBox.textContent = err.message;
+  });
 }
 
+function validateRegisterForm() {
+  const email = document.getElementById("email").value.trim();
+  const password = document.getElementById("password").value;
+  const confirmPassword = document.getElementById("confirmPassword").value;
+  const registerButton = document.getElementById("registerButton");
 
+  registerButton.disabled =
+    !email ||
+    !password ||
+    !confirmPassword;
+}
 
 function login() {
   const email = document.getElementById("email").value;
@@ -595,4 +614,8 @@ function goToApp() {
 
 function goToJobs() {
   window.location.href = "/static/search.html";
+}
+
+function goToRegister() {
+  window.location.href = "/static/register.html";
 }

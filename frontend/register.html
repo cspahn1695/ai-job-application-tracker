@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Register</title>
+
+  <link
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
+    rel="stylesheet"
+  />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@500&family=Open+Sans:ital,wght@0,300..800;1,300..800&family=PT+Serif:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/static/style.css" />
+
+</head>
+
+<body class="d-flex justify-content-center align-items-center vh-100">
+
+  <div class="card p-4" style="width: 380px; max-width: 96vw; transform: translateY(0px);">
+    <h3 class="mb-3" style="padding-bottom:15px;">Register to Amplication</h3>
+
+    <input id="email" class="form-control mb-2" placeholder="Email" oninput="validateRegisterForm()"/>
+    <input id="password" type="password" class="form-control mb-2" placeholder="Password" oninput="validateRegisterForm()"/>
+    <input id="confirmPassword" type="password" class="form-control mb-2" placeholder="Confirm password" oninput="validateRegisterForm()"/>
+
+    <button id="registerButton" onclick="register()" class="btn btn-success w-100 mb-3" disabled>
+      Register
+    </button>
+    <div id="registerError" class="login-error text-danger mt-2"></div>
+     <div class="text-center mt-3">
+      <a href="/static/login.html">
+        Already have an account? Log in
+      </a>
+    </div>
+
+    <hr class="my-3" />
+    <p class="small text-muted mb-2">First admin only (no admin exists yet)</p>
+    <input id="bootstrapSecret" type="password" class="form-control mb-2" placeholder="Bootstrap secret" />
+    <button id="bootstrapAdminBtn" type="button" class="btn btn-outline-dark w-100 small">
+      Create admin account
+    </button>
+    <p class="small text-muted mt-2 mb-0">
+      Secret defaults to <code>dev-bootstrap-change-me</code> unless you set
+      <code>ADMIN_BOOTSTRAP_SECRET</code> on the server.
+    </p>
+  </div>
+
+  <script src="/static/main.js"></script>
+  <script src="/static/auth_bootstrap.js"></script>
+</body>
+</html>

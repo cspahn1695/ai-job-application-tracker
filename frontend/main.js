@@ -130,9 +130,19 @@ function renderApplications(data) {
         Edit
         </button>
 
-        <button onclick="getMatchScore('${x._id}')" class="btn btn-sm btn-warning mt-2">
-        AI Match Score
-        </button>
+        ${x.resume_path && x.jobpostinglink
+          ? `
+            <button onclick="getMatchScore('${x._id}')" 
+                    class="btn btn-sm btn-warning mt-2">
+              AI Match Score
+            </button>
+          `
+          : `
+            <button class="btn btn-sm btn-secondary mt-2" disabled>
+              Add Resume & Job Link for Match
+            </button>
+          `
+        }
 
         <div id="match-result-${x._id}" class="mt-2"></div>
 

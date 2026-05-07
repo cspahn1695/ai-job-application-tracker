@@ -16,17 +16,30 @@
 <body class="p-4">
   <div class="container">
     <div class="d-flex justify-content-between align-items-center mb-3">
-      <h2>Interview Prep</h2>
-      <div>
-        <button onclick="goToApp()" class="btn me-2">My Application Journal</button>
-        <button onclick="goToBackground()" class="btn me-2">My Profile</button>
-        <button onclick="goToInterviewPrep()" class="btn disabled me-2">Interview Prep</button>
-        <button onclick="logout()" class="btn me-2">Log out</button>
-      </div>
-    </div>
+        <h2>Amplication</h2>
 
+        <div>
+          <button onclick="goToApp()" class="btn me-2">
+            My Application Journal
+          </button>
+
+          <button onclick="goToBackground()" class="btn me-2">
+            Job Search
+          </button>
+
+          <button onclick="goToInterviewPrep()" class="btn disabled me-2">
+            Interview Prep
+          </button>
+
+          <button onclick="logout()" class="btn me-2">
+            Log out
+          </button>
+        </div>
+      </div>
+
+    <h5 style="margin-top:50px;">Interview Preparation Questions</h5>
     <p class="small text-muted mb-3">
-      Questions are generated only from each job posting link (no resume required, max 6 per job).
+    Generated from each job posting that you have saved, and have a link to the job posting (no resume required, max 6 per job).
     </p>
     <button type="button" class="btn btn-primary mb-3" onclick="loadInterviewPrep()">
       Refresh Questions

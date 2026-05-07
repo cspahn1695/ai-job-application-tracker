@@ -90,13 +90,13 @@
     <div class="mb-3">
       <label for="jobSearchModeSelect" class="form-label small mb-0">Search type</label>
       <select id="jobSearchModeSelect" class="form-select" onchange="onJobSearchModeChange()">
-        <option value="title_location">Title and location only (keyword search)</option>
-        <option value="profile">My skills, education, and experience only (match score)</option>
-        <option value="both">Title, location, and my profile (combined)</option>
+        <option value="title_location">By title and keyword only</option>
+        <option value="profile">By matching skills, education, and experience only</option>
+        <option value="both">Title, keywords, and my profile (combined)</option>
       </select>
     </div>
     <p class="small text-muted mb-2" style="margin-top:-15px;">
-      Choose how results are chosen: keyword search only, match to your profile only, or both (keyword results merged with a broad search, then ranked by your profile).
+      Choose how results are chosen: keyword search only, match to your profile only, or both by searching keywords and ranking by your profile.
     </p>
     <div class="row g-2 mb-2">
       <div class="col-md-6">
@@ -105,7 +105,7 @@
       </div>
       <div class="col-md-6">
         <label for="jobSearchLocationInput" class="form-label small mb-0">Location (optional)</label>
-        <input id="jobSearchLocationInput" type="text" class="form-control" placeholder="e.g. Iowa City, IA" autocomplete="off" />
+        <input id="jobSearchLocationInput" name="location-entry" type="text" class="form-control" placeholder="e.g. Iowa City, IA" autocomplete="new-password" />
       </div>
     </div>
     <button type="button" onclick="runProfileJobSearch()" class="btn btn-primary mb-3">
@@ -115,11 +115,10 @@
   </div>
 
   <div class="mb-4 border rounded p-3 bg-body-secondary bg-opacity-25">
-    <h5 class="mb-2">Saving jobs from this page</h5>
+    <h5 class="mb-2">Saving jobs</h5>
     <p class="small text-muted mb-0">
       Use <strong>Save Job</strong> on a search result to add it to <strong>My Applications</strong>
-      with status <strong>Plan to Apply</strong> (job title → role, company → company,
-      location → recruitment info, link → job posting).
+      with status <strong>Plan to Apply</strong>.
     </p>
   </div>
 

@@ -512,6 +512,7 @@ function runProfileJobSearch() {
                   <a class="btn btn-sm btn-outline-primary" href="${jobViewHref(jobUrl)}" target="_blank" rel="noopener noreferrer">View Job</a>
                   <button type="button" onclick="saveProfilePageJob(${idx})" class="btn btn-outline-secondary btn-sm">Save Job</button>
                 </div>
+                <div id="save-status-${idx}" class="mt-2"></div>
               </div>
             </div>
           </div>
@@ -526,16 +527,37 @@ function runProfileJobSearch() {
 
 function saveProfilePageJob(index) {
   const job = latestProfilePageJobs[index];
+  const statusDiv = document.getElementById(`save-status-${index}`);
   if (!job) {
-    alert("Could not save this job.");
+    statusDiv.innerHTML = `
+      <div class="text-danger small">
+        Could not save this job.
+      </div>
+    `;
+
     return;
   }
 
   postJobAsPlanToApplyApplication(job)
     .then(() => {
-      alert("Saved to My Applications as Plan to Apply.");
+
+      statusDiv.innerHTML = `
+        <div class="alert alert-success py-1 px-2 mt-2 mb-0 small">
+          Saved to My Applications.
+        </div>
+      `;
+
     })
-    .catch((err) => alert(err.message));
+
+    .catch((err) => {
+
+      statusDiv.innerHTML = `
+        <div class="alert alert-danger py-1 px-2 mt-2 mb-0 small">
+          ${err.message}
+        </div>
+      `;
+
+    });
 }
 
 // function saveJob() {

@@ -35,6 +35,110 @@ Currently, jobseekers are submitting hundreds of job applications just to secure
 ## Admin Settings Page
 ![Admin](screenshots/admin.png)
 
+## Application Analytics and Graphs
+
+The frontend dashboard visualizes application statistics using JavaScript charting libraries. 
+Graphs dynamically update based on the user's applications and display metrics such as:
+
+- Application statuses
+- Priority distribution
+- Offer rate
+- Total applications
+
+The graphs are updated whenever applications are created, edited, or deleted.
+
+```javascript
+renderStatusChart(statusCounts);
+renderPriorityChart(priorityCounts);
+```
+
+## Saved Jobs Functionality
+
+Users can bookmark jobs returned from the Adzuna API directly from the job search page. 
+Saved jobs are stored inside the user's Background document in MongoDB and can later be viewed from the profile page.
+
+Duplicate saved jobs are prevented by comparing job URLs before insertion.
+
+```python
+for job in bg.saved_jobs:
+    existing_url = (getattr(job, "url", "") or "").strip()
+
+    if existing_url == normalized_url:
+        return bg
+```
+
+## Admin System
+
+The application includes administrator-only functionality for managing global settings such as the maximum number of recommended jobs returned from the Adzuna API.
+
+The first administrator account is created using a bootstrap secret, while additional administrators can only be created by existing admin accounts.
+
+```python
+if not getattr(actor, "is_admin", False):
+    raise HTTPException(status_code=403, detail="Admin access required")
+```
+
+## AI-Powered Job Recommendations
+
+The recommendation engine combines:
+
+- User skills
+- Education
+- Experience
+- Adzuna job search results
+
+The system ranks jobs using NLP similarity scoring and returns the highest-scoring jobs to the frontend.
+
+```python
+ranked = rank_jobs(user_text, jobs)
+```
+
+## Database Architecture
+
+MongoDB was used as the primary database with Beanie ODM for document modeling.
+
+Main collections include:
+
+- Users
+- Applications
+- Background Profiles
+- App Settings
+
+Relationships between users and applications are protected using ownership filtering.
+
+```python
+def _app_owner_filter(current_user: User) -> dict:
+```
+
+# Technologies Used
+
+## Backend
+- FastAPI
+- MongoDB
+- Beanie ODM
+- JWT Authentication
+- Pydantic
+
+## Frontend
+- HTML
+- CSS
+- JavaScript
+
+## APIs
+- Adzuna Jobs API
+
+## Testing
+- Pytest
+- FastAPI TestClient
+
+Frontend (HTML/JS)
+        ↓
+FastAPI Backend
+        ↓
+MongoDB
+        ↓
+Adzuna API
+
 ``` 
 python -m venv venv
 ./venv/Script/activate
@@ -393,4 +497,4 @@ app.mount("/static", StaticFiles(directory="frontend"), name="static")
 app.mount("/uploads", StaticFiles(directory="uploads"), name="uploads")
 ```
 
-important other parts to include in Readme.md file: jwt, settings_routes, test_adzunaAPI.py, test_application.py, main.js
+important other parts to include in Readme.md file: jwt, settings_routes, test_adzunaAPI.py, test_application.py, background_routes.py, main.js

@@ -29,3 +29,7 @@ The main purpose of the assignment was to build a web app using FASTAPI and demo
 ``` 
 pip freeze > requirements.txt
 ```
+
+App includes basic CRUD methods for posting/putting/getting/deleting applications. Routes.py is the main backend program and includes _app_owner_filter(), which filters applications by the current 
+email or id. The _get_current_user function returns the (current) user associated with a specific email.
+The _get_owned_applications function 

@@ -1,12 +1,21 @@
 import re
+from secrets import token_hex
+from types import SimpleNamespace
 from unittest.mock import patch
 
 import pytest
-from bson import ObjectId
 from fastapi import FastAPI
 from fastapi.testclient import TestClient
 
 import routes
+
+
+class _APIResp:
+    def __init__(self, payload):
+        self._payload = payload
+
+    def json(self):
+        return self._payload
 
 
 @pytest.fixture
@@ -22,7 +31,8 @@ def client():
 
     class FakeApplication:
         def __init__(self, **kwargs):
-            self.id = ObjectId()
+            # 24-hex string keeps route ObjectId validation realistic but JSON-safe.
+            self.id = token_hex(12)
             self._id = self.id
             self.Owner = kwargs.get("Owner")
             self.owner_email = kwargs.get("owner_email")
@@ -157,4 +167,187 @@ def test_application_crud_and_filters(client):
 
     missing_res = client.get(f"/applications/{app_id}")
     assert missing_res.status_code == 404
+
+
+def test_profile_job_search_title_location_mode(client):
+    settings = SimpleNamespace(max_recommend_jobs=10)
+    fake_jobs = [
+        {
+            "title": "Backend Engineer",
+            "company": "Acme",
+            "location": "Iowa City",
+            "description": "Python API work",
+            "url": "https://example.com/job/1",
+        }
+    ]
+
+    async def fake_get_app_settings():
+        return settings
+
+    with patch("routes.get_app_settings", side_effect=fake_get_app_settings):
+        with patch("routes.fetch_jobs", return_value=fake_jobs) as fetch_mock:
+            res = client.get(
+                "/applications/profile-job-search",
+                params={
+                    "mode": "title_location",
+                    "city": "Iowa City",
+                    "title": "backend engineer",
+                },
+            )
+
+    assert res.status_code == 200
+    data = res.json()
+    assert len(data) == 1
+    assert data[0]["score"] is None
+    assert data[0]["job"]["title"] == "Backend Engineer"
+    fetch_mock.assert_called_once_with("Iowa City", keywords="backend engineer", results_per_page=20)
+
+
+def test_profile_job_search_profile_mode(client):
+    class FakeEmailField:
+        def __eq__(self, other):
+            return {"email": other}
+
+    class FakeBackground:
+        email = FakeEmailField()
+
+        @classmethod
+        async def find_one(cls, query):
+            if isinstance(query, dict) and query.get("email") == "test@example.com":
+                return SimpleNamespace(
+                    skills=["Python", "FastAPI"],
+                    education=["BS Computer Science"],
+                    experience=["Backend Developer"],
+                )
+            return None
+
+    async def fake_get_app_settings():
+        return SimpleNamespace(max_recommend_jobs=2)
+
+    payload = {
+        "results": [
+            {
+                "title": "Backend Engineer",
+                "company": {"display_name": "A"},
+                "location": {"display_name": "Chicago"},
+                "description": "Python FastAPI backend APIs, SQL, and Docker services.",
+                "url": "https://example.com/jobs/backend",
+            },
+            {
+                "title": "Graphic Designer",
+                "company": {"display_name": "B"},
+                "location": {"display_name": "Chicago"},
+                "description": "Brand assets, typography, and Adobe Illustrator work.",
+                "url": "https://example.com/jobs/design",
+            },
+        ]
+    }
+
+    with patch("routes.Background", FakeBackground):
+        with patch("routes.get_app_settings", side_effect=fake_get_app_settings):
+            with patch("jobs_api.requests.get", return_value=_APIResp(payload)):
+                res = client.get(
+                    "/applications/profile-job-search",
+                    params={
+                        "mode": "profile",
+                        "city": "Chicago",
+                        "email": "test@example.com",
+                    },
+                )
+
+    assert res.status_code == 200
+    data = res.json()
+    assert len(data) == 2
+    # Real rank_jobs should prefer backend role for this backend-heavy profile.
+    assert data[0]["job"]["title"] == "Backend Engineer"
+    assert data[0]["score"] >= data[1]["score"]
+    assert all(isinstance(row["score"], float) for row in data)
+
+
+def test_profile_job_search_both_mode_merges_and_dedupes(client):
+    class FakeEmailField:
+        def __eq__(self, other):
+            return {"email": other}
+
+    class FakeBackground:
+        email = FakeEmailField()
+
+        @classmethod
+        async def find_one(cls, query):
+            if isinstance(query, dict) and query.get("email") == "test@example.com":
+                return SimpleNamespace(
+                    skills=["Python"],
+                    education=["BS CS"],
+                    experience=["API Developer"],
+                )
+            return None
+
+    async def fake_get_app_settings():
+        return SimpleNamespace(max_recommend_jobs=10)
+
+    payload_keywords = {
+        "results": [
+            {
+                "title": "Python Dev",
+                "company": {"display_name": "A"},
+                "location": {"display_name": "Remote"},
+                "description": "Python API development and backend services.",
+                "url": "https://example.com/jobs/u1",
+            },
+            {
+                "title": "API Dev",
+                "company": {"display_name": "B"},
+                "location": {"display_name": "Remote"},
+                "description": "REST API implementation and integration work.",
+                "url": "https://example.com/jobs/u2",
+            },
+        ]
+    }
+    payload_broad = {
+        "results": [
+            {
+                "title": "Python Dev",
+                "company": {"display_name": "A"},
+                "location": {"display_name": "Remote"},
+                "description": "Python API development and backend services.",
+                "url": "https://example.com/jobs/u1",
+            },
+            {
+                "title": "Data Engineer",
+                "company": {"display_name": "C"},
+                "location": {"display_name": "Remote"},
+                "description": "ETL, SQL, and data pipeline engineering.",
+                "url": "https://example.com/jobs/u3",
+            },
+        ]
+    }
+
+    with patch("routes.Background", FakeBackground):
+        with patch("routes.get_app_settings", side_effect=fake_get_app_settings):
+            with patch(
+                "jobs_api.requests.get",
+                side_effect=[_APIResp(payload_keywords), _APIResp(payload_broad)],
+            ):
+                res = client.get(
+                    "/applications/profile-job-search",
+                    params={
+                        "mode": "both",
+                        "city": "Remote",
+                        "email": "test@example.com",
+                        "title": "python developer",
+                    },
+                )
+
+    assert res.status_code == 200
+    data = res.json()
+    # Combined jobs should be de-duplicated by URL: u1, u2, u3
+    assert len(data) == 3
+    assert sorted(row["job"]["url"] for row in data) == sorted(
+        [
+            "https://example.com/jobs/u1",
+            "https://example.com/jobs/u2",
+            "https://example.com/jobs/u3",
+        ]
+    )
+    assert all(isinstance(row["score"], float) for row in data)
 

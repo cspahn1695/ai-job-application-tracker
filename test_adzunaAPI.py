@@ -9,7 +9,8 @@ from fastapi.testclient import TestClient
 
 import routes
 
-
+# In Python, monkey patching is the practice of dynamically replacing or modifying attributes of a module or class at runtime. 
+# It allows you to change the behavior of code without altering its original source file
 class FakeEmailField:
     """Stands in for Beanie `Background.email` so `Background.email == x` does not crash."""
 
@@ -95,6 +96,16 @@ def test_recommend_jobs_route(client):
     assert data[0]["score"] == 77.5
     assert data[0]["job"]["title"] == "Software Engineer"
     assert data[0]["job"]["url"] == "https://example.com/job/1"
+
+# Here's what it does:
+
+# Mocks the redirect resolver: It patches routes._resolve_adzuna_redirect to always return a fake final URL ("https://ziprecruiter.com/candidate/job/1"), simulating what happens when an Adzuna tracking link is resolved to the actual job posting site.
+
+# Makes a test request: It sends a GET request to the endpoint with an Adzuna URL as a query parameter ("https://www.adzuna.com/clk/v0?id=123"), and sets follow_redirects=False to capture the redirect response directly.
+
+# Asserts the expected behavior: It checks that the response has a 302 status code (redirect) and that the Location header points to the mocked resolved URL.
+
+# In essence, this test ensures that the route properly handles Adzuna redirect URLs by resolving them to the final destination and issuing a redirect response, without actually making external HTTP calls.
 
 
 def test_resolve_listing_url_redirects(client, monkeypatch):

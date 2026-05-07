@@ -7,7 +7,10 @@ import requests
 ADZUNA_APP_ID = "730816bd"
 ADZUNA_API_KEY = "566684235abd1589aee57a226915ca20"
 
+
+# most important function in this file is fetch_jobs
 logger = logging.getLogger(__name__)
+
 
 # Browser-like UA: some boards only redirect properly for real clients.
 _DEFAULT_UA = (

@@ -36,17 +36,252 @@ The _get_owned_applications function finds the application corresponding to a sp
 ![alt text](image.png)
 
 routes.py also includes CRUD methods for applications, and but for editing applications by uploading the resume, the upload_resume and update_application functions are sufficient to ensure that no other data gets deleted when the resume is updated.
-![alt text](image-1.png)
-![alt text](image-2.png)
 
-routes.py also inclues the profile_job_search() function, which determines what case the user wants to select (location + title, skills/education/experience, or both), determines the max # of jobs to return, calls the fetch_jobs() function, ranks these jobs using  the rank_jobs function, and puts the top ranked jobs in payload (# of jobs in payload equals limit). For instance, if mode == title_location, then the (optional) city and keywords are passed to fetch_jobs(), and the 
+
+routes.py also inclues the profile_job_search() function, which determines what case the user wants to select (location + title, skills/education/experience, or both), determines the max # of jobs to return, calls the fetch_jobs() function, ranks these jobs using  the rank_jobs function, and puts the top ranked jobs in payload (# of jobs in payload equals limit). For instance, if mode == title_location, then the (optional) city and keywords are passed to fetch_jobs().
+```python
+class ProfileJobSearchMode(str, Enum):
+    title_location = "title_location"
+    profile = "profile"
+    both = "both"
+```
+
+```python
+@router.get("/profile-job-search")
+async def profile_job_search(
+    mode: ProfileJobSearchMode,
+    city: Optional[str] = Query(None),
+    email: Optional[str] = Query(None),
+    title: Optional[str] = Query(None),
+):
+```
+
+```python
+settings = await get_app_settings()
+limit = max(1, min(50, int(settings.max_recommend_jobs)))
+rpp = max(20, min(50, limit))
+```
+
+```python
+if mode == ProfileJobSearchMode.title_location:
+    t = (title or "").strip()
+
+    jobs = fetch_jobs(city, keywords=t, results_per_page=rpp)
+
+    payload = [_job_payload_entry(j, None) for j in jobs[:limit]]
+
+    return payload
+```
+
+```python
+if mode == ProfileJobSearchMode.profile:
+    bg = await Background.find_one(Background.email == email_n)
+
+    user_text = clean_text(
+        " ".join(bg.skills + bg.education + bg.experience)
+    )
+
+    jobs = fetch_jobs(city, results_per_page=rpp)
+
+    ranked = rank_jobs(user_text, jobs)
+```
+
+```python
+if mode == ProfileJobSearchMode.both:
+    jobs_keywords = fetch_jobs(city, keywords=t, results_per_page=rpp)
+
+    jobs_broad = fetch_jobs(city, results_per_page=rpp)
+
+    combined = _dedupe_jobs_by_url(jobs_keywords + jobs_broad)
+
+    ranked = rank_jobs(user_text, combined)
+```
+
+```python
+def _dedupe_jobs_by_url(jobs: List[dict]) -> List[dict]:
+    seen = set()
+    out: List[dict] = []
+
+    for j in jobs:
+        u = (j.get("url") or "").strip()
+        key = u if u else f"{j.get('title')}|{j.get('company')}"
+
+        if key in seen:
+            continue
+
+        seen.add(key)
+        out.append(j)
+
+    return out
+```
 
 Our app also has authentication routes (in auth_routes.py), including routes for finding user by email, registering, logging in, and creating an admin. When registering, our app hashes the pw; when signing in, our app generates a jwt web token. The route for creating an admin is very similar to that for creating a basic user account, with the main difference being that, for an admin account, is_admin = true. When creating an admin, the admin must be created from the admin's account (unless an admin doesn't exist yet). Of course, when creating the admin, the password is hashed.
-![alt text](image-3.png)
-![alt text](image-4.png)
+```python
+def _norm_email(value: str) -> str:
+    return (value or "").strip().lower()
+```
+
+```python
+async def _find_user_by_email(value: str):
+    e = _norm_email(value)
+    if not e:
+        return None
+
+    user = await User.find_one(User.email == e)
+    if user:
+        return user
+
+    return await User.find_one(
+        {"email": {"$regex": f"^{re.escape(value.strip())}$", "$options": "i"}}
+    )
+```
+
+```python
+@router.post("/register")
+async def register(user: UserCreate):
+    email = _norm_email(str(user.email))
+    existing = await _find_user_by_email(email)
+
+    if existing:
+        raise HTTPException(status_code=400, detail="User already exists")
+
+    new_user = User(
+        email=email,
+        password=hash_password(user.password),
+        is_admin=False,
+    )
+
+    await new_user.insert()
+    return {"message": "User created"}
+```
+
+```python
+@router.post("/login", response_model=TokenResponse)
+async def login(user: UserLogin):
+    email = _norm_email(str(user.email))
+    db_user = await _find_user_by_email(email)
+
+    if not db_user or not verify_password(user.password, db_user.password):
+        raise HTTPException(status_code=401, detail="Invalid credentials")
+
+    is_admin = getattr(db_user, "is_admin", False)
+    token, expire = create_access_token(
+        {"email": email, "role": "admin" if is_admin else "user"}
+    )
+```
+
+```python
+@router.post("/bootstrap-admin")
+async def bootstrap_admin(req: BootstrapAdminRequest):
+    if req.bootstrap_secret != _bootstrap_secret():
+        raise HTTPException(status_code=403, detail="Invalid bootstrap secret")
+
+    existing_admin = await User.find_one(User.is_admin == True)
+    if existing_admin:
+        raise HTTPException(
+            status_code=400,
+            detail="An admin already exists. Use create-admin from an admin account.",
+        )
+
+    admin = User(
+        email=_norm_email(str(req.email)),
+        password=hash_password(req.password),
+        is_admin=True,
+    )
+    await admin.insert()
+```
+
+```python
+@router.post("/create-admin")
+async def create_admin(req: CreateAdminRequest):
+    actor = await _find_user_by_email(str(req.admin_email))
+
+    if not actor or not verify_password(req.admin_password, actor.password):
+        raise HTTPException(status_code=401, detail="Invalid admin credentials")
+
+    if not getattr(actor, "is_admin", False):
+        raise HTTPException(status_code=403, detail="Admin access required")
+
+    new_admin = User(
+        email=_norm_email(str(req.new_email)),
+        password=hash_password(req.new_password),
+        is_admin=True,
+    )
+
+    await new_admin.insert()
+```
 
 Our jobs_api.py page resolves adzuna redirect commands and formats redirect urls correctly. Additionally, it contains the main function that fetches jobs from adzuna. The function configures parameters of return jobs, including id, key, etc; the jobs are officially retrieved from adzuna using res = requests.get(url, params=params). From there, the title, company, location, search city, description, and url of each job is appended to the job object. The jobs are returned, and the fetch_jobs function is called from the profile_job_search() function for each of the 3 cases: location + title, skills/education/experience, or both.
-![alt text](image-5.png)
+```python
+params = {
+    "app_id": ADZUNA_APP_ID,
+    "app_key": ADZUNA_API_KEY,
+    "what": keywords,
+    "results_per_page": results_per_page,
+    "content-type": "application/json",
+}
+```
+
+```python
+where = (city or "").strip()
+if where:
+    params["where"] = where
+
+res = requests.get(url, params=params)
+data = res.json()
+```
+
+```python
+for item in data.get("results", []) or []:
+    loc = _display_location(item)
+    if not loc and search_city:
+        loc = search_city
+
+    jobs.append(
+        {
+            "title": item.get("title"),
+            "company": _company_display(item),
+            "location": loc,
+            "search_city": search_city or None,
+            "description": item.get("description"),
+            "url": _listing_url_from_adzuna_item(item),
+        }
+    )
+```
+
+```python
+def _listing_url_from_adzuna_item(item: Dict[str, Any]) -> str:
+    direct = (item.get("url") or "").strip()
+    if direct:
+        return direct
+    return (item.get("redirect_url") or "").strip()
+```
+
+```python
+def _resolve_adzuna_redirect(redirect_url: str, timeout: float = 5.0) -> str:
+    u = (redirect_url or "").strip()
+    if not u:
+        return u
+
+    try:
+        with requests.get(
+            u,
+            allow_redirects=True,
+            timeout=timeout,
+            headers={"User-Agent": _DEFAULT_UA},
+            stream=True,
+        ) as resp:
+            if resp.status_code >= 400:
+                return u
+            final = (resp.url or u).strip()
+
+        if final and final != u:
+            return final
+    except (requests.RequestException, OSError) as exc:
+        logger.info("Adzuna redirect resolve failed for %s: %s", u, exc)
+
+    return u
+```
 
 Our app also includes jwt.py, which handles JSON Web Token (JWT) creation and validation for user authentication. The API does not store server-side sessions; instead, users authenticate by sending an Authorization: Bearer <token> header with requests to protected routes. The create_access_token() function creates a JWT token containing the user email, role, and expiration timestamp. The expiration timestamp is embedded directly into the token so that tokens automatically expire after a specified time period without requiring a logout endpoint on the backend. The verify_access_token() function decodes and validates the token using the SECRET_KEY and HS256 algorithm. If the token is invalid, expired, or missing required fields such as email or role, an HTTP 401 Unauthorized error is returned. The TokenData model is used to structure validated token information, including the email, role, and expiration datetime of the current user.
 ```python

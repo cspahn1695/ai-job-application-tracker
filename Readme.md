@@ -3,6 +3,21 @@
 
 Currently, jobseekers are submitting hundreds of job applications just to secure a single offer. We wanted a way to simplify keeping track of the application process, and to manage all of our applications in one place. We designed this web app as a Job Application Journal, where users can insert their current applications, manage these progressions, and discover further opportunities in one place.
 
+## Features
+
+- User authentication with JWT tokens
+- Admin account creation and management
+- CRUD operations for job applications
+- Resume upload support
+- AI-powered job recommendation system
+- AI resume-to-job match scoring
+- Saved jobs/bookmarking system
+- Application analytics and graphs
+- Adzuna API integration
+- Background profile management
+- Protected routes with FastAPI authentication
+- MongoDB + Beanie ODM backend
+
 ``` 
 python -m venv venv
 ./venv/Script/activate

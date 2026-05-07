@@ -13,8 +13,8 @@ from fastapi import APIRouter, HTTPException, Query
 
 from user_model import User
 from schemas import UserCreate, UserLogin, BootstrapAdminRequest, CreateAdminRequest, TokenResponse
-from auth_utils import hash_password, verify_password
-from jwt_handler import create_access_token
+from auth_utils import hash_password, verify_password # hash pws when registering
+from jwt_handler import create_access_token # create an access token when logging in 
 router = APIRouter(prefix="/auth", tags=["Auth"])
 import logging
 

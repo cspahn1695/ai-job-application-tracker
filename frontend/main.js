@@ -527,10 +527,10 @@ function register() { // handles user registration by sending email and password
   })
   .then(async res => {
     const data = await res.json();
-    console.log("REGISTER RESPONSE:", data); // 👈 ADD THIS
+    console.log("REGISTER RESPONSE:", data); // ADD THIS
 
     if (!res.ok) {
-      // ✅ show real backend error
+      // show real backend error
       throw new Error(data.detail || "Registration failed");
     }
 

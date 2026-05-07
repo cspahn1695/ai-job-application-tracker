@@ -70,7 +70,7 @@ async def _get_current_user(token_data: TokenData = Depends(authenticate)) -> Us
     return current_user
 
 
-async def _get_owned_application(app_id: str, current_user: User) -> Application:
+async def _get_owned_application(app_id: str, current_user: User) -> Application: # only returns one application
     try:
         oid = ObjectId(app_id)
     except Exception:
@@ -288,16 +288,16 @@ async def profile_job_search(
 
     raise HTTPException(status_code=400, detail="Invalid search mode")
 
-
-def _is_adzuna_listing_url(url: str) -> bool:
+   
+def _is_adzuna_listing_url(url: str) -> bool: 
     """Only allow resolving Adzuna tracking links (avoid open-redirect / SSRF abuse)."""
     try:
         p = urlparse((url or "").strip())
-        if p.scheme not in ("http", "https"):
+        if p.scheme not in ("http", "https"): # must be one of these
             return False
         host = (p.netloc or "").lower().split(":")[0]
-        return (
-            host == "adzuna.com"
+        return ( 
+            host == "adzuna.com" # must be one of these formats
             or host.endswith(".adzuna.com")
             or host == "adzuna.co.uk"
             or host.endswith(".adzuna.co.uk")

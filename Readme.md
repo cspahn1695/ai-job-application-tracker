@@ -21,19 +21,19 @@ Currently, jobseekers are submitting hundreds of job applications just to secure
 # Frontend Pages
 
 ## Login Page
-![Login Page](screenshots/login.png)
+![Login Page](screenshots/login.jpg)
 
 ## Dashboard / Applications Page
-![Dashboard](screenshots/dashboard.png)
+![Dashboard](screenshots/dashboard.jpg)
 
 ## Job Search Page
-![Job Search](screenshots/job-search.png)
+![Job Search](screenshots/job-search.jpg)
 
-## Profile Page
-![Profile](screenshots/profile.png)
+## Interview Prep Page
+![Profile](screenshots/interviewprep.jpg)
 
 ## Admin Settings Page
-![Admin](screenshots/admin.png)
+![Admin](screenshots/admin.jpg)
 
 ## Application Analytics and Graphs
 

@@ -18,6 +18,23 @@ Currently, jobseekers are submitting hundreds of job applications just to secure
 - Protected routes with FastAPI authentication
 - MongoDB + Beanie ODM backend
 
+# Frontend Pages
+
+## Login Page
+![Login Page](screenshots/login.png)
+
+## Dashboard / Applications Page
+![Dashboard](screenshots/dashboard.png)
+
+## Job Search Page
+![Job Search](screenshots/job-search.png)
+
+## Profile Page
+![Profile](screenshots/profile.png)
+
+## Admin Settings Page
+![Admin](screenshots/admin.png)
+
 ``` 
 python -m venv venv
 ./venv/Script/activate

@@ -61,3 +61,5 @@ def test_resolve_adzuna_redirect_request_exception_returns_original():
     with mock.patch("jobs_api.requests.get", side_effect=OSError("timeout")):
         out = _resolve_adzuna_redirect(original)
     assert out == original
+
+    # make sure to broaden the exception handler to catch OSError in addition to requests.RequestException

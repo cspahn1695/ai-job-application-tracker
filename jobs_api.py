@@ -59,7 +59,7 @@ def _resolve_adzuna_redirect(redirect_url: str, timeout: float = 5.0) -> str:
             final = (resp.url or u).strip()
         if final and final != u:
             return final
-    except requests.RequestException as exc:
+    except (requests.RequestException, OSError) as exc:
         logger.info("Adzuna redirect resolve failed for %s: %s", u, exc)
     return u
 

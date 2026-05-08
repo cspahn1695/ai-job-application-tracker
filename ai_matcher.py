@@ -9,6 +9,7 @@ from sklearn.metrics.pairwise import cosine_similarity
 import re
 
 #had to run 'pip install openai', 'pip install beautifulsoup4', 'pip install pdfminer.six', 'pip install python-multipart', 'pip install requests', 'pip install scikit-learn'
+# some of this code was made with help of ChatGPT
 
 # return text in resume
 def extract_resume_text(pdf_path):

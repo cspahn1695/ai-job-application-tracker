@@ -20,6 +20,8 @@ function checkAuth() {
 }
   */
 
+// some of this code was generated with help of ChatGPT
+
 function checkAuth() {
   const loggedIn = localStorage.getItem("loggedIn") === "true";
   const path = window.location.pathname;

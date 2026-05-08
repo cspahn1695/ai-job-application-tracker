@@ -7,7 +7,7 @@ import requests
 ADZUNA_APP_ID = "730816bd"
 ADZUNA_API_KEY = "566684235abd1589aee57a226915ca20"
 
-
+# some of this code was made with help of ChatGPT
 # most important function in this file is fetch_jobs
 logger = logging.getLogger(__name__)
 

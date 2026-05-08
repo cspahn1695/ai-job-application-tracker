@@ -1,5 +1,5 @@
 """Unit tests for real Adzuna/settings/ranking logic exposed via `routes` imports."""
-
+# some of this code was made with help of ChatGPT
 import asyncio
 from types import SimpleNamespace
 from unittest.mock import AsyncMock, patch

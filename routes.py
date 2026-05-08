@@ -1,4 +1,4 @@
-# used ChatGPT to help write this code; added comments where appropriate.
+# some of this code was made with the help of ChatGPT
 """Job application CRUD, resume uploads, Adzuna search, and AI match scoring.
 
 Most handlers require a valid JWT (see ``authenticate``). Queries restrict rows to

@@ -1,5 +1,8 @@
 // API origin: pages under /static/ are served by FastAPI — use same origin. Otherwise (e.g. Live
 // Server on another port) POSTing to a relative "/applications/" hits the wrong host; match main.js.
+
+// some of this code was generated with help of ChatGPT
+
 function resolveBackendOrigin() {
   if (window.location.protocol === "file:" || !window.location.host) {
     return "http://127.0.0.1:8000";

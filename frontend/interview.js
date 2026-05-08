@@ -1,3 +1,5 @@
+// some of this code was generated with help of ChatGPT
+
 function apiBase() {
   if (window.location.protocol === "file:" || !window.location.host) {
     return "http://127.0.0.1:8000";

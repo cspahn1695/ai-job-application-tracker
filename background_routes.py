@@ -9,6 +9,8 @@ from schemas import SavedJobCreate
 
 import logging
 
+# some of this code was made with help of ChatGPT
+
 router = APIRouter(prefix="/background", tags=["Background"])
 TEXT_SECTIONS = {"skills", "education", "experience"}
 
